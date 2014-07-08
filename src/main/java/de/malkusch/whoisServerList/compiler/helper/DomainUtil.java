@@ -9,7 +9,7 @@ public class DomainUtil {
 	
 	private static Set<String> countries;
 	
-	{
+	static {
 		countries = new HashSet<>(Arrays.asList(Locale.getISOCountries()));
 	}
 
@@ -22,8 +22,7 @@ public class DomainUtil {
 			return false;
 			
 		}
-		name = normalize(name);
-		return countries.contains(name);
+		return countries.contains(name.toUpperCase());
 	}
 	
 }
