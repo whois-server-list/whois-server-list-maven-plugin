@@ -15,7 +15,8 @@ public abstract class DomainListFactory {
 	
 	/**
 	 * Builds the domain list.
+	 * @throws InterruptedException 
 	 */
-	abstract public List<TopLevelDomain> buildList() throws BuildListException;
+	abstract public List<TopLevelDomain> buildList() throws BuildListException, InterruptedException;
 
 }

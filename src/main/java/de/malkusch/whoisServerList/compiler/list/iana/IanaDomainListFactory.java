@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -13,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
+import de.malkusch.whoisServerList.compiler.helper.ConcurrencyService;
 import de.malkusch.whoisServerList.compiler.helper.converter.DocumentToStringIteratorConvertor;
 import de.malkusch.whoisServerList.compiler.helper.converter.EntityToDocumentConverter;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
@@ -30,7 +37,8 @@ public class IanaDomainListFactory extends DomainListFactory {
 	public static final String PROPERTY_LIST_URI = "iana.list.uri";
 	public static final String PROPERTY_LIST_CHARSET = "iana.list.charset";
 	public static final String PROPERTY_LIST_TLD_XPATH = "iana.list.tld.xpath";
-	public static final String PROPERTY_WHOIS = "iana.whois";
+	public static final String PROPERTY_WHOIS_HOST = "iana.whois.host";
+	public static final String PROPERTY_WHOIS_TIMEOUT_SECONDS = "iana.whois.timeout.seconds";
 	
 	private Properties properties;
 	
@@ -39,7 +47,7 @@ public class IanaDomainListFactory extends DomainListFactory {
 	}
 	
 	@Override
-	public List<TopLevelDomain> buildList() throws BuildListException {
+	public List<TopLevelDomain> buildList() throws BuildListException, InterruptedException {
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		try {
 			HttpGet httpGet = new HttpGet(properties.getProperty(PROPERTY_LIST_URI));
@@ -50,11 +58,27 @@ public class IanaDomainListFactory extends DomainListFactory {
 			EntityToDocumentConverter documentConverter = new EntityToDocumentConverter(properties.getProperty(PROPERTY_LIST_CHARSET));
 			DocumentToStringIteratorConvertor<HttpEntity> tldConverter = new DocumentToStringIteratorConvertor<>(properties.getProperty(PROPERTY_LIST_TLD_XPATH), documentConverter);
 			
-			TopLevelDomainFactory factory = new TopLevelDomainFactory(properties);
+			final TopLevelDomainFactory factory = new TopLevelDomainFactory(properties);
+			ConcurrencyService concurrencyService = new ConcurrencyService(properties);
+			List<FutureTask<TopLevelDomain>> tasks = new ArrayList<>();
+			for (final String name : tldConverter.convert(entity)) {
+				FutureTask<TopLevelDomain> task = new FutureTask<>(new Callable<TopLevelDomain>() {
+
+					@Override
+					public TopLevelDomain call() throws Exception {
+						return factory.build(name);
+					}
+					
+				});
+				tasks.add(task);
+				concurrencyService.getExecutor().execute(task);
+				
+			}
+			
 			List<TopLevelDomain> domains = new ArrayList<>();
-			for (String name : tldConverter.convert(entity)) {
-				TopLevelDomain domain = factory.build(name);
-				domains.add(domain);
+			int timeout = Integer.parseInt(properties.getProperty(PROPERTY_WHOIS_TIMEOUT_SECONDS));
+			for (Future<TopLevelDomain> task : tasks) {
+				domains.add(task.get(timeout, TimeUnit.SECONDS));
 				
 			}
 			
@@ -62,10 +86,7 @@ public class IanaDomainListFactory extends DomainListFactory {
 			
 			return domains;
 			
-		} catch (IOException e) {
-			throw new BuildListException(e);
-			
-		} catch (WhoisServerListException e) {
+		} catch (IOException | WhoisServerListException | ExecutionException | TimeoutException e) {
 			throw new BuildListException(e);
 			
 		} finally {

@@ -45,7 +45,7 @@ public class TopLevelDomainFactory {
 			domain.setName(name);
 			
 			WhoisClient whoisClient = new WhoisClient();
-			whoisClient.connect(properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS));
+			whoisClient.connect(properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS_HOST));
 			InputStream inputStream = whoisClient.getInputStream(name);
 			
 			parser = new Parser();
@@ -56,9 +56,13 @@ public class TopLevelDomainFactory {
 			
 			domain.setChanged(parser.getDate(KEY_CHANGED));
 			
-			WhoisServer server = new WhoisServer();
-			server.setHost(parser.getString(KEY_WHOIS));
-			domain.getWhoisServers().add(server);
+			String host = parser.getString(KEY_WHOIS);
+			if (host != null) {
+				WhoisServer server = new WhoisServer();
+				server.setHost(host);
+				domain.getWhoisServers().add(server);
+				
+			}
 
 			return domain;
 
