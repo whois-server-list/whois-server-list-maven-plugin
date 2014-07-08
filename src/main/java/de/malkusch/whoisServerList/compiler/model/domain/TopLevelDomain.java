@@ -16,7 +16,6 @@ public class TopLevelDomain extends Domain {
 
 	/**
 	 * Returns the second level domains.
-	 * @return
 	 */
 	public List<Domain> getDomains() {
 		return domains;

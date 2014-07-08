@@ -1,5 +1,7 @@
 package de.malkusch.whoisServerList.compiler.model.domain;
 
+import java.util.List;
+
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 /**
@@ -10,7 +12,7 @@ public class Domain {
 	
 	private String name;
 	
-	private WhoisServer whoisServer;
+	private List<WhoisServer> whoisServers;
 
 	public String getName() {
 		return name;
@@ -26,17 +28,17 @@ public class Domain {
 	}
 
 	/**
-	 * Returns the whois server.
+	 * Returns the whois servers.
 	 */
-	public WhoisServer getWhoisServer() {
-		return whoisServer;
+	public List<WhoisServer> getWhoisServers() {
+		return whoisServers;
 	}
 
 	/**
-	 * Sets the whois server.
+	 * Sets the whois servers.
 	 */
-	public void setWhoisServer(WhoisServer whoisServer) {
-		this.whoisServer = whoisServer;
+	public void setWhoisServers(List<WhoisServer> whoisServers) {
+		this.whoisServers = whoisServers;
 	}
 
 }
