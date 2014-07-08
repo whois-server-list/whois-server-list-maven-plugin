@@ -15,6 +15,7 @@ import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.list.iana.TopLevelDomainFactory;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
+import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 public class TopLevelDomainFactoryTest {
@@ -36,6 +37,7 @@ public class TopLevelDomainFactoryTest {
 		CountryCodeTopLevelDomain de = new CountryCodeTopLevelDomain();
 		de.setCountryCode("DE");
 		de.setName("de");
+		de.setState(State.ACTIVE);
 		de.setCreated(dateFormat.parse("1986-11-05"));
 		de.setChanged(dateFormat.parse("2012-04-19"));
 		WhoisServer deServer = new WhoisServer();
@@ -45,12 +47,20 @@ public class TopLevelDomainFactoryTest {
 		
 		TopLevelDomain tld = new TopLevelDomain();
 		tld.setName("网络");
+		tld.setState(State.ACTIVE);
 		tld.setCreated(dateFormat.parse("2014-01-09"));
 		tld.setChanged(dateFormat.parse("2014-01-20"));
 		WhoisServer tldServer = new WhoisServer();
 		tldServer.setHost("whois.ngtld.cn");
 		tld.getWhoisServers().add(tldServer);
 		assertEquals(tld, factory.build("网络"));
+		
+		TopLevelDomain tld2 = new TopLevelDomain();
+		tld2.setName("テスト");
+		tld2.setState(State.INACTIVE);
+		tld2.setCreated(dateFormat.parse("2007-10-19"));
+		tld2.setChanged(dateFormat.parse("2013-10-31"));
+		assertEquals(tld2, factory.build("テスト"));
 	}
 
 }

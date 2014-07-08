@@ -30,6 +30,8 @@ public class IanaDomainListFactoryTest {
 		for (TopLevelDomain domain : domains) {
 			assertFalse(domain.getName().isEmpty());
 			
+			assertNotNull(domain.getState());
+			
 			if (! domain.getWhoisServers().isEmpty()) {
 				assertEquals(1, domain.getWhoisServers().size());
 				WhoisServer server = domain.getWhoisServers().get(0);

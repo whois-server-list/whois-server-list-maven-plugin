@@ -21,6 +21,12 @@ public class Domain {
 	
 	private Date changed;
 	
+	private State state;
+	
+	public static enum State {
+		ACTIVE, INACTIVE, NEW;
+	}
+	
 	private List<WhoisServer> whoisServers = new ArrayList<WhoisServer>();
 
 	public String getName() {
@@ -74,6 +80,14 @@ public class Domain {
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
 	}
 	
 }

@@ -15,10 +15,11 @@ import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDoma
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 public class TopLevelDomainFactory {
-
+	
 	public static final String KEY_WHOIS = "whois";
 	public static final String KEY_CREATED = "created";
 	public static final String KEY_CHANGED = "changed";
+	public static final String KEY_STATE = "status";
 
 	private Properties properties;
 
@@ -49,8 +50,10 @@ public class TopLevelDomainFactory {
 			InputStream inputStream = whoisClient.getInputStream(name);
 			
 			parser = new Parser();
-			parser.setKeys(KEY_CREATED, KEY_CHANGED, KEY_WHOIS);
+			parser.setKeys(KEY_CREATED, KEY_CHANGED, KEY_WHOIS, KEY_STATE);
 			parser.parse(inputStream);
+			
+			domain.setState(parser.getState(KEY_STATE));
 
 			domain.setCreated(parser.getDate(KEY_CREATED));
 			
