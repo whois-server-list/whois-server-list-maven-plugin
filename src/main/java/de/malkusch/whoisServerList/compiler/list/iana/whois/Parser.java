@@ -71,7 +71,12 @@ public class Parser implements Closeable {
 	
 	public Date getDate(String key) throws WhoisServerListException {
 		try {
-			return dateFormat.parse(getString(key));
+			String date = getString(key);
+			if (date == null) {
+				return null;
+				
+			}
+			return dateFormat.parse(date);
 			
 		} catch (ParseException e) {
 			throw new WhoisServerListException(e);
