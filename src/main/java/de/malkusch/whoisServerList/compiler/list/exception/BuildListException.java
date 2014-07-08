@@ -1,4 +1,4 @@
-package de.malkusch.whoisServerList.compiler.list;
+package de.malkusch.whoisServerList.compiler.list.exception;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 

@@ -1,6 +1,7 @@
 package de.malkusch.whoisServerList.compiler.list.iana;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -14,8 +15,8 @@ import org.apache.http.util.EntityUtils;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.converter.DocumentToStringIteratorConvertor;
 import de.malkusch.whoisServerList.compiler.helper.converter.EntityToDocumentConverter;
-import de.malkusch.whoisServerList.compiler.list.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
+import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
@@ -49,14 +50,17 @@ public class IanaDomainListFactory extends DomainListFactory {
 			EntityToDocumentConverter documentConverter = new EntityToDocumentConverter(properties.getProperty(PROPERTY_LIST_CHARSET));
 			DocumentToStringIteratorConvertor<HttpEntity> tldConverter = new DocumentToStringIteratorConvertor<>(properties.getProperty(PROPERTY_LIST_TLD_XPATH), documentConverter);
 			
-			for (String tld : tldConverter.convert(entity)) {
-				//TODO
+			TopLevelDomainFactory factory = new TopLevelDomainFactory(properties);
+			List<TopLevelDomain> domains = new ArrayList<>();
+			for (String name : tldConverter.convert(entity)) {
+				TopLevelDomain domain = factory.build(name);
+				domains.add(domain);
 				
 			}
 			
 			EntityUtils.consume(entity);
 			
-			return null;
+			return domains;
 			
 		} catch (IOException e) {
 			throw new BuildListException(e);

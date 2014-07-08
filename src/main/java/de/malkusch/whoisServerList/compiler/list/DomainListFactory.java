@@ -2,6 +2,7 @@ package de.malkusch.whoisServerList.compiler.list;
 
 import java.util.List;
 
+import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**

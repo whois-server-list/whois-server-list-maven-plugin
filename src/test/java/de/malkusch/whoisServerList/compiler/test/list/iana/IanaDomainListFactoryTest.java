@@ -5,7 +5,7 @@ import java.util.Properties;
 
 import org.junit.Test;
 
-import de.malkusch.whoisServerList.compiler.list.BuildListException;
+import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 
 public class IanaDomainListFactoryTest {
