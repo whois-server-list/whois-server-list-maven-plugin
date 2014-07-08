@@ -22,11 +22,11 @@ public class TopLevelDomainFactory {
 
 	private Properties properties;
 
-	TopLevelDomainFactory(Properties properties) {
+	public TopLevelDomainFactory(Properties properties) {
 		this.properties = properties;
 	}
 
-	TopLevelDomain build(String name) throws WhoisServerListException {
+	public TopLevelDomain build(String name) throws WhoisServerListException {
 		Parser parser = null;
 		try {
 			name = DomainUtil.normalize(name);
@@ -34,13 +34,15 @@ public class TopLevelDomainFactory {
 
 			if (DomainUtil.isCountryCode(name)) {
 				CountryCodeTopLevelDomain countryDomain = new CountryCodeTopLevelDomain();
-				countryDomain.setCountryCode(name);
+				countryDomain.setCountryCode(name.toUpperCase());
 				domain = countryDomain;
 
 			} else {
 				domain = new TopLevelDomain();
 
 			}
+			
+			domain.setName(name);
 			
 			WhoisClient whoisClient = new WhoisClient();
 			whoisClient.connect(properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS));
