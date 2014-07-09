@@ -4,11 +4,14 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -34,6 +37,8 @@ public class Parser implements Closeable {
 
 	private BufferedReader reader;
 
+	private List<URL> urls = new ArrayList<>();
+	
 	public Parser() {
 		this.dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 	}
@@ -50,13 +55,30 @@ public class Parser implements Closeable {
 	public void parse(BufferedReader reader) throws IOException {
 		this.reader = reader;
 		result = new HashMap<>();
+		
 		String regex = String.format("^(%s):\\s+(\\S.*\\S)\\s*$",
 				StringUtils.join(keys, "|"));
 		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		
+		Pattern commentPattern = Pattern.compile("^% ");
+		
+		Pattern urlPattern = Pattern.compile("(https?://\\S+)(\\s|$)", Pattern.CASE_INSENSITIVE);
+		
 		String line;
 		while ((line = reader.readLine()) != null) {
+			if (commentPattern.matcher(line).find()) {
+				continue;
+				
+			}
+			
+			Matcher urlMatcher = urlPattern.matcher(line);
+			while (urlMatcher.find()) {
+				urls.add(new URL(urlMatcher.group(1)));
+				
+			}
+			
 			Matcher matcher = pattern.matcher(line);
-			if (!matcher.matches()) {
+			if (! matcher.matches()) {
 				continue;
 
 			}
@@ -112,6 +134,10 @@ public class Parser implements Closeable {
 			throw new WhoisServerListException(e);
 
 		}
+	}
+	
+	public List<URL> getURLs() {
+		return urls;
 	}
 
 }

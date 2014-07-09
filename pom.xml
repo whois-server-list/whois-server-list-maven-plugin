@@ -13,6 +13,10 @@
 		<version>1.7</version>
 	</parent>
 
+	<properties>
+		<slf4j.version>1.7.7</slf4j.version>
+	</properties>
+
 	<url>https://github.com/whois-server-list/${project.artifactId}</url>
 
 	<scm>
@@ -54,6 +58,16 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>${slf4j.version}</version>
 		</dependency>
 	</dependencies>
 </project>

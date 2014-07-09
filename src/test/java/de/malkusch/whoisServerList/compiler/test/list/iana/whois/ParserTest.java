@@ -1,9 +1,10 @@
 package de.malkusch.whoisServerList.compiler.test.list.iana.whois;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Calendar;
 
 import org.junit.After;
@@ -76,6 +77,16 @@ public class ParserTest {
 		assertEquals(calendar.getTime().toString(),
 				parser.getDate(TopLevelDomainFactory.KEY_CREATED).toString());
 
+		parser.close();
+	}
+	
+	@Test
+	public void testGetURLs() throws IOException {
+		Parser parser = new Parser();
+		parser.parse(inputStream);
+		
+		assertArrayEquals(new URL[] {new URL("http://internetregistry.info/")}, parser.getURLs().toArray());
+		
 		parser.close();
 	}
 

@@ -1,8 +1,10 @@
 package de.malkusch.whoisServerList.compiler.test.list.iana;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,7 +33,7 @@ public class TopLevelDomainFactoryTest {
 	}
 	
 	@Test
-	public void testBuild() throws WhoisServerListException, ParseException {
+	public void testBuild() throws WhoisServerListException, ParseException, MalformedURLException {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		CountryCodeTopLevelDomain de = new CountryCodeTopLevelDomain();
@@ -40,6 +42,7 @@ public class TopLevelDomainFactoryTest {
 		de.setState(State.ACTIVE);
 		de.setCreated(dateFormat.parse("1986-11-05"));
 		de.setChanged(dateFormat.parse("2012-04-19"));
+		de.setRegistratonService(new URL("http://www.denic.de/"));
 		WhoisServer deServer = new WhoisServer();
 		deServer.setHost("whois.denic.de");
 		de.getWhoisServers().add(deServer);
@@ -50,6 +53,7 @@ public class TopLevelDomainFactoryTest {
 		tld.setState(State.ACTIVE);
 		tld.setCreated(dateFormat.parse("2014-01-09"));
 		tld.setChanged(dateFormat.parse("2014-01-20"));
+		tld.setRegistratonService(new URL("http://www.cnnic.cn"));
 		WhoisServer tldServer = new WhoisServer();
 		tldServer.setHost("whois.ngtld.cn");
 		tld.getWhoisServers().add(tldServer);
@@ -60,6 +64,7 @@ public class TopLevelDomainFactoryTest {
 		tld2.setState(State.INACTIVE);
 		tld2.setCreated(dateFormat.parse("2007-10-19"));
 		tld2.setChanged(dateFormat.parse("2013-10-31"));
+		tld2.setRegistratonService(new URL("http://www.iana.org/domains/idn-test/"));
 		assertEquals(tld2, factory.build("テスト"));
 	}
 

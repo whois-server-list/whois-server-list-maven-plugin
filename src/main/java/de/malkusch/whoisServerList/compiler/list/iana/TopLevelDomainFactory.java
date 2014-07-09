@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.commons.net.whois.WhoisClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
@@ -22,6 +24,8 @@ public class TopLevelDomainFactory {
 	public static final String KEY_STATE = "status";
 
 	private Properties properties;
+	
+	private static Logger logger = LoggerFactory.getLogger(TopLevelDomainFactory.class);
 
 	public TopLevelDomainFactory(Properties properties) {
 		this.properties = properties;
@@ -59,11 +63,22 @@ public class TopLevelDomainFactory {
 			
 			domain.setChanged(parser.getDate(KEY_CHANGED));
 			
+			if (parser.getURLs().size() == 1) {
+				domain.setRegistratonService(parser.getURLs().get(0));
+				
+			} else {
+				logger.warn("found {} Url(s) for {}", parser.getURLs().size(), domain);
+				
+			}
+			
 			String host = parser.getString(KEY_WHOIS);
 			if (host != null) {
 				WhoisServer server = new WhoisServer();
 				server.setHost(host);
 				domain.getWhoisServers().add(server);
+				
+			} else {
+				logger.warn("found no whois server for {}", domain);
 				
 			}
 
