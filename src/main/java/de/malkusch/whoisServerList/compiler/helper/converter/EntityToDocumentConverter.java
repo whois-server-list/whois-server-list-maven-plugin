@@ -12,7 +12,7 @@ import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 
 /**
  * HttpEntity to Document Converter.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -27,7 +27,7 @@ public final class EntityToDocumentConverter implements
 
 	/**
 	 * Sets the default character encoding.
-	 * 
+	 *
 	 * @param defaultCharset  the default character encoding
 	 */
 	public EntityToDocumentConverter(final String defaultCharset) {

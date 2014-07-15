@@ -30,7 +30,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Domain list factory.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -57,6 +57,11 @@ public final class IanaDomainListFactory extends DomainListFactory {
 	 * The property key for IANA's whois server.
 	 */
 	public static final String PROPERTY_WHOIS_HOST = "iana.whois.host";
+
+	/**
+	 * The property key for IANA's whois server.
+	 */
+	public static final String PROPERTY_WHOIS_CHARSET = "iana.whois.charset";
 	
 	/**
 	 * The property key for IANA's whois server timeout.
@@ -71,7 +76,7 @@ public final class IanaDomainListFactory extends DomainListFactory {
 	
 	/**
 	 * Initialize with a configuration.
-	 * 
+	 *
 	 * @param properties  the configuration
 	 */
 	public IanaDomainListFactory(final Properties properties) {

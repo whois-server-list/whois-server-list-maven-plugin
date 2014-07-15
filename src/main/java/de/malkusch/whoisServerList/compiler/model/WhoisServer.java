@@ -7,14 +7,14 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Whois server.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 public final class WhoisServer {
 	
     /**
-     * The whois default port. 
+     * The whois default port.
      */
 	public final static int DEFAULT_PORT = 43;
 	
@@ -31,7 +31,7 @@ public final class WhoisServer {
 	
 	/**
 	 * Returns the whois server
-	 * 
+	 *
 	 * @return the host, not null
 	 */
 	public String getHost() {
@@ -40,7 +40,7 @@ public final class WhoisServer {
 
 	/**
 	 * Sets the whois server
-	 * 
+	 *
 	 * @param host  the server, not null
 	 */
 	public void setHost(final String host) {
@@ -50,7 +50,7 @@ public final class WhoisServer {
 	/**
 	 * Returns the pattern for checking the server response
 	 * for an available domain.
-	 * 
+	 *
 	 * @return the available patter, may be null
 	 */
 	public Pattern getAvailablePattern() {
@@ -60,7 +60,7 @@ public final class WhoisServer {
 	/**
 	 * Sets the pattern for checking the server response for
 	 * an available domain.
-	 * 
+	 *
 	 * @param availablePattern the available pattern, maybe null
 	 */
 	public void setAvailablePattern(final Pattern availablePattern) {

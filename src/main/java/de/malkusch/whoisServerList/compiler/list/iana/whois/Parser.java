@@ -5,6 +5,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,7 +28,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 
 /**
  * Whois result parser.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -38,12 +39,12 @@ public final class Parser implements Closeable {
      * Value for the domain state {@link State#NEW}.
      */
     public final static String STATE_ACTIVE = "ACTIVE";
-    
+
     /**
      * Value for the domain state {@link State#INACTIVE}.
      */
     public final static String STATE_INACTIVE = "INACTIVE";
-    
+
     /**
      * Value for the domain state {@link State#NEW}.
      */
@@ -83,9 +84,9 @@ public final class Parser implements Closeable {
 
 	/**
 	 * Sets the whois result keys.
-	 * 
+	 *
 	 * The result map will only contain values for these keys.
-	 * 
+	 *
 	 * @param keys  the parsable whois result keys, not null
 	 */
 	public void setKeys(final String... keys) {
@@ -102,9 +103,9 @@ public final class Parser implements Closeable {
 
 	/**
 	 * Starts parsing.
-	 * 
+	 *
 	 * Closing the parser will close this reader as well.
-	 * 
+	 *
 	 * @param reader  the whois result stream
 	 * @throws IOException If reading from the stream failed
 	 */
@@ -146,19 +147,20 @@ public final class Parser implements Closeable {
 
 	/**
      * Starts parsing.
-     * 
+     *
      * Closing the parser will close this stream as well.
-     * 
-     * @param stream  the whois result stream
+     *
+     * @param stream   the whois result stream
+     * @param charset  the character encoding of the whois stream
      * @throws IOException If reading from the stream failed
      */
-	public void parse(InputStream stream) throws IOException {
-		parse(new InputStreamToBufferedReaderConverter().convert(stream));
+	public void parse(InputStream stream, Charset charset) throws IOException {
+		parse(new InputStreamToBufferedReaderConverter(charset).convert(stream));
 	}
 
 	/**
 	 * Returns the value from a whois result for a key.
-	 * 
+	 *
 	 * @param key  the whois result key, not null
 	 * @return the whois result value, or null
 	 */
@@ -168,7 +170,7 @@ public final class Parser implements Closeable {
 
 	/**
      * Returns the value as a {@code State} from a whois result for a key.
-     * 
+     *
      * @param key  the whois result key, not null
      * @return the whois result value as state, or null
      * @throws WhoisServerListException If the whois result returned an
@@ -200,7 +202,7 @@ public final class Parser implements Closeable {
 
 	/**
      * Returns the value as a {@code Date} from a whois result for a key.
-     * 
+     *
      * @param key  the whois result key, not null
      * @return the whois result value as Date, or null
      * @throws WhoisServerListException If the whois result returned an
@@ -223,7 +225,7 @@ public final class Parser implements Closeable {
 	
 	/**
 	 * Return URLs which were found during parsing.
-	 * 
+	 *
 	 * @return the URLs, not null
 	 */
 	public List<URL> getURLs() {

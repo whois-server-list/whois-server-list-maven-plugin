@@ -8,7 +8,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Factory for TopLevelDomain.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -25,12 +25,12 @@ public class TopLevelDomainFactory {
     public TopLevelDomain build(final String domainName) throws WhoisServerListException {
         if (domainName == null) {
             return null;
-            
+
         }
         String name = DomainUtil.normalize(domainName);
-        
+
         TopLevelDomain domain;
-        
+
         if (DomainUtil.isCountryCode(name)) {
             CountryCodeTopLevelDomain countryDomain
                 = new CountryCodeTopLevelDomain();
@@ -41,10 +41,10 @@ public class TopLevelDomainFactory {
             domain = new TopLevelDomain();
 
         }
-        
+
         domain.setName(name);
-        
+
         return domain;
     }
-    
+
 }

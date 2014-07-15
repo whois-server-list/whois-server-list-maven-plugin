@@ -16,7 +16,7 @@ import de.malkusch.whoisServerList.compiler.helper.iterator.NodeListIterable;
 
 /**
  * Converts a Document to a string iterator for a given xpath expression.
- * 
+ *
  * @author markus@malkusch.de
  * @param <T> the source type
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
@@ -38,7 +38,7 @@ public final class DocumentToStringIteratorConvertor<T> implements
 
 	/**
 	 * Initializes with an xpath expression and a document converter.
-	 * 
+	 *
 	 * @param xpath              the xpath expression
 	 * @param documentConverter  the document converter
 	 *

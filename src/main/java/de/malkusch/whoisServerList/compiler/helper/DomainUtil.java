@@ -33,9 +33,9 @@ public final class DomainUtil {
 
 	/**
 	 * Return the canonical domain name.
-	 * 
+	 *
 	 * I.e. return the lower case domain name.
-	 * 
+	 *
 	 * @param name  the domain name, null returns null
 	 * @return the canonical domain name, or null
 	 */
@@ -45,7 +45,7 @@ public final class DomainUtil {
 	
 	/**
 	 * Whether a code is a country code.
-	 * 
+	 *
 	 * @param name the case insensitive country code, null returns false
 	 * @return {@code} true if code is a country code
 	 */

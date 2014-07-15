@@ -11,7 +11,7 @@ import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 /**
  * Domain.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -39,7 +39,7 @@ public class Domain {
 	
 	/**
 	 * Domain state.
-	 * 
+	 *
 	 * @author markus@malkusch.de
 	 * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
 	 */
@@ -54,7 +54,7 @@ public class Domain {
 
 	/**
 	 * Returns the domain name.
-	 * 
+	 *
 	 * @return the domain name
 	 */
 	public String getName() {
@@ -63,7 +63,7 @@ public class Domain {
 
 	/**
 	 * Sets the domain name.
-	 * 
+	 *
 	 * @param name  the domain name
 	 */
 	public void setName(final String name) {
@@ -77,7 +77,7 @@ public class Domain {
 
 	/**
 	 * Returns the whois servers.
-	 * 
+	 *
 	 * @return the whois servers
 	 */
 	public List<WhoisServer> getWhoisServers() {
@@ -86,7 +86,7 @@ public class Domain {
 
 	/**
 	 * Sets the whois servers.
-	 * 
+	 *
 	 * @param  the whois servers
 	 */
 	public void setWhoisServers(final List<WhoisServer> whoisServers) {
@@ -95,38 +95,46 @@ public class Domain {
 
 	/**
 	 * Returns the created date.
-	 * 
+	 *
 	 * @return the created date, or null
 	 */
 	public Date getCreated() {
-		return created;
+		return (Date) created.clone();
 	}
 
 	/**
 	 * Sets the created date.
-	 * 
+	 *
 	 * @param created the created date, may be null
 	 */
 	public void setCreated(final Date created) {
-		this.created = created;
+	    if (created == null) {
+	        return;
+	
+	    }
+		this.created = (Date) created.clone();
 	}
 
 	/**
 	 * Returns the changed date.
-	 * 
+	 *
 	 * @return the changed date, or null
 	 */
 	public Date getChanged() {
-		return changed;
+		return (Date) changed.clone();
 	}
 
 	/**
 	 * Sets the changed date.
-	 * 
+	 *
 	 * @param changed  the changed date, or null
 	 */
 	public void setChanged(final Date changed) {
-		this.changed = changed;
+	    if (changed == null) {
+	        return;
+	
+	    }
+		this.changed = (Date) changed.clone();
 	}
 
 	@Override
@@ -141,7 +149,7 @@ public class Domain {
 
 	/**
 	 * Gets the domain state.
-	 * 
+	 *
 	 * @return the domain state, or null
 	 */
 	public State getState() {
@@ -150,7 +158,7 @@ public class Domain {
 
 	/**
 	 * Sets the domain state.
-	 * 
+	 *
 	 * @param state  the domain state, or null
 	 */
 	public void setState(State state) {

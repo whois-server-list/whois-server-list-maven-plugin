@@ -17,7 +17,7 @@ import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 
 /**
  * InputStream to Document Converter.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -32,7 +32,7 @@ public final class InputStreamToDocumentConverter implements
 
 	/**
 	 * Sets the character encoding.
-	 * 
+	 *
 	 * @param charset the character encoding
 	 */
 	public InputStreamToDocumentConverter(final String charset) {

@@ -7,7 +7,7 @@ import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 
 /**
  * Exception during domain construction.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -23,7 +23,7 @@ public class BuildDomainException extends WhoisServerListException {
 	
 	/**
      * Constructs a new exception with the specified detail message.
-     * 
+     *
      * @param message  the message
      */
 	public BuildDomainException(final String message) {
@@ -32,7 +32,7 @@ public class BuildDomainException extends WhoisServerListException {
 	
 	/**
      * Constructs a new exception with a cause.
-     * 
+     *
      * @param cause  the cause
      */
 	public BuildDomainException(final Throwable cause) {

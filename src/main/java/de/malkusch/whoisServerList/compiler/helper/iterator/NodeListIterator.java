@@ -11,12 +11,12 @@ import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
 
 /**
  * Convertable Node list iterator.
- * 
+ *
  * @author markus@malkusch.de
- * 
+ *
  * @param <N>  the node type
  * @param <T>  the converted node type
- * 
+ *
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @NotThreadSafe
@@ -39,7 +39,7 @@ public final class NodeListIterator<N extends Node, T> implements Iterator<T> {
 	
 	/**
 	 * Initializes the iterator with a node list and a node converter.
-	 * 
+	 *
 	 * @param nodeList   the node list
 	 * @param converter  the node converter
 	 */

@@ -22,7 +22,7 @@ import de.malkusch.whoisServerList.publicSuffixList.rule.Rule;
 
 /**
  * This factory builds the domain list from the Public Domain Suffix List.
- * 
+ *
  * @author markus@malkusch.de
  *
  * @see <a href="https://publicsuffix.org/">https://publicsuffix.org/</a>
@@ -30,23 +30,23 @@ import de.malkusch.whoisServerList.publicSuffixList.rule.Rule;
  */
 @NotThreadSafe
 public final class PublicSuffixDomainListFactory extends DomainListFactory {
-    
+
     /**
      * The builded Top Level Domains.
      */
     private final Map<String, TopLevelDomain> topLevelDomains = new HashMap<>();
-    
+
     /**
      * The top level domain factory.
      */
     private final TopLevelDomainFactory tldFactory
         = new TopLevelDomainFactory();
-    
+
     /**
-     * The Public Suffix List. 
+     * The Public Suffix List.
      */
     private final PublicSuffixList suffixList;
-    
+
     /**
      * Initializes with a public suffix list.
      *
@@ -55,7 +55,7 @@ public final class PublicSuffixDomainListFactory extends DomainListFactory {
     public PublicSuffixDomainListFactory(final PublicSuffixList suffixList) {
         this.suffixList = suffixList;
     }
-    
+
     /**
      * Initializes with the bundled suffix list.
      */
@@ -76,33 +76,33 @@ public final class PublicSuffixDomainListFactory extends DomainListFactory {
                 continue;
 
             }
-            
+
             String name = DomainUtil.normalize(rule.getPattern());
 
             if (StringUtils.isEmpty(name)) {
                 throw new BuildListException(
                         "Public Suffix List provided an empty rule");
-                
+
             }
-            
-            String[] labels 
+
+            String[] labels
                 = de.malkusch.whoisServerList.publicSuffixList.util.DomainUtil.splitLabels(name);
-            
+
             TopLevelDomain topLevelDomain
                 = getTopLevelDomain(labels[labels.length - 1]);
-            
+
             if (ArrayUtils.getLength(labels) > 1) {
                 Domain domain = new Domain();
                 domain.setName(name);
-                
+
                 topLevelDomain.getDomains().add(domain);
-                
+
             }
         }
 
         return this.topLevelDomains.values();
     }
-    
+
     /**
      * Returns the top level domain.
      *
@@ -113,19 +113,19 @@ public final class PublicSuffixDomainListFactory extends DomainListFactory {
      * @return the top level domain, not null
      */
     private TopLevelDomain getTopLevelDomain(final String name) {
-        
+
         try {
             TopLevelDomain domain = this.topLevelDomains.get(name);
             if (domain == null) {
                 domain = this.tldFactory.build(name);
                 this.topLevelDomains.put(name, domain);
-                
+
             }
             return domain;
-            
+
         } catch (WhoisServerListException e) {
             throw new RuntimeException(e);
-            
+
         }
     }
 

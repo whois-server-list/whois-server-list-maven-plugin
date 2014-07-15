@@ -2,6 +2,7 @@ package de.malkusch.whoisServerList.compiler.list.iana;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Properties;
 
 import net.jcip.annotations.Immutable;
@@ -19,9 +20,9 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Factory for TopLevelDomain.
- * 
+ *
  * This factory builds the top level domain from whois information.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -56,12 +57,12 @@ public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
 	/**
 	 * Logger
 	 */
-	private static Logger logger
+	private final static Logger logger
 	    = LoggerFactory.getLogger(WhoisTopLevelDomainFactory.class);
 
 	/**
 	 * Constructs the factory.
-	 * 
+	 *
 	 * @param properties  the factory properties, not null
 	 */
 	public WhoisTopLevelDomainFactory(final Properties properties) {
@@ -83,7 +84,9 @@ public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
 			InputStream inputStream = whoisClient.getInputStream(name);
 			
 			parser.setKeys(KEY_CREATED, KEY_CHANGED, KEY_WHOIS, KEY_STATE);
-			parser.parse(inputStream);
+			
+			String charset= properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS_CHARSET);
+			parser.parse(inputStream, Charset.forName(charset));
 			
 			domain.setState(parser.getState(KEY_STATE));
 

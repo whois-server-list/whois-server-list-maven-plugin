@@ -14,13 +14,13 @@ public class TopLevelDomainFactoryTest {
     @Test
     public void testBuild() throws WhoisServerListException {
         TopLevelDomainFactory factory = new TopLevelDomainFactory();
-        
+
         assertNull(factory.build(null));
-        
+
         assertEquals(TestUtil.buildSimpleTld("net"), factory.build("net"));
         assertEquals(TestUtil.buildSimpleTld("net"), factory.build("Net"));
-        
+
         assertEquals(TestUtil.buildSimpleCcTld("de", "DE"), factory.build("de"));
     }
-    
+
 }

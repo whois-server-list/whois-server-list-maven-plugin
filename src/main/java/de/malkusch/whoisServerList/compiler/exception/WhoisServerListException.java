@@ -6,7 +6,7 @@ import net.jcip.annotations.Immutable;
 
 /**
  * Exception.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -22,7 +22,7 @@ public class WhoisServerListException extends Exception {
 	
 	/**
      * Constructs a new exception with the specified detail message.
-	 * 
+	 *
 	 * @param message  the message
 	 */
 	public WhoisServerListException(final String message) {
@@ -31,7 +31,7 @@ public class WhoisServerListException extends Exception {
 	
 	/**
      * Constructs a new exception with a cause.
-     * 
+     *
      * @param cause  the cause
      */
 	public WhoisServerListException(final Throwable cause) {

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 
 import org.junit.After;
@@ -19,7 +20,14 @@ import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 public class ParserTest {
 
 	private InputStream inputStream;
+	
+	private Charset charset;
 
+	@Before
+	public void setCharset() {
+	    charset = Charset.forName("UTF-8");
+	}
+	
 	@Before
 	public void setInputStream() {
 		inputStream = getClass().getResourceAsStream("/iana.whois");
@@ -38,7 +46,7 @@ public class ParserTest {
 				WhoisTopLevelDomainFactory.KEY_CREATED,
 				WhoisTopLevelDomainFactory.KEY_STATE);
 
-		parser.parse(inputStream);
+		parser.parse(inputStream, charset);
 
 		assertEquals("whois.afilias-srs.net",
 				parser.getString(WhoisTopLevelDomainFactory.KEY_WHOIS));
@@ -57,7 +65,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		parser.setKeys(WhoisTopLevelDomainFactory.KEY_STATE);
 
-		parser.parse(inputStream);
+		parser.parse(inputStream, charset);
 		
 		assertEquals(State.ACTIVE,
 				parser.getState(WhoisTopLevelDomainFactory.KEY_STATE));
@@ -70,7 +78,7 @@ public class ParserTest {
 		Parser parser = new Parser();
 		parser.setKeys(WhoisTopLevelDomainFactory.KEY_CREATED);
 
-		parser.parse(inputStream);
+		parser.parse(inputStream, charset);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(2013, Calendar.DECEMBER, 19, 0, 0, 0);
@@ -83,7 +91,7 @@ public class ParserTest {
 	@Test
 	public void testGetURLs() throws IOException {
 		Parser parser = new Parser();
-		parser.parse(inputStream);
+		parser.parse(inputStream, charset);
 		
 		assertArrayEquals(new URL[] {new URL("http://internetregistry.info/")}, parser.getURLs().toArray());
 		

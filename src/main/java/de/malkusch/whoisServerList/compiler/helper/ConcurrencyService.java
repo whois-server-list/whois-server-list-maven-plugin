@@ -8,7 +8,7 @@ import net.jcip.annotations.Immutable;
 
 /**
  * Concurrency service.
- * 
+ *
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
@@ -27,7 +27,7 @@ public final class ConcurrencyService {
 	
 	/**
 	 * Initializes the concurrency service with a configuration.
-	 * 
+	 *
 	 * @param properties  the configuration
 	 */
 	public ConcurrencyService(final Properties properties) {
@@ -37,7 +37,7 @@ public final class ConcurrencyService {
 	
 	/**
 	 * Returns the executor.
-	 * 
+	 *
 	 * @return the executor, not null
 	 */
 	public Executor getExecutor() {
