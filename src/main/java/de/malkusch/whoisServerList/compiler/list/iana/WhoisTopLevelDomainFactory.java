@@ -4,56 +4,84 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import net.jcip.annotations.Immutable;
+
 import org.apache.commons.net.whois.WhoisClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
-import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
+import de.malkusch.whoisServerList.compiler.list.TopLevelDomainFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildDomainException;
 import de.malkusch.whoisServerList.compiler.list.iana.whois.Parser;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
-public class TopLevelDomainFactory {
+/**
+ * Factory for TopLevelDomain.
+ * 
+ * This factory builds the top level domain from whois information.
+ * 
+ * @author markus@malkusch.de
+ * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
+ */
+@Immutable
+public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
 	
+    /**
+     * Whois key for the whois server
+     */
 	public static final String KEY_WHOIS = "whois";
+	
+	/**
+     * Whois key for the created date
+     */
 	public static final String KEY_CREATED = "created";
+	
+	/**
+     * Whois key for the changed date
+     */
 	public static final String KEY_CHANGED = "changed";
+	
+	/**
+     * Whois key for the state
+     */
 	public static final String KEY_STATE = "status";
 
-	private Properties properties;
+	/**
+	 * Factory properties
+	 */
+	private final Properties properties;
 	
-	private static Logger logger = LoggerFactory.getLogger(TopLevelDomainFactory.class);
+	/**
+	 * Logger
+	 */
+	private static Logger logger
+	    = LoggerFactory.getLogger(WhoisTopLevelDomainFactory.class);
 
-	public TopLevelDomainFactory(Properties properties) {
+	/**
+	 * Constructs the factory.
+	 * 
+	 * @param properties  the factory properties, not null
+	 */
+	public WhoisTopLevelDomainFactory(final Properties properties) {
 		this.properties = properties;
 	}
 
-	public TopLevelDomain build(String name) throws WhoisServerListException {
-		Parser parser = null;
-		try {
-			name = DomainUtil.normalize(name);
-			TopLevelDomain domain;
+	@Override
+	public TopLevelDomain build(final String name)
+	        throws WhoisServerListException {
 
-			if (DomainUtil.isCountryCode(name)) {
-				CountryCodeTopLevelDomain countryDomain = new CountryCodeTopLevelDomain();
-				countryDomain.setCountryCode(name.toUpperCase());
-				domain = countryDomain;
+		try (Parser parser = new Parser()) {
+			TopLevelDomain domain = super.build(name);
 
-			} else {
-				domain = new TopLevelDomain();
-
-			}
-			
-			domain.setName(name);
-			
+			String whoisHost = properties.getProperty(
+                    IanaDomainListFactory.PROPERTY_WHOIS_HOST);
 			WhoisClient whoisClient = new WhoisClient();
-			whoisClient.connect(properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS_HOST));
+			whoisClient.connect(whoisHost);
+			
 			InputStream inputStream = whoisClient.getInputStream(name);
 			
-			parser = new Parser();
 			parser.setKeys(KEY_CREATED, KEY_CHANGED, KEY_WHOIS, KEY_STATE);
 			parser.parse(inputStream);
 			
@@ -67,7 +95,8 @@ public class TopLevelDomainFactory {
 				domain.setRegistratonService(parser.getURLs().get(0));
 				
 			} else {
-				logger.warn("found {} Url(s) for {}", parser.getURLs().size(), domain);
+				logger.warn(
+			        "found {} Url(s) for {}", parser.getURLs().size(), domain);
 				
 			}
 			
@@ -87,16 +116,6 @@ public class TopLevelDomainFactory {
 		} catch (IOException e) {
 			throw new BuildDomainException(e);
 
-		} finally {
-			try {
-				if (parser != null) {
-					parser.close();
-					
-				}
-			} catch (IOException e) {
-				throw new WhoisServerListException(e);
-				
-			}
 		}
 	}
 

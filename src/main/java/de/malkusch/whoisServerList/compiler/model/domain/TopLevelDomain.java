@@ -15,14 +15,14 @@ public class TopLevelDomain extends Domain {
 	private List<Domain> domains = new ArrayList<>();
 
 	/**
-	 * Returns the second level domains.
+	 * Returns the sub domains.
 	 */
 	public List<Domain> getDomains() {
 		return domains;
 	}
 
 	/**
-	 * Sets the second level domains.
+	 * Sets the sub domains.
 	 */
 	public void setDomains(List<Domain> domains) {
 		this.domains = domains;

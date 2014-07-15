@@ -14,22 +14,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
-import de.malkusch.whoisServerList.compiler.list.iana.TopLevelDomainFactory;
+import de.malkusch.whoisServerList.compiler.list.iana.WhoisTopLevelDomainFactory;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
-public class TopLevelDomainFactoryTest {
+public class WhoisTopLevelDomainFactoryTest {
 	
-	private TopLevelDomainFactory factory;
+	private WhoisTopLevelDomainFactory factory;
 	
 	@Before
 	public void setTopLevelDomainFactory() throws IOException {
 		Properties properties = new Properties();
 		properties.load(getClass().getResourceAsStream("/compiler.properties"));
 		
-		factory = new TopLevelDomainFactory(properties);
+		factory = new WhoisTopLevelDomainFactory(properties);
 	}
 	
 	@Test

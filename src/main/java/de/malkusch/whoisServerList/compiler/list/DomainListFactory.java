@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.list;
 
-import java.util.List;
+import java.util.Collection;
 
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
@@ -17,6 +17,6 @@ public abstract class DomainListFactory {
 	 * Builds the domain list.
 	 * @throws InterruptedException 
 	 */
-	abstract public List<TopLevelDomain> buildList() throws BuildListException, InterruptedException;
+	abstract public Collection<TopLevelDomain> buildList() throws BuildListException, InterruptedException;
 
 }

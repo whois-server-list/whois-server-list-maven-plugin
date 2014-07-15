@@ -58,7 +58,7 @@ public class IanaDomainListFactory extends DomainListFactory {
 			EntityToDocumentConverter documentConverter = new EntityToDocumentConverter(properties.getProperty(PROPERTY_LIST_CHARSET));
 			DocumentToStringIteratorConvertor<HttpEntity> tldConverter = new DocumentToStringIteratorConvertor<>(properties.getProperty(PROPERTY_LIST_TLD_XPATH), documentConverter);
 			
-			final TopLevelDomainFactory factory = new TopLevelDomainFactory(properties);
+			final WhoisTopLevelDomainFactory factory = new WhoisTopLevelDomainFactory(properties);
 			ConcurrencyService concurrencyService = new ConcurrencyService(properties);
 			List<FutureTask<TopLevelDomain>> tasks = new ArrayList<>();
 			for (final String name : tldConverter.convert(entity)) {
