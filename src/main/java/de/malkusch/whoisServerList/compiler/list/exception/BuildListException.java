@@ -24,7 +24,7 @@ public class BuildListException extends WhoisServerListException {
      * 
      * @param cause  the cause
      */
-	public BuildListException(Throwable cause) {
+	public BuildListException(final Throwable cause) {
 		super(cause);
 	}
 
@@ -33,7 +33,7 @@ public class BuildListException extends WhoisServerListException {
      * 
      * @param message  the message
      */
-    public BuildListException(String message) {
+    public BuildListException(final String message) {
         super(message);
     }
 

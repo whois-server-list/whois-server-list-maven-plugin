@@ -2,12 +2,15 @@ package de.malkusch.whoisServerList.compiler.exception;
 
 import java.io.Serializable;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Exception.
  * 
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
+@Immutable
 public class WhoisServerListException extends Exception {
 
     /**
@@ -22,7 +25,7 @@ public class WhoisServerListException extends Exception {
 	 * 
 	 * @param message  the message
 	 */
-	public WhoisServerListException(String message) {
+	public WhoisServerListException(final String message) {
 		super(message);
 	}
 	
@@ -31,7 +34,7 @@ public class WhoisServerListException extends Exception {
      * 
      * @param cause  the cause
      */
-	public WhoisServerListException(Throwable cause) {
+	public WhoisServerListException(final Throwable cause) {
         super(cause);
     }
 

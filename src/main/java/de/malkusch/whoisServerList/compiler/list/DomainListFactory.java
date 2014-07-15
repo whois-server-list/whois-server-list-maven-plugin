@@ -2,6 +2,7 @@ package de.malkusch.whoisServerList.compiler.list;
 
 import java.util.Collection;
 
+import net.jcip.annotations.ThreadSafe;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -11,6 +12,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
+@ThreadSafe
 public abstract class DomainListFactory {
 	
 	/**

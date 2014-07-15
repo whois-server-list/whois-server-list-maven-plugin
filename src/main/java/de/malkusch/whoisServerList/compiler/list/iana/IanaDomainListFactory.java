@@ -11,6 +11,8 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import net.jcip.annotations.Immutable;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -32,17 +34,47 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public class IanaDomainListFactory extends DomainListFactory {
+@Immutable
+public final class IanaDomainListFactory extends DomainListFactory {
 	
+    /**
+     * The property key for the URI to IANA's TLD list.
+     */
 	public static final String PROPERTY_LIST_URI = "iana.list.uri";
+	
+	/**
+	 * The property key for the character encoding of IANA's TLD list.
+	 */
 	public static final String PROPERTY_LIST_CHARSET = "iana.list.charset";
+	
+	/**
+	 * The property key for the xpath expression to find
+	 * all TLDs from IANA's list.
+	 */
 	public static final String PROPERTY_LIST_TLD_XPATH = "iana.list.tld.xpath";
+	
+	/**
+	 * The property key for IANA's whois server.
+	 */
 	public static final String PROPERTY_WHOIS_HOST = "iana.whois.host";
-	public static final String PROPERTY_WHOIS_TIMEOUT_SECONDS = "iana.whois.timeout.seconds";
 	
-	private Properties properties;
+	/**
+	 * The property key for IANA's whois server timeout.
+	 */
+	public static final String PROPERTY_WHOIS_TIMEOUT_SECONDS
+	    = "iana.whois.timeout.seconds";
 	
-	public IanaDomainListFactory(Properties properties) {
+	/**
+	 * The configuration.
+	 */
+	private final Properties properties;
+	
+	/**
+	 * Initialize with a configuration.
+	 * 
+	 * @param properties  the configuration
+	 */
+	public IanaDomainListFactory(final Properties properties) {
 		this.properties = properties;
 	}
 	

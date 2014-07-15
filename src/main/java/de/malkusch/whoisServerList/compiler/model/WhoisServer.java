@@ -6,19 +6,33 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
+ * Whois server.
+ * 
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public class WhoisServer {
+public final class WhoisServer {
 	
+    /**
+     * The whois default port. 
+     */
 	public final static int DEFAULT_PORT = 43;
 	
+	/**
+	 * The host.
+	 */
 	private String host;
 	
+	/**
+	 * The pattern for available domains.
+	 * This may be null.
+	 */
 	private Pattern availablePattern;
 	
 	/**
 	 * Returns the whois server
+	 * 
+	 * @return the host, not null
 	 */
 	public String getHost() {
 		return host;
@@ -26,22 +40,30 @@ public class WhoisServer {
 
 	/**
 	 * Sets the whois server
+	 * 
+	 * @param host  the server, not null
 	 */
-	public void setHost(String host) {
+	public void setHost(final String host) {
 		this.host = host;
 	}
 
 	/**
-	 * Returns the pattern for checking the server response for an available domain.
+	 * Returns the pattern for checking the server response
+	 * for an available domain.
+	 * 
+	 * @return the available patter, may be null
 	 */
 	public Pattern getAvailablePattern() {
 		return availablePattern;
 	}
 
 	/**
-	 * Sets the pattern for checking the server response for an available domain.
+	 * Sets the pattern for checking the server response for
+	 * an available domain.
+	 * 
+	 * @param availablePattern the available pattern, maybe null
 	 */
-	public void setAvailablePattern(Pattern availablePattern) {
+	public void setAvailablePattern(final Pattern availablePattern) {
 		this.availablePattern = availablePattern;
 	}
 	

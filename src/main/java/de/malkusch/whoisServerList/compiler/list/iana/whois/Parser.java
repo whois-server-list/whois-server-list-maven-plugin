@@ -17,44 +17,99 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.jcip.annotations.NotThreadSafe;
+
 import org.apache.commons.lang3.StringUtils;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.converter.InputStreamToBufferedReaderConverter;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 
-public class Parser implements Closeable {
+/**
+ * Whois result parser.
+ * 
+ * @author markus@malkusch.de
+ * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
+ */
+@NotThreadSafe
+public final class Parser implements Closeable {
 	
-	final public static String STATE_ACTIVE = "ACTIVE";
-	final public static String STATE_INACTIVE = "INACTIVE";
-	private static final String STATE_NEW = "NEW";
+    /**
+     * Value for the domain state {@link State#NEW}.
+     */
+    public final static String STATE_ACTIVE = "ACTIVE";
+    
+    /**
+     * Value for the domain state {@link State#INACTIVE}.
+     */
+    public final static String STATE_INACTIVE = "INACTIVE";
+    
+    /**
+     * Value for the domain state {@link State#NEW}.
+     */
+    public static final String STATE_NEW = "NEW";
 
+    /**
+     * Parsable whois result keys.
+     */
 	private String[] keys;
 
-	private DateFormat dateFormat;
+	/**
+	 * The whois result date format.
+	 */
+	private final DateFormat dateFormat;
 
-	private Map<String, String> result;
+	/**
+	 * The parsed whois result.
+	 */
+	private final Map<String, String> result = new HashMap<>();
 
+	/**
+	 * The reader for the whois result stream.
+	 */
 	private BufferedReader reader;
 
-	private List<URL> urls = new ArrayList<>();
+	/**
+	 * Found URLs during parsing.
+	 */
+	private final List<URL> urls = new ArrayList<>();
 	
+	/**
+	 * Initializes the parser.
+	 */
 	public Parser() {
 		this.dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 	}
 
-	public void setKeys(String... keys) {
+	/**
+	 * Sets the whois result keys.
+	 * 
+	 * The result map will only contain values for these keys.
+	 * 
+	 * @param keys  the parsable whois result keys, not null
+	 */
+	public void setKeys(final String... keys) {
 		this.keys = keys;
 	}
 
+	/**
+	 * Closes the stream which was used in {@code parse}.
+	 */
 	@Override
 	public void close() throws IOException {
 		reader.close();
 	}
 
-	public void parse(BufferedReader reader) throws IOException {
+	/**
+	 * Starts parsing.
+	 * 
+	 * Closing the parser will close this reader as well.
+	 * 
+	 * @param reader  the whois result stream
+	 * @throws IOException If reading from the stream failed
+	 */
+	public void parse(final BufferedReader reader) throws IOException {
 		this.reader = reader;
-		result = new HashMap<>();
 		
 		String regex = String.format("^(%s):\\s+(\\S.*\\S)\\s*$",
 				StringUtils.join(keys, "|"));
@@ -89,15 +144,37 @@ public class Parser implements Closeable {
 		}
 	}
 
+	/**
+     * Starts parsing.
+     * 
+     * Closing the parser will close this stream as well.
+     * 
+     * @param stream  the whois result stream
+     * @throws IOException If reading from the stream failed
+     */
 	public void parse(InputStream stream) throws IOException {
 		parse(new InputStreamToBufferedReaderConverter().convert(stream));
 	}
 
-	public String getString(String key) {
+	/**
+	 * Returns the value from a whois result for a key.
+	 * 
+	 * @param key  the whois result key, not null
+	 * @return the whois result value, or null
+	 */
+	public String getString(final String key) {
 		return result.get(key);
 	}
 
-	public State getState(String key) throws WhoisServerListException {
+	/**
+     * Returns the value as a {@code State} from a whois result for a key.
+     * 
+     * @param key  the whois result key, not null
+     * @return the whois result value as state, or null
+     * @throws WhoisServerListException If the whois result returned an
+     *                                  unexpected state
+     */
+	public State getState(final String key) throws WhoisServerListException {
 		String state = getString(key);
 		if (state == null) {
 			return null;
@@ -121,7 +198,15 @@ public class Parser implements Closeable {
 		}
 	}
 
-	public Date getDate(String key) throws WhoisServerListException {
+	/**
+     * Returns the value as a {@code Date} from a whois result for a key.
+     * 
+     * @param key  the whois result key, not null
+     * @return the whois result value as Date, or null
+     * @throws WhoisServerListException If the whois result returned an
+     *                                  unexpected date format
+     */
+	public Date getDate(final String key) throws WhoisServerListException {
 		try {
 			String date = getString(key);
 			if (date == null) {
@@ -136,6 +221,11 @@ public class Parser implements Closeable {
 		}
 	}
 	
+	/**
+	 * Return URLs which were found during parsing.
+	 * 
+	 * @return the URLs, not null
+	 */
 	public List<URL> getURLs() {
 		return urls;
 	}
