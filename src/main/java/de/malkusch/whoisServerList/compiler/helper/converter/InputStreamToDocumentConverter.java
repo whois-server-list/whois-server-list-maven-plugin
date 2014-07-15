@@ -23,40 +23,42 @@ import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
  */
 @Immutable
 public final class InputStreamToDocumentConverter implements
-		ThrowableConverter<InputStream, Document, WhoisServerListException> {
+        DocumentConverter<InputStream> {
 
     /**
      * The character encoding.
      */
-	private final String charset;
+    private final String charset;
 
-	/**
-	 * Sets the character encoding.
-	 *
-	 * @param charset the character encoding
-	 */
-	public InputStreamToDocumentConverter(final String charset) {
-		this.charset = charset;
-	}
+    /**
+     * Sets the character encoding.
+     *
+     * @param charset the character encoding
+     */
+    public InputStreamToDocumentConverter(final String charset) {
+        this.charset = charset;
+    }
 
-	@Override
-	public Document convert(final InputStream stream) throws WhoisServerListException {
-		try {
-			HtmlCleaner cleaner = new HtmlCleaner();
-			CleanerProperties cleanerProperties = cleaner.getProperties();
-			cleanerProperties.setCharset(charset);
-			
-			TagNode node = cleaner.clean(stream);
-			
-			return new DomSerializer(cleanerProperties, false).createDOM(node);
-			
-		} catch (IOException e) {
-			throw new WhoisServerListException(e);
-			
-		} catch (ParserConfigurationException e) {
-			throw new WhoisServerListException(e);
-			
-		}
-	}
+    @Override
+    public Document convert(final InputStream stream)
+            throws WhoisServerListException {
+
+        try {
+            HtmlCleaner cleaner = new HtmlCleaner();
+            CleanerProperties cleanerProperties = cleaner.getProperties();
+            cleanerProperties.setCharset(charset);
+
+            TagNode node = cleaner.clean(stream);
+
+            return new DomSerializer(cleanerProperties, false).createDOM(node);
+
+        } catch (IOException e) {
+            throw new WhoisServerListException(e);
+
+        } catch (ParserConfigurationException e) {
+            throw new WhoisServerListException(e);
+
+        }
+    }
 
 }

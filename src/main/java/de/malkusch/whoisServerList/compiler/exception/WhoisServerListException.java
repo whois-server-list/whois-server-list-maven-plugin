@@ -18,23 +18,23 @@ public class WhoisServerListException extends Exception {
      *
      * @see Serializable
      */
-	private static final long serialVersionUID = -5796617137181502400L;
-	
-	/**
+    private static final long serialVersionUID = -5796617137181502400L;
+
+    /**
      * Constructs a new exception with the specified detail message.
-	 *
-	 * @param message  the message
-	 */
-	public WhoisServerListException(final String message) {
-		super(message);
-	}
-	
-	/**
+     *
+     * @param message  the message
+     */
+    public WhoisServerListException(final String message) {
+        super(message);
+    }
+
+    /**
      * Constructs a new exception with a cause.
      *
      * @param cause  the cause
      */
-	public WhoisServerListException(final Throwable cause) {
+    public WhoisServerListException(final Throwable cause) {
         super(cause);
     }
 

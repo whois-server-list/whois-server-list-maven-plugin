@@ -85,8 +85,8 @@ public final class PublicSuffixDomainListFactory extends DomainListFactory {
 
             }
 
-            String[] labels
-                = de.malkusch.whoisServerList.publicSuffixList.util.DomainUtil.splitLabels(name);
+            String[] labels = de.malkusch.whoisServerList.publicSuffixList.util
+                        .DomainUtil.splitLabels(name);
 
             TopLevelDomain topLevelDomain
                 = getTopLevelDomain(labels[labels.length - 1]);

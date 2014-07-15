@@ -2,7 +2,6 @@ package de.malkusch.whoisServerList.compiler.list;
 
 import java.util.Collection;
 
-import net.jcip.annotations.ThreadSafe;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -12,13 +11,17 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-@ThreadSafe
 public abstract class DomainListFactory {
-	
-	/**
-	 * Builds the domain list.
-	 * @throws InterruptedException
-	 */
-	abstract public Collection<TopLevelDomain> buildList() throws BuildListException, InterruptedException;
+
+    /**
+     * Builds the domain list.
+     *
+     * @return the top level domain list
+     *
+     * @throws BuildListException If building failed
+     * @throws InterruptedException If the thread was interrupted
+     */
+    public abstract Collection<TopLevelDomain> buildList()
+            throws BuildListException, InterruptedException;
 
 }

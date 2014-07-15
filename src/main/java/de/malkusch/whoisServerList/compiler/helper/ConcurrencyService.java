@@ -18,30 +18,30 @@ public final class ConcurrencyService {
     /**
      * The property key for the concurrency level.
      */
-	public static final String PROPERTY_LEVEL = "concurrency.level";
-	
-	/**
-	 * The executor
-	 */
-	private final Executor executor;
-	
-	/**
-	 * Initializes the concurrency service with a configuration.
-	 *
-	 * @param properties  the configuration
-	 */
-	public ConcurrencyService(final Properties properties) {
-		this.executor = Executors.newFixedThreadPool(
-		        Integer.parseInt(properties.getProperty(PROPERTY_LEVEL)));
-	}
-	
-	/**
-	 * Returns the executor.
-	 *
-	 * @return the executor, not null
-	 */
-	public Executor getExecutor() {
-		return executor;
-	}
+    public static final String PROPERTY_LEVEL = "concurrency.level";
+
+    /**
+     * The executor.
+     */
+    private final Executor executor;
+
+    /**
+     * Initializes the concurrency service with a configuration.
+     *
+     * @param properties  the configuration
+     */
+    public ConcurrencyService(final Properties properties) {
+        this.executor = Executors.newFixedThreadPool(
+                Integer.parseInt(properties.getProperty(PROPERTY_LEVEL)));
+    }
+
+    /**
+     * Returns the executor.
+     *
+     * @return the executor, not null
+     */
+    public Executor getExecutor() {
+        return executor;
+    }
 
 }

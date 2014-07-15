@@ -19,24 +19,24 @@ public class BuildDomainException extends WhoisServerListException {
      *
      * @see Serializable
      */
-	private static final long serialVersionUID = -5395605433272577428L;
-	
-	/**
+    private static final long serialVersionUID = -5395605433272577428L;
+
+    /**
      * Constructs a new exception with the specified detail message.
      *
      * @param message  the message
      */
-	public BuildDomainException(final String message) {
-		super(message);
-	}
-	
-	/**
+    public BuildDomainException(final String message) {
+        super(message);
+    }
+
+    /**
      * Constructs a new exception with a cause.
      *
      * @param cause  the cause
      */
-	public BuildDomainException(final Throwable cause) {
-		super(cause);
-	}
+    public BuildDomainException(final Throwable cause) {
+        super(cause);
+    }
 
 }

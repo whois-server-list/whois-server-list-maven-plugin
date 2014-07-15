@@ -28,98 +28,96 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  */
 @Immutable
 public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
-	
+
     /**
-     * Whois key for the whois server
+     * Whois key for the whois server.
      */
-	public static final String KEY_WHOIS = "whois";
-	
-	/**
-     * Whois key for the created date
+    public static final String KEY_WHOIS = "whois";
+
+    /**
+     * Whois key for the created date.
      */
-	public static final String KEY_CREATED = "created";
-	
-	/**
-     * Whois key for the changed date
+    public static final String KEY_CREATED = "created";
+
+    /**
+     * Whois key for the changed date.
      */
-	public static final String KEY_CHANGED = "changed";
-	
-	/**
-     * Whois key for the state
+    public static final String KEY_CHANGED = "changed";
+
+    /**
+     * Whois key for the state.
      */
-	public static final String KEY_STATE = "status";
+    public static final String KEY_STATE = "status";
 
-	/**
-	 * Factory properties
-	 */
-	private final Properties properties;
-	
-	/**
-	 * Logger
-	 */
-	private final static Logger logger
-	    = LoggerFactory.getLogger(WhoisTopLevelDomainFactory.class);
+    /**
+     * Factory properties.
+     */
+    private final Properties properties;
 
-	/**
-	 * Constructs the factory.
-	 *
-	 * @param properties  the factory properties, not null
-	 */
-	public WhoisTopLevelDomainFactory(final Properties properties) {
-		this.properties = properties;
-	}
+    /**
+     * Logger.
+     */
+    private static final Logger LOGGER
+        = LoggerFactory.getLogger(WhoisTopLevelDomainFactory.class);
 
-	@Override
-	public TopLevelDomain build(final String name)
-	        throws WhoisServerListException {
+    /**
+     * Constructs the factory.
+     *
+     * @param properties  the factory properties, not null
+     */
+    public WhoisTopLevelDomainFactory(final Properties properties) {
+        this.properties = properties;
+    }
 
-		try (Parser parser = new Parser()) {
-			TopLevelDomain domain = super.build(name);
+    @Override
+    protected void completeDomain(final TopLevelDomain domain)
+            throws WhoisServerListException {
 
-			String whoisHost = properties.getProperty(
+        try (Parser parser = new Parser()) {
+            String whoisHost = properties.getProperty(
                     IanaDomainListFactory.PROPERTY_WHOIS_HOST);
-			WhoisClient whoisClient = new WhoisClient();
-			whoisClient.connect(whoisHost);
-			
-			InputStream inputStream = whoisClient.getInputStream(name);
-			
-			parser.setKeys(KEY_CREATED, KEY_CHANGED, KEY_WHOIS, KEY_STATE);
-			
-			String charset= properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS_CHARSET);
-			parser.parse(inputStream, Charset.forName(charset));
-			
-			domain.setState(parser.getState(KEY_STATE));
+            WhoisClient whoisClient = new WhoisClient();
+            whoisClient.connect(whoisHost);
 
-			domain.setCreated(parser.getDate(KEY_CREATED));
-			
-			domain.setChanged(parser.getDate(KEY_CHANGED));
-			
-			if (parser.getURLs().size() == 1) {
-				domain.setRegistratonService(parser.getURLs().get(0));
-				
-			} else {
-				logger.warn(
-			        "found {} Url(s) for {}", parser.getURLs().size(), domain);
-				
-			}
-			
-			String host = parser.getString(KEY_WHOIS);
-			if (host != null) {
-				WhoisServer server = new WhoisServer();
-				server.setHost(host);
-				domain.getWhoisServers().add(server);
-				
-			} else {
-				logger.warn("found no whois server for {}", domain);
-				
-			}
+            InputStream inputStream
+                    = whoisClient.getInputStream(domain.getName());
 
-			return domain;
+            parser.setKeys(KEY_CREATED, KEY_CHANGED, KEY_WHOIS, KEY_STATE);
 
-		} catch (IOException e) {
-			throw new BuildDomainException(e);
+            String charset = properties.getProperty(
+                    IanaDomainListFactory.PROPERTY_WHOIS_CHARSET);
+            parser.parse(inputStream, Charset.forName(charset));
 
-		}
-	}
+            domain.setState(parser.getState(KEY_STATE));
+
+            domain.setCreated(parser.getDate(KEY_CREATED));
+
+            domain.setChanged(parser.getDate(KEY_CHANGED));
+
+            if (parser.getURLs().size() == 1) {
+                domain.setRegistratonService(parser.getURLs().get(0));
+
+            } else {
+                LOGGER.warn(
+                    "found {} Url(s) for {}", parser.getURLs().size(), domain);
+
+            }
+
+            String host = parser.getString(KEY_WHOIS);
+            if (host != null) {
+                WhoisServer server = new WhoisServer();
+                server.setHost(host);
+                domain.getWhoisServers().add(server);
+
+            } else {
+                LOGGER.warn("found no whois server for {}", domain);
+
+            }
+
+        } catch (IOException e) {
+            throw new BuildDomainException(e);
+
+        }
+    }
 
 }

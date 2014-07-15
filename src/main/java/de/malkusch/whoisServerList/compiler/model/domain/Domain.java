@@ -16,153 +16,166 @@ import de.malkusch.whoisServerList.compiler.model.WhoisServer;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 public class Domain {
-	
+
     /**
      * The domain name.
      */
-	private String name;
-	
-	/**
-	 * The created date, may be null.
-	 */
-	private Date created;
-	
-	/**
-	 * The changed date, may be null.
-	 */
-	private Date changed;
-	
-	/**
-	 * The domain state, may be null.
-	 */
-	private State state;
-	
-	/**
-	 * Domain state.
-	 *
-	 * @author markus@malkusch.de
-	 * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
-	 */
-	public static enum State {
-		ACTIVE, INACTIVE, NEW;
-	}
-	
-	/**
-	 * The whois servers for this domain, may be empty.
-	 */
-	private List<WhoisServer> whoisServers = new ArrayList<WhoisServer>();
+    private String name;
 
-	/**
-	 * Returns the domain name.
-	 *
-	 * @return the domain name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * The created date, may be null.
+     */
+    private Date created;
 
-	/**
-	 * Sets the domain name.
-	 *
-	 * @param name  the domain name
-	 */
-	public void setName(final String name) {
-		this.name = name;
-	}
-	
-	@Override
-	public String toString() {
-		return name;
-	}
+    /**
+     * The changed date, may be null.
+     */
+    private Date changed;
 
-	/**
-	 * Returns the whois servers.
-	 *
-	 * @return the whois servers
-	 */
-	public List<WhoisServer> getWhoisServers() {
-		return whoisServers;
-	}
+    /**
+     * The domain state, may be null.
+     */
+    private State state;
 
-	/**
-	 * Sets the whois servers.
-	 *
-	 * @param  the whois servers
-	 */
-	public void setWhoisServers(final List<WhoisServer> whoisServers) {
-		this.whoisServers = whoisServers;
-	}
+    /**
+     * Domain state.
+     *
+     * @author markus@malkusch.de
+     * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
+     */
+    public static enum State {
+        /**
+         * The domain is active.
+         */
+        ACTIVE,
 
-	/**
-	 * Returns the created date.
-	 *
-	 * @return the created date, or null
-	 */
-	public Date getCreated() {
-		return (Date) created.clone();
-	}
+        /**
+         * The domain is inactive.
+         */
+        INACTIVE,
 
-	/**
-	 * Sets the created date.
-	 *
-	 * @param created the created date, may be null
-	 */
-	public void setCreated(final Date created) {
-	    if (created == null) {
-	        return;
-	
-	    }
-		this.created = (Date) created.clone();
-	}
+        /**
+         * The domain is new.
+         */
+        NEW;
+    }
 
-	/**
-	 * Returns the changed date.
-	 *
-	 * @return the changed date, or null
-	 */
-	public Date getChanged() {
-		return (Date) changed.clone();
-	}
+    /**
+     * The whois servers for this domain, may be empty.
+     */
+    private List<WhoisServer> whoisServers = new ArrayList<WhoisServer>();
 
-	/**
-	 * Sets the changed date.
-	 *
-	 * @param changed  the changed date, or null
-	 */
-	public void setChanged(final Date changed) {
-	    if (changed == null) {
-	        return;
-	
-	    }
-		this.changed = (Date) changed.clone();
-	}
+    /**
+     * Returns the domain name.
+     *
+     * @return the domain name
+     */
+    public final String getName() {
+        return name;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
-	
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    /**
+     * Sets the domain name.
+     *
+     * @param name  the domain name
+     */
+    public final void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * Gets the domain state.
-	 *
-	 * @return the domain state, or null
-	 */
-	public State getState() {
-		return state;
-	}
+    @Override
+    public final String toString() {
+        return name;
+    }
 
-	/**
-	 * Sets the domain state.
-	 *
-	 * @param state  the domain state, or null
-	 */
-	public void setState(State state) {
-		this.state = state;
-	}
-	
+    /**
+     * Returns the whois servers.
+     *
+     * @return the whois servers
+     */
+    public final List<WhoisServer> getWhoisServers() {
+        return whoisServers;
+    }
+
+    /**
+     * Sets the whois servers.
+     *
+     * @param whoisServers  the whois servers
+     */
+    public final void setWhoisServers(final List<WhoisServer> whoisServers) {
+        this.whoisServers = whoisServers;
+    }
+
+    /**
+     * Returns the created date.
+     *
+     * @return the created date, or null
+     */
+    public final Date getCreated() {
+        return (Date) created.clone();
+    }
+
+    /**
+     * Sets the created date.
+     *
+     * @param created the created date, may be null
+     */
+    public final void setCreated(final Date created) {
+        if (created == null) {
+            return;
+
+        }
+        this.created = (Date) created.clone();
+    }
+
+    /**
+     * Returns the changed date.
+     *
+     * @return the changed date, or null
+     */
+    public final Date getChanged() {
+        return (Date) changed.clone();
+    }
+
+    /**
+     * Sets the changed date.
+     *
+     * @param changed  the changed date, or null
+     */
+    public final void setChanged(final Date changed) {
+        if (changed == null) {
+            return;
+
+        }
+        this.changed = (Date) changed.clone();
+    }
+
+    @Override
+    public final boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public final int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    /**
+     * Gets the domain state.
+     *
+     * @return the domain state, or null
+     */
+    public final State getState() {
+        return state;
+    }
+
+    /**
+     * Sets the domain state.
+     *
+     * @param state  the domain state, or null
+     */
+    public final void setState(final State state) {
+        this.state = state;
+    }
+
 }

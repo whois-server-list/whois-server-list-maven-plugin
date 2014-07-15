@@ -18,39 +18,42 @@ import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
  */
 @Immutable
 public final class EntityToDocumentConverter implements
-		ThrowableConverter<HttpEntity, Document, WhoisServerListException> {
+        DocumentConverter<HttpEntity> {
 
     /**
      * The default character encoding.
      */
-	private final String defaultCharset;
+    private final String defaultCharset;
 
-	/**
-	 * Sets the default character encoding.
-	 *
-	 * @param defaultCharset  the default character encoding
-	 */
-	public EntityToDocumentConverter(final String defaultCharset) {
-		this.defaultCharset = defaultCharset;
-	}
+    /**
+     * Sets the default character encoding.
+     *
+     * @param defaultCharset  the default character encoding
+     */
+    public EntityToDocumentConverter(final String defaultCharset) {
+        this.defaultCharset = defaultCharset;
+    }
 
-	@Override
-	public Document convert(final HttpEntity entity) throws WhoisServerListException {
-		try {
-			Header encoding = entity.getContentEncoding();
-			String charset = this.defaultCharset;
-			if (encoding != null) {
-				charset = encoding.getValue();
+    @Override
+    public Document convert(final HttpEntity entity)
+            throws WhoisServerListException {
 
-			}
-			InputStreamToDocumentConverter converter = new InputStreamToDocumentConverter(
-					charset);
-			return converter.convert(entity.getContent());
+        try {
+            Header encoding = entity.getContentEncoding();
+            String charset = this.defaultCharset;
+            if (encoding != null) {
+                charset = encoding.getValue();
 
-		} catch (IOException e) {
-			throw new WhoisServerListException(e);
+            }
+            InputStreamToDocumentConverter converter
+                    = new InputStreamToDocumentConverter(charset);
 
-		}
-	}
+            return converter.convert(entity.getContent());
+
+        } catch (IOException e) {
+            throw new WhoisServerListException(e);
+
+        }
+    }
 
 }

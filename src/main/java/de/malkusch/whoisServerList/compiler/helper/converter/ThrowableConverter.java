@@ -23,6 +23,6 @@ interface ThrowableConverter<S, T, E extends Throwable> {
      * @return  the converted value
      * @throws E If conversion failed
      */
-	public T convert(S value) throws E;
-	
+    T convert(S value) throws E;
+
 }

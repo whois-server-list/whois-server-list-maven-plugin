@@ -16,13 +16,27 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 public class TopLevelDomainFactory {
 
     /**
+     * Completes a created domain.
+     *
+     * Subclasses may overwrite this method to complete created domains.
+     *
+     * @param domain the incomplete top level domain
+     * @throws WhoisServerListException If completing failed
+     */
+    protected void completeDomain(final TopLevelDomain domain)
+            throws WhoisServerListException {
+    }
+
+    /**
      * Builds a top level domain.
      *
      * @param domainName  the case insensitive domain name, null returns null
      * @return the top level domain
      * @throws WhoisServerListException If building failed
      */
-    public TopLevelDomain build(final String domainName) throws WhoisServerListException {
+    public final TopLevelDomain build(final String domainName)
+            throws WhoisServerListException {
+
         if (domainName == null) {
             return null;
 
@@ -43,6 +57,8 @@ public class TopLevelDomainFactory {
         }
 
         domain.setName(name);
+
+        this.completeDomain(domain);
 
         return domain;
     }

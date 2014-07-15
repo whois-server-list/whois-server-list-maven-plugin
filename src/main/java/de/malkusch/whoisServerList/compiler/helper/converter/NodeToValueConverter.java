@@ -13,9 +13,9 @@ import org.w3c.dom.Node;
 @Immutable
 public final class NodeToValueConverter implements Converter<Node, String> {
 
-	@Override
-	public String convert(final Node value) {
-		return value.getNodeValue();
-	}
+    @Override
+    public String convert(final Node value) {
+        return value.getNodeValue();
+    }
 
 }

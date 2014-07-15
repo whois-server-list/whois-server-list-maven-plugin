@@ -17,18 +17,18 @@ public class BuildListException extends WhoisServerListException {
      *
      * @see Serializable
      */
-	private static final long serialVersionUID = -5395605433272577428L;
-	
-	/**
+    private static final long serialVersionUID = -5395605433272577428L;
+
+    /**
      * Constructs a new exception with a cause.
      *
      * @param cause  the cause
      */
-	public BuildListException(final Throwable cause) {
-		super(cause);
-	}
+    public BuildListException(final Throwable cause) {
+        super(cause);
+    }
 
-	/**
+    /**
      * Constructs a new exception with the specified detail message.
      *
      * @param message  the message

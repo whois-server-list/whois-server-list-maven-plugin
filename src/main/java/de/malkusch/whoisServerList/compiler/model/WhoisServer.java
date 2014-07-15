@@ -12,74 +12,74 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 public final class WhoisServer {
-	
+
     /**
      * The whois default port.
      */
-	public final static int DEFAULT_PORT = 43;
-	
-	/**
-	 * The host.
-	 */
-	private String host;
-	
-	/**
-	 * The pattern for available domains.
-	 * This may be null.
-	 */
-	private Pattern availablePattern;
-	
-	/**
-	 * Returns the whois server
-	 *
-	 * @return the host, not null
-	 */
-	public String getHost() {
-		return host;
-	}
+    public static final int DEFAULT_PORT = 43;
 
-	/**
-	 * Sets the whois server
-	 *
-	 * @param host  the server, not null
-	 */
-	public void setHost(final String host) {
-		this.host = host;
-	}
+    /**
+     * The host.
+     */
+    private String host;
 
-	/**
-	 * Returns the pattern for checking the server response
-	 * for an available domain.
-	 *
-	 * @return the available patter, may be null
-	 */
-	public Pattern getAvailablePattern() {
-		return availablePattern;
-	}
+    /**
+     * The pattern for available domains.
+     * This may be null.
+     */
+    private Pattern availablePattern;
 
-	/**
-	 * Sets the pattern for checking the server response for
-	 * an available domain.
-	 *
-	 * @param availablePattern the available pattern, maybe null
-	 */
-	public void setAvailablePattern(final Pattern availablePattern) {
-		this.availablePattern = availablePattern;
-	}
-	
-	@Override
-	public String toString() {
-		return getHost();
-	}
+    /**
+     * Returns the whois server.
+     *
+     * @return the host, not null
+     */
+    public String getHost() {
+        return host;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
-	}
-	
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    /**
+     * Sets the whois server.
+     *
+     * @param host  the server, not null
+     */
+    public void setHost(final String host) {
+        this.host = host;
+    }
+
+    /**
+     * Returns the pattern for checking the server response
+     * for an available domain.
+     *
+     * @return the available patter, may be null
+     */
+    public Pattern getAvailablePattern() {
+        return availablePattern;
+    }
+
+    /**
+     * Sets the pattern for checking the server response for
+     * an available domain.
+     *
+     * @param availablePattern the available pattern, maybe null
+     */
+    public void setAvailablePattern(final Pattern availablePattern) {
+        this.availablePattern = availablePattern;
+    }
+
+    @Override
+    public String toString() {
+        return getHost();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
 }

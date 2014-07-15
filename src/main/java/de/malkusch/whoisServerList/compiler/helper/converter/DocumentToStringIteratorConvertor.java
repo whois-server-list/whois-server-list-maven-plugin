@@ -7,7 +7,6 @@ import javax.xml.xpath.XPathFactory;
 
 import net.jcip.annotations.Immutable;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -23,53 +22,55 @@ import de.malkusch.whoisServerList.compiler.helper.iterator.NodeListIterable;
  */
 @Immutable
 public final class DocumentToStringIteratorConvertor<T> implements
-		ThrowableConverter<T, Iterable<String>, WhoisServerListException> {
-	
+        ThrowableConverter<T, Iterable<String>, WhoisServerListException> {
+
     /**
      * The xpath expression.
      */
-	private final XPathExpression xpath;
-	
-	/**
-	 * The document converter.
-	 */
-	private final ThrowableConverter<T, Document, WhoisServerListException>
-	    documentConverter;
+    private final XPathExpression xpath;
 
-	/**
-	 * Initializes with an xpath expression and a document converter.
-	 *
-	 * @param xpath              the xpath expression
-	 * @param documentConverter  the document converter
-	 *
-	 * @throws WhoisServerListException If compilation of the xpath expression
-	 *                                  failed
-	 */
-	public DocumentToStringIteratorConvertor(final String xpath,
-	        final ThrowableConverter<T, Document, WhoisServerListException> documentConverter)
-	               throws WhoisServerListException {
+    /**
+     * The document converter.
+     */
+    private final DocumentConverter<T> documentConverter;
 
-		try {
-			this.xpath = XPathFactory.newInstance().newXPath().compile(xpath);
-			this.documentConverter = documentConverter;
-			
-		} catch (XPathExpressionException e) {
-			throw new WhoisServerListException(e);
-			
-		}
-	}
+    /**
+     * Initializes with an xpath expression and a document converter.
+     *
+     * @param xpath              the xpath expression
+     * @param documentConverter  the document converter
+     *
+     * @throws WhoisServerListException If compilation of the xpath expression
+     *                                  failed
+     */
+    public DocumentToStringIteratorConvertor(final String xpath,
+            final DocumentConverter<T> documentConverter)
+                    throws WhoisServerListException {
 
-	@Override
-	public Iterable<String> convert(final T input)
-			throws WhoisServerListException {
-		try {
-			NodeList tldNodes = (NodeList) xpath.evaluate(documentConverter.convert(input), XPathConstants.NODESET);
-			return new NodeListIterable<Node, String>(tldNodes, new NodeToValueConverter());
-			
-		} catch (XPathExpressionException e) {
-			throw new WhoisServerListException(e);
-			
-		}
-	}
+        try {
+            this.xpath = XPathFactory.newInstance().newXPath().compile(xpath);
+            this.documentConverter = documentConverter;
+
+        } catch (XPathExpressionException e) {
+            throw new WhoisServerListException(e);
+
+        }
+    }
+
+    @Override
+    public Iterable<String> convert(final T input)
+            throws WhoisServerListException {
+        try {
+            NodeList tldNodes = (NodeList) xpath.evaluate(
+                    documentConverter.convert(input), XPathConstants.NODESET);
+
+            return new NodeListIterable<Node, String>(
+                    tldNodes, new NodeToValueConverter());
+
+        } catch (XPathExpressionException e) {
+            throw new WhoisServerListException(e);
+
+        }
+    }
 
 }

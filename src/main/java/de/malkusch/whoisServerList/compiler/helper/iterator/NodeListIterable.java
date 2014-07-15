@@ -19,33 +19,33 @@ import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
  */
 @Immutable
 public final class NodeListIterable<N extends Node, T> implements Iterable<T> {
-	
+
     /**
      * The node list.
      */
-	private final NodeList nodeList;
-	
-	/**
-	 * The node converter.
-	 */
-	private final Converter<N, T> converter;
-	
-	/**
-	 * Sets the node list and the node converter.
-	 *
-	 * @param nodeList   the node list
-	 * @param converter  the node converter
-	 */
-	public NodeListIterable(
-	        final NodeList nodeList, final Converter<N, T> converter) {
+    private final NodeList nodeList;
 
-		this.nodeList = nodeList;
-		this.converter = converter;
-	}
+    /**
+     * The node converter.
+     */
+    private final Converter<N, T> converter;
 
-	@Override
-	public NodeListIterator<N, T> iterator() {
-		return new NodeListIterator<N, T>(nodeList, converter);
-	}
+    /**
+     * Sets the node list and the node converter.
+     *
+     * @param nodeList   the node list
+     * @param converter  the node converter
+     */
+    public NodeListIterable(
+            final NodeList nodeList, final Converter<N, T> converter) {
+
+        this.nodeList = nodeList;
+        this.converter = converter;
+    }
+
+    @Override
+    public NodeListIterator<N, T> iterator() {
+        return new NodeListIterator<N, T>(nodeList, converter);
+    }
 
 }
