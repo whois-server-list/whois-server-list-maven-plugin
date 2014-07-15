@@ -1,4 +1,4 @@
-package de.malkusch.whoisServerList.compiler.test.list;
+package de.malkusch.whoisServerList.compiler.list;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

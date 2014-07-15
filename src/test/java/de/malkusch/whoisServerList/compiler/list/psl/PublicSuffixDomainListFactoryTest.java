@@ -1,4 +1,4 @@
-package de.malkusch.whoisServerList.compiler.test.list.psl;
+package de.malkusch.whoisServerList.compiler.list.psl;
 
 import static org.junit.Assert.*;
 

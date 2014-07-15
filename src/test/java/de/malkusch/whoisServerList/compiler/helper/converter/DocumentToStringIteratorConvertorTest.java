@@ -1,4 +1,4 @@
-package de.malkusch.whoisServerList.compiler.test.helper.converter;
+package de.malkusch.whoisServerList.compiler.helper.converter;
 
 import static org.junit.Assert.*;
 

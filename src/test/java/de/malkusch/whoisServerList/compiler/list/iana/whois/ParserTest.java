@@ -1,4 +1,4 @@
-package de.malkusch.whoisServerList.compiler.test.list.iana.whois;
+package de.malkusch.whoisServerList.compiler.list.iana.whois;
 
 import static org.junit.Assert.*;
 
