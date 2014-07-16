@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -112,7 +113,7 @@ public class Domain {
      * @return the created date, or null
      */
     public final Date getCreated() {
-        return (Date) created.clone();
+        return ObjectUtils.clone(created);
     }
 
     /**
@@ -121,11 +122,7 @@ public class Domain {
      * @param created the created date, may be null
      */
     public final void setCreated(final Date created) {
-        if (created == null) {
-            return;
-
-        }
-        this.created = (Date) created.clone();
+        this.created = ObjectUtils.clone(created);
     }
 
     /**
@@ -134,7 +131,7 @@ public class Domain {
      * @return the changed date, or null
      */
     public final Date getChanged() {
-        return (Date) changed.clone();
+        return ObjectUtils.clone(changed);
     }
 
     /**
@@ -143,11 +140,7 @@ public class Domain {
      * @param changed  the changed date, or null
      */
     public final void setChanged(final Date changed) {
-        if (changed == null) {
-            return;
-
-        }
-        this.changed = (Date) changed.clone();
+        this.changed = ObjectUtils.clone(changed);
     }
 
     @Override
