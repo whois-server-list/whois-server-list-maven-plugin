@@ -35,7 +35,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class IanaDomainListFactory extends DomainListFactory {
+public final class IanaDomainListFactory implements DomainListFactory {
 
     /**
      * The property key for the URI to IANA's TLD list.
@@ -87,8 +87,8 @@ public final class IanaDomainListFactory extends DomainListFactory {
     public List<TopLevelDomain> buildList()
             throws BuildListException, InterruptedException {
 
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        try {
+        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+
             HttpGet httpGet
                     = new HttpGet(properties.getProperty(PROPERTY_LIST_URI));
 
@@ -143,14 +143,6 @@ public final class IanaDomainListFactory extends DomainListFactory {
 
             throw new BuildListException(e);
 
-        } finally {
-            try {
-                httpclient.close();
-
-            } catch (IOException e) {
-                throw new BuildListException(e);
-
-            }
         }
     }
 

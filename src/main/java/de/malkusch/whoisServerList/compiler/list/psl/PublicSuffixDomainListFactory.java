@@ -29,7 +29,7 @@ import de.malkusch.whoisServerList.publicSuffixList.rule.Rule;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @NotThreadSafe
-public final class PublicSuffixDomainListFactory extends DomainListFactory {
+public final class PublicSuffixDomainListFactory implements DomainListFactory {
 
     /**
      * The builded Top Level Domains.

@@ -11,7 +11,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public abstract class DomainListFactory {
+public interface DomainListFactory {
 
     /**
      * Builds the domain list.
@@ -21,7 +21,7 @@ public abstract class DomainListFactory {
      * @throws BuildListException If building failed
      * @throws InterruptedException If the thread was interrupted
      */
-    public abstract Collection<TopLevelDomain> buildList()
+    Collection<TopLevelDomain> buildList()
             throws BuildListException, InterruptedException;
 
 }

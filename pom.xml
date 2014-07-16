@@ -50,6 +50,11 @@
 			<version>2.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>de.malkusch.whois-server-list.api.v0</groupId>
+			<artifactId>whois-server-list-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.4-alpha1</version>
