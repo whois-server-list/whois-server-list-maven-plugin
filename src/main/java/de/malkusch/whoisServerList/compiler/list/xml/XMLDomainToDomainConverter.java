@@ -11,9 +11,10 @@ import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.api.v0.model.Domain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
-import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
-import de.malkusch.whoisServerList.compiler.list.TopLevelDomainFactory;
+import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.DomainBuilder;
+import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -33,16 +34,13 @@ final class XMLDomainToDomainConverter
     private static final Logger LOGGER
         = LoggerFactory.getLogger(XMLDomainToDomainConverter.class);
 
-    /**
-     * The top level domain factory.
-     */
-    private final TopLevelDomainFactory tldFactory
-        = new TopLevelDomainFactory();
-
     @Override
     public TopLevelDomain convert(final Domain domain) {
         try {
-            TopLevelDomain tld = this.tldFactory.build(domain.getName());
+            TopLevelDomainBuilder tldBuilder
+                = new TopLevelDomainBuilder(Source.XML);
+            tldBuilder.setName(domain.getName());
+            TopLevelDomain tld = tldBuilder.build();
 
             if (!StringUtils.isEmpty(domain.getNic())) {
                 try {
@@ -61,14 +59,10 @@ final class XMLDomainToDomainConverter
                 }
             }
 
+            DomainBuilder domainBuilder = new DomainBuilder(Source.XML);
             for (Domain subdomain : domain.getDomain()) {
-                de.malkusch.whoisServerList.compiler.model.domain.Domain sld;
-                sld = new
-                    de.malkusch.whoisServerList.compiler.model.domain.Domain();
-
-                sld.setName(DomainUtil.normalize(subdomain.getName()));
-
-                tld.getDomains().add(sld);
+                domainBuilder.setName(subdomain.getName());
+                tld.getDomains().add(domainBuilder.build());
             }
 
             return tld;

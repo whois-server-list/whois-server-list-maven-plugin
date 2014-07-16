@@ -12,14 +12,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
-import de.malkusch.whoisServerList.compiler.list.TopLevelDomainFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildDomainException;
 import de.malkusch.whoisServerList.compiler.list.iana.whois.Parser;
+import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
+import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.WhoisServerBuilder;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
- * Factory for TopLevelDomain.
+ * Builder for TopLevelDomain.
  *
  * This factory builds the top level domain from whois information.
  *
@@ -27,7 +29,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
+public final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
 
     /**
      * Whois key for the whois server.
@@ -55,22 +57,29 @@ public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
     private final Properties properties;
 
     /**
+     * The whois server builder.
+     */
+    private final WhoisServerBuilder serverBuilder
+        = new WhoisServerBuilder(Source.IANA);
+
+    /**
      * Logger.
      */
     private static final Logger LOGGER
-        = LoggerFactory.getLogger(WhoisTopLevelDomainFactory.class);
+        = LoggerFactory.getLogger(IANATopLevelDomainBuilder.class);
 
     /**
      * Constructs the factory.
      *
      * @param properties  the factory properties, not null
      */
-    public WhoisTopLevelDomainFactory(final Properties properties) {
+    IANATopLevelDomainBuilder(final Properties properties) {
+        super(Source.IANA);
         this.properties = properties;
     }
 
     @Override
-    protected void completeDomain(final TopLevelDomain domain)
+    protected void completeTopLevelDomain(final TopLevelDomain domain)
             throws WhoisServerListException {
 
         try (Parser parser = new Parser()) {
@@ -105,8 +114,8 @@ public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
 
             String host = parser.getString(KEY_WHOIS);
             if (host != null) {
-                WhoisServer server = new WhoisServer();
-                server.setHost(host);
+                serverBuilder.setHost(host);
+                WhoisServer server = serverBuilder.build();
                 domain.getWhoisServers().add(server);
 
             } else {

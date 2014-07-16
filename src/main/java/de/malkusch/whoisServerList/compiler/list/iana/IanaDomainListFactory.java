@@ -26,6 +26,7 @@ import de.malkusch.whoisServerList.compiler.helper.converter.DocumentToStringIte
 import de.malkusch.whoisServerList.compiler.helper.converter.EntityToDocumentConverter;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
@@ -104,9 +105,6 @@ public final class IanaDomainListFactory implements DomainListFactory {
                             properties.getProperty(PROPERTY_LIST_TLD_XPATH),
                             documentConverter);
 
-            final WhoisTopLevelDomainFactory factory
-                    = new WhoisTopLevelDomainFactory(properties);
-
             ConcurrencyService concurrencyService
                     = new ConcurrencyService(properties);
 
@@ -117,7 +115,10 @@ public final class IanaDomainListFactory implements DomainListFactory {
 
                     @Override
                     public TopLevelDomain call() throws Exception {
-                        return factory.build(name);
+                        IANATopLevelDomainBuilder builder
+                            = new IANATopLevelDomainBuilder(properties);
+                        builder.setName(name);
+                        return builder.build();
                     }
 
                 });
@@ -144,6 +145,11 @@ public final class IanaDomainListFactory implements DomainListFactory {
             throw new BuildListException(e);
 
         }
+    }
+
+    @Override
+    public Source getSource() {
+        return Source.IANA;
     }
 
 }

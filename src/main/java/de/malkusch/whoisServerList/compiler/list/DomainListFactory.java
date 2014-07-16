@@ -3,6 +3,7 @@ package de.malkusch.whoisServerList.compiler.list;
 import java.util.Collection;
 
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
@@ -24,4 +25,10 @@ public interface DomainListFactory {
     Collection<TopLevelDomain> buildList()
             throws BuildListException, InterruptedException;
 
+    /**
+     * Returns the source of this factory.
+     *
+     * @return the source
+     */
+    Source getSource();
 }

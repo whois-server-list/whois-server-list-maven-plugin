@@ -14,13 +14,13 @@ import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
+import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class IanaDomainListFactoryTest {
 
     @Test
     public void testbuildList() throws IOException, BuildListException, InterruptedException {
-        Properties properties = new Properties();
-        properties.load(getClass().getResourceAsStream("/compiler.properties"));
+        Properties properties = TestUtil.getProperties();
 
         IanaDomainListFactory listFactory = new IanaDomainListFactory(properties);
         List<TopLevelDomain> domains = listFactory.buildList();

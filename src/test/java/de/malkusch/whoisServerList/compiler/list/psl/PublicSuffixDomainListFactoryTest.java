@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
@@ -34,7 +35,8 @@ public class PublicSuffixDomainListFactoryTest {
 
         TopLevelDomain uk = topLevelDomains.get("uk");
         assertFalse(uk.getDomains().isEmpty());
-        assertTrue(uk.getDomains().contains(TestUtil.buildSimpleDomain("co.uk")));
+        assertTrue(uk.getDomains().contains(
+                TestUtil.buildSimpleDomain("co.uk", Source.PSL)));
     }
 
 }

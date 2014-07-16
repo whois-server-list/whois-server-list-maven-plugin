@@ -5,9 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import de.malkusch.whoisServerList.compiler.model.ListObject;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 /**
@@ -16,7 +15,7 @@ import de.malkusch.whoisServerList.compiler.model.WhoisServer;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public class Domain {
+public class Domain extends ListObject {
 
     /**
      * The domain name.
@@ -141,16 +140,6 @@ public class Domain {
      */
     public final void setChanged(final Date changed) {
         this.changed = ObjectUtils.clone(changed);
-    }
-
-    @Override
-    public final boolean equals(final Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj);
-    }
-
-    @Override
-    public final int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this);
     }
 
     /**

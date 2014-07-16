@@ -14,6 +14,7 @@ import de.malkusch.whoisServerList.api.v0.model.Serverlist;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -45,6 +46,11 @@ public final class XMLDomainListFactory implements DomainListFactory {
      */
     private final XMLServerToServerConverter serverConverter
             = new XMLServerToServerConverter();
+
+    @Override
+    public Source getSource() {
+        return Source.XML;
+    }
 
     @Override
     public Collection<TopLevelDomain> buildList() throws BuildListException {

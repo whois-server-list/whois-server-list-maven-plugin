@@ -1,8 +1,11 @@
 package de.malkusch.whoisServerList.compiler.test;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Properties;
 
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
@@ -13,9 +16,19 @@ public final class TestUtil {
     private TestUtil() {
     }
 
-    public static Domain buildSimpleDomain(final String name) {
+    public static Properties getProperties() throws IOException {
+        Properties properties = new Properties();
+        properties.load(TestUtil.class.getResourceAsStream("/compiler.properties"));
+
+        return properties;
+    }
+
+    public static Domain buildSimpleDomain(
+            final String name, final Source source) {
+
         Domain domain = new Domain();
         domain.setName(name);
+        domain.setSource(source);
         return domain;
     }
 
@@ -44,6 +57,7 @@ public final class TestUtil {
     public static TopLevelDomain buildSimpleTld(final String name) {
         TopLevelDomain domain = new TopLevelDomain();
         domain.setName(name);
+        domain.setSource(Source.XML);
         return domain;
     }
 
@@ -53,6 +67,7 @@ public final class TestUtil {
         CountryCodeTopLevelDomain domain = new CountryCodeTopLevelDomain();
         domain.setName(name);
         domain.setCountryCode(countryCode);
+        domain.setSource(Source.XML);
         return domain;
     }
 

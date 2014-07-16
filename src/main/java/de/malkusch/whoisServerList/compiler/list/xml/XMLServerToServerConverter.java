@@ -4,7 +4,10 @@ import java.util.regex.Pattern;
 
 import net.jcip.annotations.Immutable;
 import de.malkusch.whoisServerList.api.v0.model.Server;
+import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
+import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.WhoisServerBuilder;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 /**
@@ -19,9 +22,15 @@ final class XMLServerToServerConverter
 
     @Override
     public WhoisServer convert(final Server xmlServer) {
-        WhoisServer server = new WhoisServer();
-
-        server.setHost(xmlServer.getHost());
+        WhoisServerBuilder factory
+            = new WhoisServerBuilder(Source.XML);
+        factory.setHost(xmlServer.getHost());
+        WhoisServer server;
+        try {
+            server = factory.build();
+        } catch (WhoisServerListException e) {
+            throw new RuntimeException(e);
+        }
 
         String xmlPattern = xmlServer.getAvailstring();
         if (xmlPattern != null) {

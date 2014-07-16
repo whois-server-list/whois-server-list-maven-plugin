@@ -12,8 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
-import de.malkusch.whoisServerList.compiler.list.TopLevelDomainFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
+import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.publicSuffixList.PublicSuffixList;
@@ -37,10 +38,10 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
     private final Map<String, TopLevelDomain> topLevelDomains = new HashMap<>();
 
     /**
-     * The top level domain factory.
+     * The top level domain builder.
      */
-    private final TopLevelDomainFactory tldFactory
-        = new TopLevelDomainFactory();
+    private final TopLevelDomainBuilder tldBuilder
+        = new TopLevelDomainBuilder(Source.PSL);
 
     /**
      * The Public Suffix List.
@@ -61,6 +62,11 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
      */
     public PublicSuffixDomainListFactory() {
         this(new PublicSuffixListFactory().build());
+    }
+
+    @Override
+    public Source getSource() {
+        return Source.PSL;
     }
 
     @Override
@@ -94,6 +100,7 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
             if (ArrayUtils.getLength(labels) > 1) {
                 Domain domain = new Domain();
                 domain.setName(name);
+                domain.setSource(getSource());
 
                 topLevelDomain.getDomains().add(domain);
 
@@ -117,7 +124,8 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
         try {
             TopLevelDomain domain = this.topLevelDomains.get(name);
             if (domain == null) {
-                domain = this.tldFactory.build(name);
+                this.tldBuilder.setName(name);
+                domain = this.tldBuilder.build();
                 this.topLevelDomains.put(name, domain);
 
             }
