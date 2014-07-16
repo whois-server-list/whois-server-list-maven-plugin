@@ -98,7 +98,7 @@ public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
                 domain.setRegistratonService(parser.getURLs().get(0));
 
             } else {
-                LOGGER.warn(
+                LOGGER.info(
                     "found {} Url(s) for {}", parser.getURLs().size(), domain);
 
             }
@@ -110,7 +110,7 @@ public final class WhoisTopLevelDomainFactory extends TopLevelDomainFactory {
                 domain.getWhoisServers().add(server);
 
             } else {
-                LOGGER.warn("found no whois server for {}", domain);
+                LOGGER.info("found no whois server for {}", domain);
 
             }
 
