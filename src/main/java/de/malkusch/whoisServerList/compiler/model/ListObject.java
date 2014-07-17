@@ -7,9 +7,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  * A object of the list.
  *
  * @author markus@malkusch.de
+ * @param <T> the implementing ListObject type
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public abstract class ListObject {
+public abstract class ListObject<T extends ListObject<T>> implements Cloneable {
 
     /**
      * The source of this object.
@@ -42,6 +43,18 @@ public abstract class ListObject {
     @Override
     public final int hashCode() {
         return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T clone() {
+        try {
+            return (T) super.clone();
+
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+
+        }
     }
 
 }

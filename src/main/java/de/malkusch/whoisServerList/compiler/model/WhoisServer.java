@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public final class WhoisServer extends ListObject {
+public final class WhoisServer extends ListObject<WhoisServer> {
 
     /**
      * The whois default port.

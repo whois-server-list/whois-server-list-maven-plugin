@@ -18,6 +18,11 @@ public class TopLevelDomain extends Domain {
     private URL registrationService;
 
     /**
+     * The domain state, may be null.
+     */
+    private State state;
+
+    /**
      * The sub domains.
      */
     private List<Domain> domains = new ArrayList<>();
@@ -56,6 +61,24 @@ public class TopLevelDomain extends Domain {
      */
     public final void setRegistratonService(final URL registrationService) {
         this.registrationService = registrationService;
+    }
+
+    /**
+     * Gets the domain state.
+     *
+     * @return the domain state, or null
+     */
+    public final State getState() {
+        return state;
+    }
+
+    /**
+     * Sets the domain state.
+     *
+     * @param state  the domain state, or null
+     */
+    public final void setState(final State state) {
+        this.state = state;
     }
 
 }

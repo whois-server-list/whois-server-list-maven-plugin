@@ -13,7 +13,7 @@ import de.malkusch.whoisServerList.compiler.model.Source;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @NotThreadSafe
-public abstract class ListObjectBuilder<T extends ListObject> {
+public abstract class ListObjectBuilder<T extends ListObject<?>> {
 
     /**
      * The source for the created objects.

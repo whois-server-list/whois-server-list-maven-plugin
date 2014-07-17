@@ -15,7 +15,7 @@ import de.malkusch.whoisServerList.compiler.model.WhoisServer;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public class Domain extends ListObject {
+public class Domain extends ListObject<Domain> {
 
     /**
      * The domain name.
@@ -31,11 +31,6 @@ public class Domain extends ListObject {
      * The changed date, may be null.
      */
     private Date changed;
-
-    /**
-     * The domain state, may be null.
-     */
-    private State state;
 
     /**
      * Domain state.
@@ -63,7 +58,7 @@ public class Domain extends ListObject {
     /**
      * The whois servers for this domain, may be empty.
      */
-    private List<WhoisServer> whoisServers = new ArrayList<WhoisServer>();
+    private List<WhoisServer> whoisServers = new ArrayList<>();
 
     /**
      * Returns the domain name.
@@ -140,24 +135,6 @@ public class Domain extends ListObject {
      */
     public final void setChanged(final Date changed) {
         this.changed = ObjectUtils.clone(changed);
-    }
-
-    /**
-     * Gets the domain state.
-     *
-     * @return the domain state, or null
-     */
-    public final State getState() {
-        return state;
-    }
-
-    /**
-     * Sets the domain state.
-     *
-     * @param state  the domain state, or null
-     */
-    public final void setState(final State state) {
-        this.state = state;
     }
 
 }
