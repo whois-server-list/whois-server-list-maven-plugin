@@ -20,7 +20,8 @@ public class XMLDomainListFactoryTest {
     @Test
     public void testBuildList() throws BuildListException, MalformedURLException {
         XMLDomainListFactory factory = new XMLDomainListFactory();
-        Collection<TopLevelDomain> toplevelDomains = factory.buildList();
+        Collection<TopLevelDomain> toplevelDomains
+                = factory.buildList().getDomains();
 
         TopLevelDomain de = TestUtil.find(toplevelDomains, "de");
 

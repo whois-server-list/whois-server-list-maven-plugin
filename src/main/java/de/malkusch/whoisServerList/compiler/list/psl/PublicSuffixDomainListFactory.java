@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.list.psl;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +14,7 @@ import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
+import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
@@ -70,7 +71,7 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
     }
 
     @Override
-    public Collection<TopLevelDomain> buildList() throws BuildListException {
+    public DomainList buildList() throws BuildListException {
         this.topLevelDomains.clear();
 
         for (Rule rule : this.suffixList.getRules()) {
@@ -107,7 +108,11 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
             }
         }
 
-        return this.topLevelDomains.values();
+        DomainList list = new DomainList();
+        list.setDomains(
+                new ArrayList<TopLevelDomain>(this.topLevelDomains.values()));
+
+        return list;
     }
 
     /**

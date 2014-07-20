@@ -1,10 +1,8 @@
 package de.malkusch.whoisServerList.compiler.list;
 
-import java.util.Collection;
-
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Domain list factory.
@@ -22,8 +20,7 @@ public interface DomainListFactory {
      * @throws BuildListException If building failed
      * @throws InterruptedException If the thread was interrupted
      */
-    Collection<TopLevelDomain> buildList()
-            throws BuildListException, InterruptedException;
+    DomainList buildList() throws BuildListException, InterruptedException;
 
     /**
      * Returns the source of this factory.

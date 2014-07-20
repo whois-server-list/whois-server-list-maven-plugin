@@ -51,7 +51,7 @@ public final class TestUtil {
     }
 
     public static <T extends Domain> T find(
-            Collection<T> domains, String name) {
+            final Collection<T> domains, final String name) {
 
         for (T domain : domains) {
             if (domain.getName().equalsIgnoreCase(name)) {

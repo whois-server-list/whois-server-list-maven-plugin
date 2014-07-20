@@ -22,7 +22,7 @@ public class PublicSuffixDomainListFactoryTest {
             = new PublicSuffixDomainListFactory();
 
         Map<String, TopLevelDomain> topLevelDomains = new HashMap<>();
-        for (TopLevelDomain tld : factory.buildList()) {
+        for (TopLevelDomain tld : factory.buildList().getDomains()) {
             assertFalse(topLevelDomains.containsKey(tld.getName()));
             topLevelDomains.put(tld.getName(), tld);
 

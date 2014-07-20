@@ -26,6 +26,7 @@ import de.malkusch.whoisServerList.compiler.helper.converter.DocumentToStringIte
 import de.malkusch.whoisServerList.compiler.helper.converter.EntityToDocumentConverter;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -85,7 +86,7 @@ public final class IanaDomainListFactory implements DomainListFactory {
     }
 
     @Override
-    public List<TopLevelDomain> buildList()
+    public DomainList buildList()
             throws BuildListException, InterruptedException {
 
         try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
@@ -137,7 +138,10 @@ public final class IanaDomainListFactory implements DomainListFactory {
 
             EntityUtils.consume(entity);
 
-            return domains;
+            DomainList list = new DomainList();
+            list.setDomains(domains);
+
+            return list;
 
         } catch (IOException | WhoisServerListException |
                 ExecutionException | TimeoutException e) {

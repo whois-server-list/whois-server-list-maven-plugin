@@ -19,6 +19,7 @@ import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.xml.XMLDomainListFactory;
+import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
@@ -48,11 +49,11 @@ public class DomainListFactoryTest {
 
     @Test
     public void testBuild() throws BuildListException, InterruptedException {
-        Collection<TopLevelDomain> domains = factory.buildList();
+        DomainList list = factory.buildList();
 
-        assertTrue(domains.size() > 50);
+        assertTrue(list.getDomains().size() > 50);
 
-        for (TopLevelDomain domain : domains) {
+        for (TopLevelDomain domain : list.getDomains()) {
             assertDomain(domain);
 
             for (WhoisServer server : domain.getWhoisServers()) {

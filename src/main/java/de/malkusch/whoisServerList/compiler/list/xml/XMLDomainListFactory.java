@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.list.xml;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +14,7 @@ import de.malkusch.whoisServerList.api.v0.model.Serverlist;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
@@ -53,7 +54,7 @@ public final class XMLDomainListFactory implements DomainListFactory {
     }
 
     @Override
-    public Collection<TopLevelDomain> buildList() throws BuildListException {
+    public DomainList buildList() throws BuildListException {
         try {
             this.topLevelDomains.clear();
 
@@ -76,7 +77,11 @@ public final class XMLDomainListFactory implements DomainListFactory {
                 }
             }
 
-            return this.topLevelDomains.values();
+            DomainList list = new DomainList();
+            list.setDomains(
+                    new ArrayList<TopLevelDomain>(this.topLevelDomains.values()));
+
+            return list;
 
         } catch (JAXBException e) {
             throw new BuildListException(e);
