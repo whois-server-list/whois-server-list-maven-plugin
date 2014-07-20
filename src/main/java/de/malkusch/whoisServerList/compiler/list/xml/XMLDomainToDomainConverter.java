@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.api.v0.model.Domain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
+import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.DomainBuilder;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
 import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
@@ -52,14 +52,26 @@ final class XMLDomainToDomainConverter
                 }
             }
 
-            if (!StringUtils.isEmpty(domain.getCountry())) {
-                if (!(tld instanceof CountryCodeTopLevelDomain)) {
+            if (DomainUtil.isCountryCode(tld.getName())) {
+                tld.setCountryCode(tld.getName().toUpperCase());
+
+            }
+
+            if (domain.getCountry() != null) {
+                if (tld.getCountryCode() == null) {
                     LOGGER.warn("domain {} with country {} is no CCTLD.",
                             domain.getName(), domain.getCountry());
                 }
+            } else {
+                if (tld.getCountryCode() != null) {
+                    LOGGER.warn("domain {} should have a country code.",
+                            domain.getName());
+                }
+
             }
 
-            DomainBuilder domainBuilder = new DomainBuilder(Source.XML);
+            DomainBuilder<?> domainBuilder = new DomainBuilder<>(Source.XML,
+                de.malkusch.whoisServerList.compiler.model.domain.Domain.class);
             for (Domain subdomain : domain.getDomain()) {
                 domainBuilder.setName(subdomain.getName());
                 tld.getDomains().add(domainBuilder.build());

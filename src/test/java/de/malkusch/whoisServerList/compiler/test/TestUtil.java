@@ -9,7 +9,6 @@ import java.util.Properties;
 
 import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -69,10 +68,10 @@ public final class TestUtil {
         return domain;
     }
 
-    public static CountryCodeTopLevelDomain buildSimpleCcTld(
+    public static TopLevelDomain buildSimpleCcTld(
             final String name, final String countryCode) {
 
-        CountryCodeTopLevelDomain domain = new CountryCodeTopLevelDomain();
+        TopLevelDomain domain = new TopLevelDomain();
         domain.setName(name);
         domain.setCountryCode(countryCode);
         domain.setSource(Source.XML);

@@ -17,10 +17,10 @@ public class TopLevelDomainMergerTest {
 
     @Test
     public void testMerge() throws MalformedURLException {
-        TopLevelDomainMerger<TopLevelDomain> merger
-                = new TopLevelDomainMerger<>();
+        TopLevelDomainMerger merger = new TopLevelDomainMerger();
 
         TopLevelDomain left = new TopLevelDomain();
+        left.setCountryCode("DE");
         left.setChanged(TestUtil.getYesterday());
         left.setState(State.NEW);
         left.setRegistratonService(new URL("http://left.example.net"));
@@ -29,6 +29,7 @@ public class TopLevelDomainMergerTest {
         left.getDomains().add(leftSubdomain);
 
         TopLevelDomain right = new TopLevelDomain();
+        right.setCountryCode(null);
         right.setChanged(new Date());
         right.setRegistratonService(new URL("http://right.example.net"));
         right.setState(State.ACTIVE);
@@ -37,6 +38,7 @@ public class TopLevelDomainMergerTest {
         right.getDomains().add(rightSubdomain);
 
         TopLevelDomain expected = new TopLevelDomain();
+        expected.setCountryCode("DE");
         expected.setChanged(right.getChanged());
         expected.setRegistratonService(new URL("http://right.example.net"));
         expected.setState(State.ACTIVE);
@@ -48,8 +50,7 @@ public class TopLevelDomainMergerTest {
 
     @Test
     public void testMergeState() {
-        TopLevelDomainMerger<TopLevelDomain> merger
-                = new TopLevelDomainMerger<>();
+        TopLevelDomainMerger merger = new TopLevelDomainMerger();
 
         {
             TopLevelDomain left = new TopLevelDomain();

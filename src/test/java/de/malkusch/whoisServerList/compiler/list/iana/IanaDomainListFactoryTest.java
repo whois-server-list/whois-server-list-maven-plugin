@@ -14,7 +14,6 @@ import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
@@ -42,8 +41,7 @@ public class IanaDomainListFactoryTest {
             }
 
             if (DomainUtil.isCountryCode(domain.getName())) {
-                CountryCodeTopLevelDomain ccDomain = (CountryCodeTopLevelDomain) domain;
-                assertEquals(domain.getName().toUpperCase(), ccDomain.getCountryCode());
+                assertEquals(domain.getName().toUpperCase(), domain.getCountryCode());
 
             }
         }

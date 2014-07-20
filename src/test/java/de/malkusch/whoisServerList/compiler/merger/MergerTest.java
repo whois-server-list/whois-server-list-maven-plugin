@@ -15,7 +15,6 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -36,10 +35,8 @@ public class MergerTest {
                 { new StringMerger(), "test" },
                 { new WhoisServerMerger(), new WhoisServer() },
                 { new DomainMerger<Domain>(), new Domain() },
-                { new TopLevelDomainMerger<TopLevelDomain>(),
+                { new TopLevelDomainMerger(),
                         new TopLevelDomain() },
-                { new CountryCodeTopLevelDomainMerger(),
-                        new CountryCodeTopLevelDomain() },
                 { new NewestMerger<>(
                         new Date(), new Date(), new StringMerger()), "test" },
                 { new ListMerger<>(null, null), Collections.EMPTY_LIST },

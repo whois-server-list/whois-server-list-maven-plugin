@@ -1,6 +1,8 @@
 package de.malkusch.whoisServerList.compiler.list.psl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,9 +10,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
-import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
 import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
@@ -28,8 +28,7 @@ public class PublicSuffixDomainListFactoryTest {
 
         }
 
-        CountryCodeTopLevelDomain de
-            = (CountryCodeTopLevelDomain) topLevelDomains.get("de");
+        TopLevelDomain de = topLevelDomains.get("de");
         assertEquals("de", de.getName());
         assertEquals("DE", de.getCountryCode());
 

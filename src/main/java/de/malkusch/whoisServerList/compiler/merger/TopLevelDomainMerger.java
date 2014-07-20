@@ -16,8 +16,12 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public class TopLevelDomainMerger<T extends TopLevelDomain>
-        extends DomainMerger<T> {
+public final class TopLevelDomainMerger extends DomainMerger<TopLevelDomain> {
+
+    /**
+     * The country code merger.
+     */
+    private final StringMerger countryCodeMerger = new StringMerger();
 
     /**
      * The registration url merger.
@@ -36,8 +40,8 @@ public class TopLevelDomainMerger<T extends TopLevelDomain>
             new DomainToNameConverter(), new DomainMerger<Domain>());
 
     @Override
-    protected final void completeMerge(
-            final T merged, final T left, final T right) {
+    protected final void completeMerge(final TopLevelDomain merged,
+            final TopLevelDomain left, final TopLevelDomain right) {
 
         NewestMerger<URL> newestUrlMerger = new NewestMerger<>(
                 left.getChanged(), right.getChanged(), urlMerger);
@@ -53,18 +57,8 @@ public class TopLevelDomainMerger<T extends TopLevelDomain>
         merged.setState(newestStateMerger.merge(
                 left.getState(), right.getState()));
 
-        completeMergeTld(merged, left, right);
-    }
-
-    /**
-     * Completes the merging.
-     *
-     * @param merged  the merged object
-     * @param left    the dominant object
-     * @param right   the weak object
-     */
-    protected void completeMergeTld(
-            final T merged, final T left, final T right) {
+        merged.setCountryCode(countryCodeMerger.merge(
+                left.getCountryCode(), right.getCountryCode()));
     }
 
 }

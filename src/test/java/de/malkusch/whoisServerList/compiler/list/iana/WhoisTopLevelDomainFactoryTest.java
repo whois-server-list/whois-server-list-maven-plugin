@@ -16,7 +16,6 @@ import org.junit.Test;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
@@ -36,7 +35,7 @@ public class WhoisTopLevelDomainFactoryTest {
     public void testBuild() throws WhoisServerListException, ParseException, MalformedURLException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        CountryCodeTopLevelDomain de = new CountryCodeTopLevelDomain();
+        TopLevelDomain de = new TopLevelDomain();
         de.setCountryCode("DE");
         de.setName("de");
         de.setState(State.ACTIVE);

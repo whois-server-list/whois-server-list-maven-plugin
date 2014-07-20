@@ -1,6 +1,9 @@
 package de.malkusch.whoisServerList.compiler.list.xml;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -11,7 +14,6 @@ import org.junit.Test;
 
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.CountryCodeTopLevelDomain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
@@ -25,7 +27,7 @@ public class XMLDomainListFactoryTest {
 
         TopLevelDomain de = TestUtil.find(toplevelDomains, "de");
 
-        assertTrue(de instanceof CountryCodeTopLevelDomain);
+        assertEquals("DE", de.getCountryCode());
         assertEquals(
                 new URL("http://www.denic.de/"), de.getRegistratonService());
         assertEquals(2, de.getWhoisServers().size());
@@ -45,7 +47,7 @@ public class XMLDomainListFactoryTest {
 
         TopLevelDomain com = TestUtil.find(toplevelDomains, "com");
         assertNotNull(com);
-        assertFalse(com instanceof CountryCodeTopLevelDomain);
+        assertNull(com.getCountryCode());
 
         TopLevelDomain net = TestUtil.find(toplevelDomains, "net");
         assertNotNull(net);

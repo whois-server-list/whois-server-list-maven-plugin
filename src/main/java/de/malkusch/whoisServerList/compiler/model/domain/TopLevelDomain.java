@@ -10,7 +10,7 @@ import java.util.List;
  * @author markus@malkusch.de
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
-public class TopLevelDomain extends Domain {
+public final class TopLevelDomain extends Domain {
 
     /**
      * The registration service.
@@ -28,11 +28,34 @@ public class TopLevelDomain extends Domain {
     private List<Domain> domains = new ArrayList<>();
 
     /**
+     * The country code, may be null.
+     */
+    private String countryCode;
+
+    /**
+     * Returns the ISO 3166-1 tld country code.
+     *
+     * @return the ISO 3166-1 tld country code, or null
+     */
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    /**
+     * Sets the ISO 3166-1 country code.
+     *
+     * @param countryCode  the ISO 3166-1 tld country code, may be null
+     */
+    public void setCountryCode(final String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+    /**
      * Returns the sub domains.
      *
      * @return the sub domains, not null
      */
-    public final List<Domain> getDomains() {
+    public List<Domain> getDomains() {
         return domains;
     }
 
@@ -41,7 +64,7 @@ public class TopLevelDomain extends Domain {
      *
      * @param domains  the sub domains, not null
      */
-    public final void setDomains(final List<Domain> domains) {
+    public void setDomains(final List<Domain> domains) {
         this.domains = domains;
     }
 
@@ -50,7 +73,7 @@ public class TopLevelDomain extends Domain {
      *
      * @return the registration service, maybe null
      */
-    public final URL getRegistratonService() {
+    public URL getRegistratonService() {
         return registrationService;
     }
 
@@ -59,7 +82,7 @@ public class TopLevelDomain extends Domain {
      *
      * @param registrationService the registration service, may be null
      */
-    public final void setRegistratonService(final URL registrationService) {
+    public void setRegistratonService(final URL registrationService) {
         this.registrationService = registrationService;
     }
 
@@ -68,7 +91,7 @@ public class TopLevelDomain extends Domain {
      *
      * @return the domain state, or null
      */
-    public final State getState() {
+    public State getState() {
         return state;
     }
 
@@ -77,7 +100,7 @@ public class TopLevelDomain extends Domain {
      *
      * @param state  the domain state, or null
      */
-    public final void setState(final State state) {
+    public void setState(final State state) {
         this.state = state;
     }
 
