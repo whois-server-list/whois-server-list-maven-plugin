@@ -12,7 +12,9 @@ import de.malkusch.whoisServerList.compiler.test.TestUtil;
 public class TopLevelDomainBuilderTest {
 
     @Test
-    public void testBuild() throws WhoisServerListException {
+    public void testBuild()
+            throws WhoisServerListException, InterruptedException {
+
         TopLevelDomainBuilder builder = new TopLevelDomainBuilder(Source.XML);
 
         builder.setName("net");
@@ -26,7 +28,9 @@ public class TopLevelDomainBuilderTest {
     }
 
     @Test(expected=IllegalStateException.class)
-    public void buildNoDomainName() throws WhoisServerListException {
+    public void buildNoDomainName()
+            throws WhoisServerListException, InterruptedException {
+
         TopLevelDomainBuilder builder = new TopLevelDomainBuilder(Source.XML);
 
         builder.setName(null);

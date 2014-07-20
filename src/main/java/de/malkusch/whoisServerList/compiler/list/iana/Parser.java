@@ -110,8 +110,9 @@ final class Parser implements Closeable {
      *
      * @param reader  the whois result stream
      * @throws IOException If reading from the stream failed
+     * @throws InterruptedException If the thread was interrupted
      */
-    void parse(final BufferedReader reader) throws IOException {
+    void parse(final BufferedReader reader) throws IOException, InterruptedException {
         this.reader = reader;
 
         String regex = String.format("^(%s):\\s+(\\S.*\\S)\\s*$",
@@ -125,6 +126,10 @@ final class Parser implements Closeable {
 
         String line;
         while ((line = reader.readLine()) != null) {
+            if (Thread.interrupted()) {
+                throw new InterruptedException();
+
+            }
             if (commentPattern.matcher(line).find()) {
                 continue;
 
@@ -156,9 +161,10 @@ final class Parser implements Closeable {
      * @param stream   the whois result stream
      * @param charset  the character encoding of the whois stream
      * @throws IOException If reading from the stream failed
+     * @throws InterruptedException If the thread was interrupted
      */
     void parse(final InputStream stream, final Charset charset)
-            throws IOException {
+            throws IOException, InterruptedException {
 
         InputStreamToBufferedReaderConverter converter
                 = new InputStreamToBufferedReaderConverter(charset);

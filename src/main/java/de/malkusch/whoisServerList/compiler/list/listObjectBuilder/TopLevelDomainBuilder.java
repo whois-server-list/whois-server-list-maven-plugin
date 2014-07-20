@@ -34,14 +34,15 @@ public class TopLevelDomainBuilder
      *
      * @param domain the incomplete top level domain
      * @throws WhoisServerListException If completing failed
+     * @throws InterruptedException If the thread was interrupted
      */
     protected void completeTopLevelDomain(final TopLevelDomain domain)
-            throws WhoisServerListException {
+            throws WhoisServerListException, InterruptedException {
     }
 
     @Override
     protected final void completeDomain(final TopLevelDomain domain)
-            throws WhoisServerListException {
+            throws WhoisServerListException, InterruptedException {
 
         if (DomainUtil.isCountryCode(getName())) {
             domain.setCountryCode(domain.getName().toUpperCase());

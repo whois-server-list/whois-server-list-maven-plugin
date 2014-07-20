@@ -40,7 +40,7 @@ public class ParserTest {
     }
 
     @Test
-    public void testParse() throws IOException {
+    public void testParse() throws IOException, InterruptedException {
         Parser parser = new Parser();
         parser.setKeys(IANATopLevelDomainBuilder.KEY_WHOIS,
                 IANATopLevelDomainBuilder.KEY_CHANGED,
@@ -62,7 +62,9 @@ public class ParserTest {
     }
 
     @Test
-    public void testGetState() throws IOException, WhoisServerListException {
+    public void testGetState()
+            throws IOException, WhoisServerListException, InterruptedException {
+
         Parser parser = new Parser();
         parser.setKeys(IANATopLevelDomainBuilder.KEY_STATE);
 
@@ -75,7 +77,9 @@ public class ParserTest {
     }
 
     @Test
-    public void testGetDate() throws IOException, WhoisServerListException {
+    public void testGetDate()
+            throws IOException, WhoisServerListException, InterruptedException {
+
         Parser parser = new Parser();
         parser.setKeys(IANATopLevelDomainBuilder.KEY_CREATED);
 
@@ -90,11 +94,13 @@ public class ParserTest {
     }
 
     @Test
-    public void testGetURLs() throws IOException {
+    public void testGetURLs() throws IOException, InterruptedException {
         Parser parser = new Parser();
         parser.parse(inputStream, charset);
 
-        assertArrayEquals(new URL[] {new URL("http://internetregistry.info/")}, parser.getURLs().toArray());
+        assertArrayEquals(
+                new URL[] {new URL("http://internetregistry.info/")},
+                parser.getURLs().toArray());
 
         parser.close();
     }

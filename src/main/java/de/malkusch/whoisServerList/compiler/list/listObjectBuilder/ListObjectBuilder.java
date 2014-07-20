@@ -35,9 +35,12 @@ abstract class ListObjectBuilder<T extends ListObject<?>> {
      * Builds a new list object.
      *
      * @return the list object
-     * @throws WhoisServerListException If building the object failed.
+     * @throws WhoisServerListException If building the object failed
+     * @throws InterruptedException     If the thread was interrupted
      */
-    public final T build() throws WhoisServerListException {
+    public final T build()
+            throws WhoisServerListException, InterruptedException {
+
         try {
             T object = getObjectType().newInstance();
             object.setSource(source);
@@ -61,9 +64,12 @@ abstract class ListObjectBuilder<T extends ListObject<?>> {
      * Completes a created object.
      *
      * @param object  the list object, not null
+     *
      * @throws WhoisServerListException If building the object failed.
+     * @throws InterruptedException     If the thread was interrupted
      */
-    protected void complete(final T object) throws WhoisServerListException {
+    protected void complete(final T object)
+            throws WhoisServerListException, InterruptedException {
     }
 
 }

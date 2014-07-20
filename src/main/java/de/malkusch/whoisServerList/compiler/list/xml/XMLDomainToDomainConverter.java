@@ -79,7 +79,7 @@ final class XMLDomainToDomainConverter
 
             return tld;
 
-        } catch (WhoisServerListException e) {
+        } catch (WhoisServerListException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }

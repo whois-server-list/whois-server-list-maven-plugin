@@ -1,11 +1,9 @@
 package de.malkusch.whoisServerList.compiler.test;
 
-import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
@@ -21,13 +19,6 @@ public final class TestUtil {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
         return cal.getTime();
-    }
-
-    public static Properties getProperties() throws IOException {
-        Properties properties = new Properties();
-        properties.load(TestUtil.class.getResourceAsStream("/compiler.properties"));
-
-        return properties;
     }
 
     public static Domain buildSimpleDomain(

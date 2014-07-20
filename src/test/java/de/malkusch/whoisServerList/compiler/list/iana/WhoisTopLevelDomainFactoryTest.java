@@ -32,7 +32,10 @@ public class WhoisTopLevelDomainFactoryTest {
     }
 
     @Test
-    public void testBuild() throws WhoisServerListException, ParseException, MalformedURLException {
+    public void testBuild()
+            throws WhoisServerListException, ParseException,
+            MalformedURLException, InterruptedException {
+
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         TopLevelDomain de = new TopLevelDomain();

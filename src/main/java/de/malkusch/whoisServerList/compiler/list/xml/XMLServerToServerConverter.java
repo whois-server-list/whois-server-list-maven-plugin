@@ -28,7 +28,7 @@ final class XMLServerToServerConverter
         WhoisServer server;
         try {
             server = factory.build();
-        } catch (WhoisServerListException e) {
+        } catch (WhoisServerListException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 

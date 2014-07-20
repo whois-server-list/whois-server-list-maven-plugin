@@ -17,7 +17,9 @@ import de.malkusch.whoisServerList.compiler.test.TestUtil;
 public class PublicSuffixDomainListFactoryTest {
 
     @Test
-    public void testBuildList() throws BuildListException {
+    public void testBuildList()
+            throws BuildListException, InterruptedException {
+
         PublicSuffixDomainListFactory factory
             = new PublicSuffixDomainListFactory();
 

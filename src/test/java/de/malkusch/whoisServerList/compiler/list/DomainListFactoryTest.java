@@ -15,6 +15,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
@@ -23,7 +24,6 @@ import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
-import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 @RunWith(Parameterized.class)
 public class DomainListFactoryTest {
@@ -36,7 +36,7 @@ public class DomainListFactoryTest {
         List<DomainListFactory[]> cases = new ArrayList<>();
 
         cases.add(new DomainListFactory[] {
-                new IanaDomainListFactory(TestUtil.getProperties())});
+                new IanaDomainListFactory(DomainListCompiler.getDefaultProperties())});
 
         cases.add(new DomainListFactory[] {
                 new PublicSuffixDomainListFactory()});

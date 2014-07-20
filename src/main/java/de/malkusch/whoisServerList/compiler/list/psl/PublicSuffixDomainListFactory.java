@@ -71,7 +71,9 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
     }
 
     @Override
-    public DomainList buildList() throws BuildListException {
+    public DomainList buildList()
+            throws BuildListException, InterruptedException {
+
         this.topLevelDomains.clear();
 
         for (Rule rule : this.suffixList.getRules()) {
@@ -123,8 +125,10 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
      *
      * @param name  the domain name, not null
      * @return the top level domain, not null
+     * @throws InterruptedException if the thread was interrupted
      */
-    private TopLevelDomain getTopLevelDomain(final String name) {
+    private TopLevelDomain getTopLevelDomain(final String name)
+            throws InterruptedException {
 
         try {
             TopLevelDomain domain = this.topLevelDomains.get(name);

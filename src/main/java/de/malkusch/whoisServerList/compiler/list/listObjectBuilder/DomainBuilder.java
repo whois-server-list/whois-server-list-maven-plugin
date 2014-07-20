@@ -45,14 +45,15 @@ public class DomainBuilder<T extends Domain>
      *
      * @param domain the domain
      * @throws WhoisServerListException If building the object failed
+     * @throws InterruptedException If the thread was interrupted
      */
     protected void completeDomain(final T domain)
-            throws WhoisServerListException {
+            throws WhoisServerListException, InterruptedException {
     }
 
     @Override
     protected final void complete(final T domain)
-            throws WhoisServerListException {
+            throws WhoisServerListException, InterruptedException {
 
         if (this.name == null) {
             throw new IllegalStateException(

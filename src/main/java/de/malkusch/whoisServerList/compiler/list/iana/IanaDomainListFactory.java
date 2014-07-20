@@ -111,11 +111,18 @@ public final class IanaDomainListFactory implements DomainListFactory {
 
             List<FutureTask<TopLevelDomain>> tasks = new ArrayList<>();
             for (final String name : tldConverter.convert(entity)) {
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+
+                }
                 FutureTask<TopLevelDomain> task
                         = new FutureTask<>(new Callable<TopLevelDomain>() {
 
                     @Override
-                    public TopLevelDomain call() throws Exception {
+                    public TopLevelDomain call()
+                            throws WhoisServerListException,
+                            InterruptedException {
+
                         IANATopLevelDomainBuilder builder
                             = new IANATopLevelDomainBuilder(properties);
                         builder.setName(name);
@@ -143,9 +150,15 @@ public final class IanaDomainListFactory implements DomainListFactory {
 
             return list;
 
-        } catch (IOException | WhoisServerListException |
-                ExecutionException | TimeoutException e) {
+        } catch(ExecutionException e) {
+            if (e.getCause() instanceof InterruptedException) {
+                throw (InterruptedException) e.getCause();
 
+            } else {
+                throw new BuildListException(e);
+
+            }
+        } catch (IOException | WhoisServerListException | TimeoutException e) {
             throw new BuildListException(e);
 
         }

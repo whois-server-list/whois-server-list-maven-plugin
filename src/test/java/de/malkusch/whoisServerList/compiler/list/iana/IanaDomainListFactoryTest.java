@@ -6,24 +6,22 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
-import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class IanaDomainListFactoryTest {
 
     @Test
     public void testbuildList() throws IOException, BuildListException, InterruptedException {
-        Properties properties = TestUtil.getProperties();
-
-        IanaDomainListFactory listFactory = new IanaDomainListFactory(properties);
+        IanaDomainListFactory listFactory
+                = new IanaDomainListFactory(DomainListCompiler.getDefaultProperties());
         DomainList list = listFactory.buildList();
 
         assertTrue(list.getDomains().size() > 500);
