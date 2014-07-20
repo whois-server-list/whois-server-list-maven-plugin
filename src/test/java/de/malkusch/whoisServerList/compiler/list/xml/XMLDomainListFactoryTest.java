@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,6 +14,7 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
+import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
@@ -22,8 +24,8 @@ public class XMLDomainListFactoryTest {
     @Test
     public void testBuildList() throws BuildListException, MalformedURLException {
         XMLDomainListFactory factory = new XMLDomainListFactory();
-        Collection<TopLevelDomain> toplevelDomains
-                = factory.buildList().getDomains();
+        DomainList list = factory.buildList();
+        Collection<TopLevelDomain> toplevelDomains = list.getDomains();
 
         TopLevelDomain de = TestUtil.find(toplevelDomains, "de");
 
@@ -60,6 +62,15 @@ public class XMLDomainListFactoryTest {
         String exptectedPatter
             = Pattern.quote("no match for");
         assertEquals(exptectedPatter, comWhois1.getAvailablePattern().toString());
+
+        assertEquals("0.0.1", list.getVersion());
+
+        Pattern descriptionPattern = Pattern.compile(
+                "^This list .+1335STSwu9hST4vcMRppEPgENMHD2r1REK$",
+                Pattern.DOTALL);
+        assertTrue(
+                String.format("description was '%s'", list.getDescription()),
+                descriptionPattern.matcher(list.getDescription()).matches());
     }
 
 }

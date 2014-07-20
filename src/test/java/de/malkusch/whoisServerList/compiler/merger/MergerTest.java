@@ -14,6 +14,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
@@ -40,6 +41,7 @@ public class MergerTest {
                 { new NewestMerger<>(
                         new Date(), new Date(), new StringMerger()), "test" },
                 { new ListMerger<>(null, null), Collections.EMPTY_LIST },
+                { new DomainListMerger(), new DomainList() },
         });
     }
 

@@ -22,7 +22,7 @@ final class ListMerger<T> implements Merger<List<T>> {
     /**
      * Converts the element to an id.
      */
-    private final Converter<T, ?> elementToIdConverter;
+    private final Converter<? super T, ?> elementToIdConverter;
 
     /**
      * The element merger.
@@ -40,7 +40,7 @@ final class ListMerger<T> implements Merger<List<T>> {
      * @param elementMerger  the element merger
      */
     ListMerger(
-            final Converter<T, ?> elementToIdConverter,
+            final Converter<? super T, ?> elementToIdConverter,
             final Merger<T> elementMerger) {
 
         this.elementToIdConverter = elementToIdConverter;

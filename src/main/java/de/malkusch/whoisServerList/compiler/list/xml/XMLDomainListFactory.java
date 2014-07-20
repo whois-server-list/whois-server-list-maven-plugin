@@ -3,6 +3,8 @@ package de.malkusch.whoisServerList.compiler.list.xml;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBException;
 
@@ -78,14 +80,50 @@ public final class XMLDomainListFactory implements DomainListFactory {
             }
 
             DomainList list = new DomainList();
-            list.setDomains(
-                    new ArrayList<TopLevelDomain>(this.topLevelDomains.values()));
+            list.setDomains(new ArrayList<>(this.topLevelDomains.values()));
+            list.setVersion(parseVersion(serverlist.getNotes()));
+            list.setDescription(parseDescription(serverlist.getNotes()));
 
             return list;
 
         } catch (JAXBException e) {
             throw new BuildListException(e);
         }
+    }
+
+    /**
+     * Parses the description from the notes.
+     *
+     * @param notes  the notes
+     * @return the parsed description
+     */
+    private String parseDescription(final String notes) {
+        Pattern pattern
+            = Pattern.compile("(^.+?)\\s*Version:\\s[\\S]+", Pattern.DOTALL);
+        Matcher matcher = pattern.matcher(notes);
+
+        if (!matcher.find()) {
+            return null;
+
+        }
+        return matcher.group(1).trim();
+    }
+
+    /**
+     * Parses the version from the notes.
+     *
+     * @param notes  the notes
+     * @return the version
+     */
+    private String parseVersion(final String notes) {
+        Pattern pattern = Pattern.compile("Version:\\s([\\S]+)");
+        Matcher matcher = pattern.matcher(notes);
+
+        if (!matcher.find()) {
+            return null;
+
+        }
+        return matcher.group(1);
     }
 
     /**
