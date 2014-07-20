@@ -13,7 +13,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.Domain;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public class DomainMerger<T extends Domain> implements Merger<T> {
+class DomainMerger<T extends Domain> implements Merger<T> {
 
     /**
      * The whois server list merger.

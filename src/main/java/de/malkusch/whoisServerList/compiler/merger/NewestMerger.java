@@ -12,7 +12,7 @@ import net.jcip.annotations.Immutable;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class NewestMerger<T> implements Merger<T> {
+final class NewestMerger<T> implements Merger<T> {
 
     /**
      * The dominant date.
@@ -36,7 +36,7 @@ public final class NewestMerger<T> implements Merger<T> {
      * @param rightDate  the weaker date
      * @param merger     the merger
      */
-    public NewestMerger(
+    NewestMerger(
             final Date leftDate, final Date rightDate, final Merger<T> merger) {
 
         this.leftDate = leftDate;

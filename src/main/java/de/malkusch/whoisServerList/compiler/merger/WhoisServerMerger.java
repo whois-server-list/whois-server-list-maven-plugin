@@ -12,7 +12,7 @@ import de.malkusch.whoisServerList.compiler.model.WhoisServer;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class WhoisServerMerger implements Merger<WhoisServer> {
+final class WhoisServerMerger implements Merger<WhoisServer> {
 
     /**
      * The merger for the host name.

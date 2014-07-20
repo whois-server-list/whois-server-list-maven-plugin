@@ -17,7 +17,7 @@ import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class ListMerger<T> implements Merger<List<T>> {
+final class ListMerger<T> implements Merger<List<T>> {
 
     /**
      * Converts the element to an id.
@@ -39,7 +39,7 @@ public final class ListMerger<T> implements Merger<List<T>> {
      * @param elementToIdConverter  the element converter
      * @param elementMerger  the element merger
      */
-    public ListMerger(
+    ListMerger(
             final Converter<T, ?> elementToIdConverter,
             final Merger<T> elementMerger) {
 

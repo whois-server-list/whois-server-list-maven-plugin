@@ -9,7 +9,7 @@ import net.jcip.annotations.Immutable;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class StringMerger implements Merger<String> {
+final class StringMerger implements Merger<String> {
 
     @Override
     public String merge(final String left, final String right) {

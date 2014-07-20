@@ -1,4 +1,4 @@
-package de.malkusch.whoisServerList.compiler.list.iana.whois;
+package de.malkusch.whoisServerList.compiler.list.iana;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.list.iana.IANATopLevelDomainBuilder;
+import de.malkusch.whoisServerList.compiler.list.iana.Parser;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 
 public class ParserTest {

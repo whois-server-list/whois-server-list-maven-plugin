@@ -16,7 +16,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class TopLevelDomainMerger extends DomainMerger<TopLevelDomain> {
+final class TopLevelDomainMerger extends DomainMerger<TopLevelDomain> {
 
     /**
      * The country code merger.

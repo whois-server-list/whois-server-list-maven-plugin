@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildDomainException;
-import de.malkusch.whoisServerList.compiler.list.iana.whois.Parser;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.WhoisServerBuilder;
 import de.malkusch.whoisServerList.compiler.model.Source;
@@ -29,7 +28,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
+final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
 
     /**
      * Whois key for the whois server.

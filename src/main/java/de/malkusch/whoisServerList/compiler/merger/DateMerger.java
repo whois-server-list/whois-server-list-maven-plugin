@@ -11,7 +11,7 @@ import net.jcip.annotations.Immutable;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-public final class DateMerger implements Merger<Date> {
+final class DateMerger implements Merger<Date> {
 
     @Override
     public Date merge(final Date left, final Date right) {

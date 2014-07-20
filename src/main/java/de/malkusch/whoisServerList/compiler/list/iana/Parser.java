@@ -1,4 +1,4 @@
-package de.malkusch.whoisServerList.compiler.list.iana.whois;
+package de.malkusch.whoisServerList.compiler.list.iana;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -33,7 +33,7 @@ import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @NotThreadSafe
-public final class Parser implements Closeable {
+final class Parser implements Closeable {
 
     /**
      * Value for the domain state {@link State#NEW}.
@@ -78,7 +78,7 @@ public final class Parser implements Closeable {
     /**
      * Initializes the parser.
      */
-    public Parser() {
+    Parser() {
         this.dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
     }
 
@@ -89,7 +89,7 @@ public final class Parser implements Closeable {
      *
      * @param keys  the parsable whois result keys, not null
      */
-    public void setKeys(final String... keys) {
+    void setKeys(final String... keys) {
         this.keys = keys;
     }
 
@@ -111,7 +111,7 @@ public final class Parser implements Closeable {
      * @param reader  the whois result stream
      * @throws IOException If reading from the stream failed
      */
-    public void parse(final BufferedReader reader) throws IOException {
+    void parse(final BufferedReader reader) throws IOException {
         this.reader = reader;
 
         String regex = String.format("^(%s):\\s+(\\S.*\\S)\\s*$",
@@ -157,7 +157,7 @@ public final class Parser implements Closeable {
      * @param charset  the character encoding of the whois stream
      * @throws IOException If reading from the stream failed
      */
-    public void parse(final InputStream stream, final Charset charset)
+    void parse(final InputStream stream, final Charset charset)
             throws IOException {
 
         InputStreamToBufferedReaderConverter converter
@@ -171,7 +171,7 @@ public final class Parser implements Closeable {
      * @param key  the whois result key, not null
      * @return the whois result value, or null
      */
-    public String getString(final String key) {
+    String getString(final String key) {
         return result.get(key);
     }
 
@@ -183,7 +183,7 @@ public final class Parser implements Closeable {
      * @throws WhoisServerListException If the whois result returned an
      *                                  unexpected state
      */
-    public State getState(final String key) throws WhoisServerListException {
+    State getState(final String key) throws WhoisServerListException {
         String state = getString(key);
         if (state == null) {
             return null;
@@ -215,7 +215,7 @@ public final class Parser implements Closeable {
      * @throws WhoisServerListException If the whois result returned an
      *                                  unexpected date format
      */
-    public Date getDate(final String key) throws WhoisServerListException {
+    Date getDate(final String key) throws WhoisServerListException {
         try {
             String date = getString(key);
             if (date == null) {
@@ -235,7 +235,7 @@ public final class Parser implements Closeable {
      *
      * @return the URLs, not null
      */
-    public List<URL> getURLs() {
+    List<URL> getURLs() {
         return urls;
     }
 
