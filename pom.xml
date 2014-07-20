@@ -45,6 +45,11 @@
 			<version>1.0</version>
 		</dependency>
 		<dependency>
+			<groupId>com.cedarsoft.commons</groupId>
+			<artifactId>version</artifactId>
+			<version>6.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>de.malkusch.whois-server-list</groupId>
 			<artifactId>public-suffix-list</artifactId>
 			<version>2.0.0-SNAPSHOT</version>
