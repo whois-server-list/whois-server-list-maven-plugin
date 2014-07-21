@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Properties;
 
 import javax.annotation.concurrent.Immutable;
+
+import de.malkusch.whoisServerList.compiler.filter.DomainListFilter;
 import de.malkusch.whoisServerList.compiler.helper.VersionUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
@@ -51,6 +53,11 @@ public final class DomainListCompiler {
     private final DomainListMerger merger;
 
     /**
+     * The domain list filter.
+     */
+    private final DomainListFilter filter;
+
+    /**
      * Returns the default properties for the compiler.
      *
      * @return the default properties
@@ -89,6 +96,8 @@ public final class DomainListCompiler {
         };
 
         this.merger = new DomainListMerger(properties);
+
+        this.filter = new DomainListFilter(properties);
     }
 
     /**
@@ -116,6 +125,8 @@ public final class DomainListCompiler {
 
         compiledList.setVersion(
                 VersionUtil.incrementVersion(compiledList.getVersion()));
+
+        compiledList = filter.filter(compiledList);
 
         return compiledList;
     }

@@ -22,7 +22,7 @@ final class DomainFilter<T extends Domain> implements Filter<T> {
      * The timeout in seconds.
      */
     private final int timeout;
-    
+
     /**
      * The name filter
      */
@@ -59,7 +59,7 @@ final class DomainFilter<T extends Domain> implements Filter<T> {
         }
         @SuppressWarnings("unchecked")
         T filtered = (T) domain.clone();
-        
+
         filtered.setName(nameFilter.filter(domain.getName()));
 
         // Whois server Filter chain

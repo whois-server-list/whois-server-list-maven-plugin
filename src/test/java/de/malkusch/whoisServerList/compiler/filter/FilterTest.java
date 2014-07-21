@@ -31,6 +31,7 @@ public class FilterTest {
                 { new StringFilter() },
                 { new DomainFilter<Domain>(5) },
                 { new FilterChain<String>(new ArrayList<Filter<String>>()) },
+                { new DomainListFilter(5) },
         });
     }
 

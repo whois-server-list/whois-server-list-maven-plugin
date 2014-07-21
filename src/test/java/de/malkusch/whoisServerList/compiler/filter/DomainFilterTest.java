@@ -35,8 +35,8 @@ public class DomainFilterTest {
 
         assertNull(
             filter.filter(de).getWhoisServers().get(0).getAvailablePattern());
-        
-        
+
+
         Domain net = new Domain();
         net.setName(" net ");
         assertEquals("net", filter.filter(net).getName());
