@@ -112,7 +112,9 @@ final class Parser implements Closeable {
      * @throws IOException If reading from the stream failed
      * @throws InterruptedException If the thread was interrupted
      */
-    void parse(final BufferedReader reader) throws IOException, InterruptedException {
+    void parse(final BufferedReader reader)
+            throws IOException, InterruptedException {
+
         this.reader = reader;
 
         String regex = String.format("^(%s):\\s+(\\S.*\\S)\\s*$",

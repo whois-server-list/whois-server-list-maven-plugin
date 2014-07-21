@@ -18,7 +18,8 @@ interface Filter<T> {
      *
      * @param value  the value, may be null
      * @return the filtered value, may be null
+     * @throws InterruptedException if the thread was interrupted
      */
-    @Nullable T filter(@Nullable T value);
+    @Nullable T filter(@Nullable T value) throws InterruptedException;
 
 }

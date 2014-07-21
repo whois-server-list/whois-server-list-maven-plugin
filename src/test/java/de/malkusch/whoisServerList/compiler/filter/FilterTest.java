@@ -22,12 +22,15 @@ public class FilterTest {
         return Arrays.asList(new Filter<?>[][] {
                 { new TCPServiceFilter(1, 1) },
                 { new WhoisServerFilter(1) },
-                { new WhoisServerPatternFilter("") },
+                { new ListFilter<>(null) },
+                { new ConcurrentListFilter<>(null) },
+                { new WhoisServerPatternFilter("", 5) },
+                { new StringFilter() },
         });
     }
 
     @Test
-    public void testFilterNull() {
+    public void testFilterNull() throws InterruptedException {
         assertNull(filter.filter(null));
     }
 

@@ -39,6 +39,7 @@ public class WhoisServerPatternFilterTest {
         return Arrays.asList(new String[][] {
             { "whois.verisign-grs.com", "no match for", "T4vcMRpp.com",
                     "no match for" },
+            { "invalid.example.org", "anypattern", "anyquery", "anypattern" },
             { "whois.verisign-grs.com", "no match for", "example.com", null },
             { "whois.verisign-grs.com", "invalid", "T4vcMRpp.com", null },
             { "whois.verisign-grs.com", null, "T4vcMRpp.com", null },
@@ -47,7 +48,7 @@ public class WhoisServerPatternFilterTest {
 
     @Before
     public void setup() {
-        filter = new WhoisServerPatternFilter(query);
+        filter = new WhoisServerPatternFilter(query, 5);
 
         server = new WhoisServer();
         server.setHost(host);

@@ -30,18 +30,32 @@ final class WhoisServerPatternFilter implements Filter<WhoisServer> {
     private final String unavailableQuery;
 
     /**
+     * The timeout in seconds.
+     */
+    private final int timeout;
+
+    /**
+     * One second in milliseconds.
+     */
+    private static final int SECOND = 1000;
+
+    /**
      * The logger.
      */
     private static final Logger LOGGER
             = LoggerFactory.getLogger(WhoisServerPatternFilter.class);
 
     /**
-     * Sets the unavailable query.
+     * Sets the unavailable query and the timeout.
      *
      * @param unavailableQuery  the unavailable query, not null
+     * @param timeout           the timeout in seconds
      */
-    WhoisServerPatternFilter(@Nonnull final String unavailableQuery) {
+    WhoisServerPatternFilter(
+            @Nonnull final String unavailableQuery, final int timeout) {
+
         this.unavailableQuery = unavailableQuery;
+        this.timeout = timeout;
     }
 
     @Override
@@ -57,6 +71,7 @@ final class WhoisServerPatternFilter implements Filter<WhoisServer> {
         }
 
         WhoisClient whoisClient = new WhoisClient();
+        whoisClient.setDefaultTimeout(timeout * SECOND);
         try {
             whoisClient.connect(server.getHost());
         } catch (IOException e) {
@@ -66,6 +81,8 @@ final class WhoisServerPatternFilter implements Filter<WhoisServer> {
 
         try (InputStream stream
                 = whoisClient.getInputStream(unavailableQuery)) {
+
+            whoisClient.setSoTimeout(timeout * SECOND);
 
             WhoisServer filtered = server.clone();
             String response = IOUtils.toString(stream);
