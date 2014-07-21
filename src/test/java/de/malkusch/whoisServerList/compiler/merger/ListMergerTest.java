@@ -2,21 +2,40 @@ package de.malkusch.whoisServerList.compiler.merger;
 
 import static java.util.Arrays.*;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import de.malkusch.whoisServerList.compiler.helper.converter.WhoisServerToHostConverter;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
+@RunWith(Parameterized.class)
 public class ListMergerTest {
+
+    @Parameter
+    public AbstractListMerger<WhoisServer> merger;
+
+    @Parameters
+    public static Collection<AbstractListMerger<?>[]> getCases() {
+        return Arrays.asList(new AbstractListMerger<?>[][] {
+                {new ListMerger<>(
+                    new WhoisServerToHostConverter(), new WhoisServerMerger())},
+
+                {new ConcurrentListMerger<>(
+                    new WhoisServerToHostConverter(), new WhoisServerMerger())},
+        });
+    }
 
     @Test
     public void testMerge() throws InterruptedException {
-        ListMerger<WhoisServer> merger = new ListMerger<>(
-                new WhoisServerToHostConverter(), new WhoisServerMerger());
 
         WhoisServer onlyLeft = new WhoisServer();
         onlyLeft.setHost("onlyLeft.example.net");

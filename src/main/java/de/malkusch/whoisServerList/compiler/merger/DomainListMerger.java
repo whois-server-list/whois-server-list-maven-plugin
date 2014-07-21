@@ -34,7 +34,7 @@ public final class DomainListMerger implements Merger<DomainList> {
     /**
      * The domain list merger.
      */
-    private final ListMerger<TopLevelDomain> domainsMerger;
+    private final ConcurrentListMerger<TopLevelDomain> domainsMerger;
 
     /**
      * Constructs the merger.
@@ -42,8 +42,9 @@ public final class DomainListMerger implements Merger<DomainList> {
      * @param properties  the application properties
      */
     public DomainListMerger(final Properties properties) {
-        this.domainsMerger = new ListMerger<>(new DomainToNameConverter(),
-                new TopLevelDomainMerger(properties));
+        this.domainsMerger
+                = new ConcurrentListMerger<>(new DomainToNameConverter(),
+                            new TopLevelDomainMerger(properties));
     }
 
     @Override
