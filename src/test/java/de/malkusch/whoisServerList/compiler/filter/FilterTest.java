@@ -1,5 +1,8 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
+import static org.junit.Assert.assertNull;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -9,7 +12,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
-import static org.junit.Assert.*;
+import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 
 @RunWith(Parameterized.class)
 public class FilterTest {
@@ -26,6 +29,8 @@ public class FilterTest {
                 { new ConcurrentListFilter<>(null) },
                 { new WhoisServerPatternFilter("", 5) },
                 { new StringFilter() },
+                { new DomainFilter<Domain>(5) },
+                { new FilterChain<String>(new ArrayList<Filter<String>>()) },
         });
     }
 

@@ -37,6 +37,10 @@ abstract class AbstractListFilter<T> implements Filter<List<T>> {
      * @throws InterruptedException if the thread was interrupted
      */
     @Nullable T filterItem(@Nullable final T item) throws InterruptedException {
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+
+        }
         return filter.filter(item);
     }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.concurrent.Immutable;
+
 import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
 
 /**
@@ -72,6 +73,10 @@ abstract class AbstractListMerger<T> implements Merger<List<T>> {
     final T mergeElement(final T left, final T right)
             throws InterruptedException {
 
+        if (Thread.interrupted()) {
+            throw new InterruptedException();
+
+        }
         return elementMerger.merge(left, right);
     }
 
