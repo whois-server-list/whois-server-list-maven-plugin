@@ -34,8 +34,8 @@ final class XMLServerToServerConverter
 
         String xmlPattern = xmlServer.getAvailstring();
         if (xmlPattern != null) {
-            Pattern pattern
-                    = Pattern.compile(Pattern.quote(xmlPattern));
+            Pattern pattern = Pattern.compile(
+                    Pattern.quote(xmlPattern), Pattern.CASE_INSENSITIVE);
             server.setAvailablePattern(pattern);
         }
 

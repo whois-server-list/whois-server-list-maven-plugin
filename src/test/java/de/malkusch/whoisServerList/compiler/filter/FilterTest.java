@@ -22,12 +22,13 @@ public class FilterTest {
         return Arrays.asList(new Filter<?>[][] {
                 { new TCPServiceFilter(1, 1) },
                 { new WhoisServerFilter(1) },
+                { new WhoisServerPatternFilter("") },
         });
     }
 
     @Test
-    public void testNullIsInvalid() {
-        assertFalse(filter.isValid(null));
+    public void testFilterNull() {
+        assertNull(filter.filter(null));
     }
 
 }

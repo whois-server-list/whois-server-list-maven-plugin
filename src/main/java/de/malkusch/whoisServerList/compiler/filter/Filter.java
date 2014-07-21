@@ -14,11 +14,11 @@ import javax.annotation.concurrent.ThreadSafe;
 interface Filter<T> {
 
     /**
-     * Returns whether a value should be included.
+     * Returns the filtered value.
      *
-     * @param value  the filtered value, null returns always false
-     * @return {@code true} if the value should be included
+     * @param value  the value, may be null
+     * @return the filtered value, may be null
      */
-    boolean isValid(@Nullable T value);
+    @Nullable T filter(@Nullable T value);
 
 }

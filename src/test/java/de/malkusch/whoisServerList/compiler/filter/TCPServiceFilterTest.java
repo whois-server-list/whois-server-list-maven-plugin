@@ -29,7 +29,7 @@ public class TCPServiceFilterTest {
     public int port;
 
     @Parameter(2)
-    public boolean expected;
+    public String expected;
 
     @Parameters
     public static Collection<Object[]> getFilters() {
@@ -37,10 +37,10 @@ public class TCPServiceFilterTest {
         String ianaWhois
             = properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS_HOST);
         return Arrays.asList(new Object[][] {
-                { "www.example.org", 80, true },
-                { ianaWhois, WhoisServer.DEFAULT_PORT, true },
-                { "www.example.org", 123, false },
-                { "invalid.example.org", 80, false },
+                { "www.example.org", 80, "www.example.org" },
+                { ianaWhois, WhoisServer.DEFAULT_PORT, ianaWhois },
+                { "www.example.org", 123, null },
+                { "invalid.example.org", 80, null },
         });
     }
 
@@ -50,8 +50,8 @@ public class TCPServiceFilterTest {
     }
 
     @Test
-    public void testIsValid() {
-        assertEquals(expected, filter.isValid(host));
+    public void testFilter() {
+        assertEquals(expected, filter.filter(host));
     }
 
 }

@@ -20,6 +20,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpHead;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.compiler.helper.ConcurrencyService;
 
@@ -56,6 +58,12 @@ final class URLMerger implements Merger<URL> {
      * Executor for the requests.
      */
     private final Executor executor;
+
+    /**
+     * The logger.
+     */
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(URLMerger.class);
 
     /**
      * Sets the timeout in seconds for the HTTP requests.
@@ -162,6 +170,7 @@ final class URLMerger implements Merger<URL> {
             }
 
         } catch (IOException | URISyntaxException e) {
+            LOGGER.warn("Removing inaccessible URL '{}'", url);
             return null;
 
         }

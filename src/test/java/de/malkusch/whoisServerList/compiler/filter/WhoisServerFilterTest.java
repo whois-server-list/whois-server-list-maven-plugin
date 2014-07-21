@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -50,8 +50,15 @@ public class WhoisServerFilterTest {
     }
 
     @Test
-    public void testIsValid() {
-        assertEquals(expected, filter.isValid(server));
+    public void testFilter() {
+        WhoisServer filtered = filter.filter(server);
+        if (expected) {
+            assertNotNull(filtered);
+
+        } else {
+            assertNull(filtered);
+
+        }
     }
 
 }

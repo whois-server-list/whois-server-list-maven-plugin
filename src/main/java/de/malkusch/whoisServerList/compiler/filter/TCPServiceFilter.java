@@ -37,28 +37,28 @@ final class TCPServiceFilter implements Filter<String> {
      * @param port     the TCP port
      * @param timeout  the timeout in seconds
      */
-    public TCPServiceFilter(final int port, final int timeout) {
+    TCPServiceFilter(final int port, final int timeout) {
         this.port = port;
         this.timeout = timeout;
     }
 
     @Override
-    public boolean isValid(@Nullable final String host) {
+    public String filter(@Nullable final String host) {
         if (host == null) {
-            return false;
+            return null;
 
         }
         InetSocketAddress address = new InetSocketAddress(host, port);
         if (address.isUnresolved()) {
-            return false;
+            return null;
 
         }
         try (Socket socket = new Socket()) {
             socket.connect(address, timeout * SECOND);
-            return true;
+            return host;
 
         } catch (IOException e) {
-            return false;
+            return null;
 
         }
     }

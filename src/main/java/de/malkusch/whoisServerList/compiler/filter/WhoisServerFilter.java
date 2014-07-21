@@ -3,6 +3,9 @@ package de.malkusch.whoisServerList.compiler.filter;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 /**
@@ -20,22 +23,35 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
     private final TCPServiceFilter tcpServiceFilter;
 
     /**
+     * The logger.
+     */
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(WhoisServerFilter.class);
+
+    /**
      * Sets the timeout.
      *
      * @param timeout  the timeout in seconds
      */
-    public WhoisServerFilter(final int timeout) {
+    WhoisServerFilter(final int timeout) {
         this.tcpServiceFilter
                 = new TCPServiceFilter(WhoisServer.DEFAULT_PORT, timeout);
     }
 
     @Override
-    public boolean isValid(@Nullable WhoisServer server) {
+    @Nullable public WhoisServer filter(@Nullable final WhoisServer server) {
         if (server == null) {
-            return false;
+            return null;
 
         }
-        return tcpServiceFilter.isValid(server.getHost());
+        String host = tcpServiceFilter.filter(server.getHost());
+        if (host == null) {
+            LOGGER.warn("removing whois server {}.", server.getHost());
+            return null;
+
+        }
+
+        return server;
     }
 
 }
