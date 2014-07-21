@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Object merger.

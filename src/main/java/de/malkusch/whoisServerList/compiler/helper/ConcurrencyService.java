@@ -6,7 +6,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
-import net.jcip.annotations.Immutable;
+
+import javax.annotation.PropertyKey;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Concurrency service.
@@ -20,6 +22,7 @@ public final class ConcurrencyService {
     /**
      * The property key for the concurrency level.
      */
+    @PropertyKey
     public static final String PROPERTY_LEVEL = "concurrency.level";
 
     /**

@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.helper.converter;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 import org.w3c.dom.Node;
 

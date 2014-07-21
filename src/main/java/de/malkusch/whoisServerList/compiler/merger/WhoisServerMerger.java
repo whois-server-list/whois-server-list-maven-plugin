@@ -2,7 +2,7 @@ package de.malkusch.whoisServerList.compiler.merger;
 
 import java.util.regex.Pattern;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 /**

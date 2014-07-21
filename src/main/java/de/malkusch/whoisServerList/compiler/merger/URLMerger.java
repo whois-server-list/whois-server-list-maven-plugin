@@ -11,7 +11,8 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.PropertyKey;
+import javax.annotation.concurrent.Immutable;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
@@ -48,6 +49,7 @@ final class URLMerger implements Merger<URL> {
      *
      * @see #timeout
      */
+    @PropertyKey
     private static final String PROPERTY_TIMEOUT = "merger.url.timeout.seconds";
 
     /**

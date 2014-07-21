@@ -3,7 +3,7 @@ package de.malkusch.whoisServerList.compiler.merger;
 import java.net.URL;
 import java.util.Properties;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import de.malkusch.whoisServerList.compiler.helper.converter.DomainToNameConverter;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;

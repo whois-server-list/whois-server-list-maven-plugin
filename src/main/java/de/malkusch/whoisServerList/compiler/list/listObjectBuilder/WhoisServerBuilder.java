@@ -2,7 +2,7 @@ package de.malkusch.whoisServerList.compiler.list.listObjectBuilder;
 
 import org.apache.commons.lang3.StringUtils;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 

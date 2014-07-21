@@ -3,7 +3,7 @@ package de.malkusch.whoisServerList.compiler.list.xml;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

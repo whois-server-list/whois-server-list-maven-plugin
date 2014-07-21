@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import de.malkusch.whoisServerList.compiler.helper.converter.WhoisServerToHostConverter;
 import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;

@@ -2,7 +2,7 @@ package de.malkusch.whoisServerList.compiler.helper.converter;
 
 import java.io.IOException;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;

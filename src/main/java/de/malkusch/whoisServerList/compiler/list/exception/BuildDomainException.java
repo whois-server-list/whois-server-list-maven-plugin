@@ -2,7 +2,7 @@ package de.malkusch.whoisServerList.compiler.list.exception;
 
 import java.io.Serializable;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 
 /**

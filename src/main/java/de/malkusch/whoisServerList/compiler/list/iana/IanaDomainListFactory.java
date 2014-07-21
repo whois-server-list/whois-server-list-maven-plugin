@@ -11,7 +11,8 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.PropertyKey;
+import javax.annotation.concurrent.Immutable;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -42,32 +43,38 @@ public final class IanaDomainListFactory implements DomainListFactory {
     /**
      * The property key for the URI to IANA's TLD list.
      */
+    @PropertyKey
     public static final String PROPERTY_LIST_URI = "iana.list.uri";
 
     /**
      * The property key for the character encoding of IANA's TLD list.
      */
+    @PropertyKey
     public static final String PROPERTY_LIST_CHARSET = "iana.list.charset";
 
     /**
      * The property key for the xpath expression to find
      * all TLDs from IANA's list.
      */
+    @PropertyKey
     public static final String PROPERTY_LIST_TLD_XPATH = "iana.list.tld.xpath";
 
     /**
      * The property key for IANA's whois server.
      */
+    @PropertyKey
     public static final String PROPERTY_WHOIS_HOST = "iana.whois.host";
 
     /**
      * The property key for IANA's whois server.
      */
+    @PropertyKey
     public static final String PROPERTY_WHOIS_CHARSET = "iana.whois.charset";
 
     /**
      * The property key for IANA's whois server timeout.
      */
+    @PropertyKey
     public static final String PROPERTY_WHOIS_TIMEOUT_SECONDS
         = "iana.whois.timeout.seconds";
 

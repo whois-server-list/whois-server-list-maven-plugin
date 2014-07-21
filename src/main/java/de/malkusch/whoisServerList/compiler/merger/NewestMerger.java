@@ -2,7 +2,7 @@ package de.malkusch.whoisServerList.compiler.merger;
 
 import java.util.Date;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Merges from the newer object.

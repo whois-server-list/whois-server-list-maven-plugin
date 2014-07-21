@@ -2,7 +2,7 @@ package de.malkusch.whoisServerList.compiler.list.xml;
 
 import java.util.regex.Pattern;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import de.malkusch.whoisServerList.api.v0.model.Server;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.converter.Converter;

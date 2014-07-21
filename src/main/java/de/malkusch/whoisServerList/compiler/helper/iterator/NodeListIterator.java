@@ -2,7 +2,7 @@ package de.malkusch.whoisServerList.compiler.helper.iterator;
 
 import java.util.Iterator;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

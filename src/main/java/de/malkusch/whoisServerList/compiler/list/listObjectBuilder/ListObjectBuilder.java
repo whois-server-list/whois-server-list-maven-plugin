@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.list.listObjectBuilder;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.model.ListObject;
 import de.malkusch.whoisServerList.compiler.model.Source;

@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.DomSerializer;

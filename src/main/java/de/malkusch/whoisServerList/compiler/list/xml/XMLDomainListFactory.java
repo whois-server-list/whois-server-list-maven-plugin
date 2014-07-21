@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 import javax.xml.bind.JAXBException;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 import de.malkusch.whoisServerList.api.v0.ServerListFactory;
 import de.malkusch.whoisServerList.api.v0.model.Domain;
 import de.malkusch.whoisServerList.api.v0.model.Server;

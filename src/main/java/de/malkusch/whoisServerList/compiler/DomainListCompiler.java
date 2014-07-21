@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 import de.malkusch.whoisServerList.compiler.helper.VersionUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;

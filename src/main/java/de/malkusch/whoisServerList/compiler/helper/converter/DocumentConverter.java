@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.helper.converter;
 
-import net.jcip.annotations.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 import org.w3c.dom.Document;
 

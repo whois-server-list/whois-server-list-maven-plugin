@@ -1,6 +1,6 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
-import net.jcip.annotations.Immutable;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Merges to the not empty string.

@@ -4,7 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 
-import net.jcip.annotations.NotThreadSafe;
+import javax.annotation.concurrent.NotThreadSafe;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
