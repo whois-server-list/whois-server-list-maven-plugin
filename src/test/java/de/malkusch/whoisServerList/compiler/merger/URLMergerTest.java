@@ -41,6 +41,9 @@ public class URLMergerTest {
 
             {"http://example.com",
                 "http://example.org/invalid", "http://example.com"},
+
+            {"https://ssl.malkusch.de/webmail/",
+                "http://webmail.malkusch.de/", "http://example.com"},
         });
     }
 
