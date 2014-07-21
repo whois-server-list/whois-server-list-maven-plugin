@@ -107,7 +107,7 @@ public final class IanaDomainListFactory implements DomainListFactory {
                             documentConverter);
 
             ConcurrencyService concurrencyService
-                    = new ConcurrencyService(properties);
+                    = ConcurrencyService.getService();
 
             List<FutureTask<TopLevelDomain>> tasks = new ArrayList<>();
             for (final String name : tldConverter.convert(entity)) {
@@ -150,7 +150,7 @@ public final class IanaDomainListFactory implements DomainListFactory {
 
             return list;
 
-        } catch(ExecutionException e) {
+        } catch (ExecutionException e) {
             if (e.getCause() instanceof InterruptedException) {
                 throw (InterruptedException) e.getCause();
 

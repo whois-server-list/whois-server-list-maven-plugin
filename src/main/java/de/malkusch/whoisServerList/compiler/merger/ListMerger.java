@@ -48,7 +48,9 @@ final class ListMerger<T> implements Merger<List<T>> {
     }
 
     @Override
-    public List<T> merge(final List<T> leftList, final List<T> rightList) {
+    public List<T> merge(final List<T> leftList, final List<T> rightList)
+            throws InterruptedException {
+
         if (leftList == null) {
             return rightList;
 
@@ -60,6 +62,7 @@ final class ListMerger<T> implements Merger<List<T>> {
         List<T> mergedList = new ArrayList<>();
         Map<Object, T> rightMap = mapCollection(rightList);
 
+        // TODO iterate threaded
         for (T left : leftList) {
             Object key = elementToIdConverter.convert(left);
             T right = rightMap.remove(key);

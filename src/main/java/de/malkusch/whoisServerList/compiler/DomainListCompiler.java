@@ -46,6 +46,11 @@ public final class DomainListCompiler {
     private final DomainListFactory[] listFactories;
 
     /**
+     * The domain list merger.
+     */
+    private final DomainListMerger merger;
+
+    /**
      * Returns the default properties for the compiler.
      *
      * @return the default properties
@@ -82,6 +87,8 @@ public final class DomainListCompiler {
                 new IanaDomainListFactory(properties),
                 new PublicSuffixDomainListFactory()
         };
+
+        this.merger = new DomainListMerger(properties);
     }
 
     /**
@@ -99,7 +106,6 @@ public final class DomainListCompiler {
             throws BuildListException, InterruptedException {
 
         DomainList compiledList = new DomainList();
-        DomainListMerger merger = new DomainListMerger();
 
         for (DomainListFactory listFactory : listFactories) {
             compiledList = merger.merge(compiledList, listFactory.buildList());

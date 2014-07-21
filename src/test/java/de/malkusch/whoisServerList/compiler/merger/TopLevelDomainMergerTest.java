@@ -5,9 +5,11 @@ import static org.junit.Assert.assertEquals;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.Properties;
 
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
@@ -16,14 +18,15 @@ import de.malkusch.whoisServerList.compiler.test.TestUtil;
 public class TopLevelDomainMergerTest {
 
     @Test
-    public void testMerge() throws MalformedURLException {
-        TopLevelDomainMerger merger = new TopLevelDomainMerger();
+    public void testMerge() throws MalformedURLException, InterruptedException {
+        Properties properties = DomainListCompiler.getDefaultProperties();
+        TopLevelDomainMerger merger = new TopLevelDomainMerger(properties);
 
         TopLevelDomain left = new TopLevelDomain();
         left.setCountryCode("DE");
         left.setChanged(TestUtil.getYesterday());
         left.setState(State.NEW);
-        left.setRegistratonService(new URL("http://left.example.net"));
+        left.setRegistratonService(new URL("http://www.example.net"));
         Domain leftSubdomain = new Domain();
         leftSubdomain.setName("left.example.net");
         left.getDomains().add(leftSubdomain);
@@ -31,7 +34,7 @@ public class TopLevelDomainMergerTest {
         TopLevelDomain right = new TopLevelDomain();
         right.setCountryCode(null);
         right.setChanged(new Date());
-        right.setRegistratonService(new URL("http://right.example.net"));
+        right.setRegistratonService(new URL("http://www.example.com"));
         right.setState(State.ACTIVE);
         Domain rightSubdomain = new Domain();
         rightSubdomain.setName("right.example.net");
@@ -40,7 +43,7 @@ public class TopLevelDomainMergerTest {
         TopLevelDomain expected = new TopLevelDomain();
         expected.setCountryCode("DE");
         expected.setChanged(right.getChanged());
-        expected.setRegistratonService(new URL("http://right.example.net"));
+        expected.setRegistratonService(new URL("http://www.example.com"));
         expected.setState(State.ACTIVE);
         expected.getDomains().add(leftSubdomain);
         expected.getDomains().add(rightSubdomain);
@@ -49,8 +52,9 @@ public class TopLevelDomainMergerTest {
     }
 
     @Test
-    public void testMergeState() {
-        TopLevelDomainMerger merger = new TopLevelDomainMerger();
+    public void testMergeState() throws InterruptedException {
+        Properties properties = DomainListCompiler.getDefaultProperties();
+        TopLevelDomainMerger merger = new TopLevelDomainMerger(properties);
 
         {
             TopLevelDomain left = new TopLevelDomain();

@@ -13,7 +13,7 @@ import de.malkusch.whoisServerList.compiler.test.TestUtil;
 public class DomainMergerTest {
 
     @Test
-    public void testMerge() {
+    public void testMerge() throws InterruptedException {
         DomainMerger<Domain> merger = new DomainMerger<>();
 
         Domain left = new Domain();

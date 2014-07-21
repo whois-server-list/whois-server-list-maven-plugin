@@ -1,6 +1,7 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
 import java.net.URL;
+import java.util.Properties;
 
 import net.jcip.annotations.Immutable;
 import de.malkusch.whoisServerList.compiler.helper.converter.DomainToNameConverter;
@@ -12,7 +13,6 @@ import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
  * Top level domain merger.
  *
  * @author markus@malkusch.de
- * @param <T> the mergable domain type
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
@@ -26,7 +26,7 @@ final class TopLevelDomainMerger extends DomainMerger<TopLevelDomain> {
     /**
      * The registration url merger.
      */
-    private final NotNullMerger<URL> urlMerger = new NotNullMerger<>();
+    private final URLMerger urlMerger;
 
     /**
      * The state merger.
@@ -39,9 +39,19 @@ final class TopLevelDomainMerger extends DomainMerger<TopLevelDomain> {
     private final ListMerger<Domain> subdomainMerger = new ListMerger<>(
             new DomainToNameConverter(), new DomainMerger<Domain>());
 
+    /**
+     * Constructs the merger.
+     *
+     * @param properties  the application properties
+     */
+    public TopLevelDomainMerger(final Properties properties) {
+        this.urlMerger = new URLMerger(properties);
+    }
+
     @Override
-    protected final void completeMerge(final TopLevelDomain merged,
-            final TopLevelDomain left, final TopLevelDomain right) {
+    protected void completeMerge(final TopLevelDomain merged,
+            final TopLevelDomain left, final TopLevelDomain right)
+                    throws InterruptedException {
 
         NewestMerger<URL> newestUrlMerger = new NewestMerger<>(
                 left.getChanged(), right.getChanged(), urlMerger);

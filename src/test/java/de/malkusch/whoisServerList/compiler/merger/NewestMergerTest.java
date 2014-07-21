@@ -5,13 +5,12 @@ import java.util.Date;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class NewestMergerTest {
 
     @Test
-    public void testMergeNullDates() {
+    public void testMergeNullDates() throws InterruptedException {
         {
             NewestMerger<String> merger = new NewestMerger<>(
                     null, null, new StringMerger());
@@ -34,7 +33,7 @@ public class NewestMergerTest {
     }
 
     @Test
-    public void testMerge() {
+    public void testMerge() throws InterruptedException {
         {
             NewestMerger<String> merger = new NewestMerger<>(
                     TestUtil.getYesterday(), new Date(), new StringMerger());

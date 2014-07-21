@@ -1,9 +1,11 @@
 package de.malkusch.whoisServerList.compiler.helper;
 
 import java.util.Properties;
+import java.util.ServiceLoader;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import net.jcip.annotations.Immutable;
 
 /**
@@ -26,6 +28,13 @@ public final class ConcurrencyService {
     private final Executor executor;
 
     /**
+     * Initializes the concurrency service with the default configuration.
+     */
+    public ConcurrencyService() {
+        this(DomainListCompiler.getDefaultProperties());
+    }
+
+    /**
      * Initializes the concurrency service with a configuration.
      *
      * @param properties  the configuration
@@ -33,6 +42,15 @@ public final class ConcurrencyService {
     public ConcurrencyService(final Properties properties) {
         this.executor = Executors.newFixedThreadPool(
                 Integer.parseInt(properties.getProperty(PROPERTY_LEVEL)));
+    }
+
+    /**
+     * Returns the service provider.
+     *
+     * @return the service provider
+     */
+    public static ConcurrencyService getService() {
+        return ServiceLoader.load(ConcurrencyService.class).iterator().next();
     }
 
     /**

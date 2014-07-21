@@ -45,7 +45,7 @@ final class NewestMerger<T> implements Merger<T> {
     }
 
     @Override
-    public T merge(final T left, final T right) {
+    public T merge(final T left, final T right) throws InterruptedException {
         T dominant = left;
         T weak = right;
 

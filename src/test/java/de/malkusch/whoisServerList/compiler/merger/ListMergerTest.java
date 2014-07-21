@@ -1,6 +1,7 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
 import static java.util.Arrays.*;
+
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
@@ -13,7 +14,7 @@ import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 public class ListMergerTest {
 
     @Test
-    public void testMerge() {
+    public void testMerge() throws InterruptedException {
         ListMerger<WhoisServer> merger = new ListMerger<>(
                 new WhoisServerToHostConverter(), new WhoisServerMerger());
 

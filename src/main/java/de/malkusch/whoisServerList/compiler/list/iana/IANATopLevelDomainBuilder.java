@@ -2,7 +2,6 @@ package de.malkusch.whoisServerList.compiler.list.iana;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InterruptedIOException;
 import java.nio.charset.Charset;
 import java.util.Properties;
 
@@ -123,8 +122,6 @@ final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
 
             }
 
-        } catch (InterruptedIOException e) {
-            // TODO: handle exception
         } catch (IOException e) {
             throw new BuildDomainException(e);
 

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.model.DomainList;
 import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
@@ -13,8 +14,9 @@ import de.malkusch.whoisServerList.compiler.test.TestUtil;
 public class DomainListMergerTest {
 
     @Test
-    public void testMerge() {
-        DomainListMerger merger = new DomainListMerger();
+    public void testMerge() throws InterruptedException {
+        DomainListMerger merger
+            = new DomainListMerger(DomainListCompiler.getDefaultProperties());
 
         DomainList left = new DomainList();
         left.setDate(TestUtil.getYesterday());

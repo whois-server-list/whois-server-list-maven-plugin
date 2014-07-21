@@ -32,7 +32,8 @@ public class DomainBuilder<T extends Domain>
     /**
      * Sets the object source.
      *
-     * @param source the source
+     * @param source      the source
+     * @param domainType  the domain type for the builded objects
      */
     public DomainBuilder(final Source source, final Class<T> domainType) {
         super(source);

@@ -1,5 +1,7 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
+import java.util.Properties;
+
 import net.jcip.annotations.Immutable;
 import de.malkusch.whoisServerList.compiler.helper.converter.DomainToNameConverter;
 import de.malkusch.whoisServerList.compiler.model.DomainList;
@@ -32,12 +34,22 @@ public final class DomainListMerger implements Merger<DomainList> {
     /**
      * The domain list merger.
      */
-    private final ListMerger<TopLevelDomain> domainsMerger
-        = new ListMerger<>(new DomainToNameConverter(),
-                new TopLevelDomainMerger());
+    private final ListMerger<TopLevelDomain> domainsMerger;
+
+    /**
+     * Constructs the merger.
+     *
+     * @param properties  the application properties
+     */
+    public DomainListMerger(final Properties properties) {
+        this.domainsMerger = new ListMerger<>(new DomainToNameConverter(),
+                new TopLevelDomainMerger(properties));
+    }
 
     @Override
-    public DomainList merge(final DomainList left, final DomainList right) {
+    public DomainList merge(final DomainList left, final DomainList right)
+            throws InterruptedException {
+
         if (left == null) {
             return right;
 

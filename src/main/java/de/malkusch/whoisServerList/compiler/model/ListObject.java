@@ -47,7 +47,7 @@ public abstract class ListObject<T extends ListObject<T>> implements Cloneable {
 
     @SuppressWarnings("unchecked")
     @Override
-    public T clone() {
+    public final T clone() {
         try {
             return (T) super.clone();
 

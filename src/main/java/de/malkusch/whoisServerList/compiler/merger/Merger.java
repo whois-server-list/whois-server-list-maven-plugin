@@ -20,7 +20,8 @@ interface Merger<T> {
      * @param left  the dominant object, may be null
      * @param right  the weak object, may be null
      * @return the merged object, or null if both objects were null
+     * @throws InterruptedException If the thread was interrupted.
      */
-    T merge(T left, T right);
+    T merge(T left, T right) throws InterruptedException;
 
 }

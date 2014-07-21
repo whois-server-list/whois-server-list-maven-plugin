@@ -33,7 +33,9 @@ class DomainMerger<T extends Domain> implements Merger<T> {
     private final StringMerger nameMerger = new StringMerger();
 
     @Override
-    public final T merge(final T left, final T right) {
+    public final T merge(final T left, final T right)
+            throws InterruptedException {
+
         if (left == null) {
             return right;
 
@@ -68,9 +70,11 @@ class DomainMerger<T extends Domain> implements Merger<T> {
      * @param merged  the merged object
      * @param left    the dominant object
      * @param right   the weak object
+     *
+     * @throws InterruptedException If the thread was interrupted
      */
-    protected void completeMerge(
-            final T merged, final T left, final T right) {
+    protected void completeMerge(final T merged, final T left, final T right)
+            throws InterruptedException {
     }
 
 }
