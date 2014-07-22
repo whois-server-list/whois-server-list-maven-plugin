@@ -7,6 +7,36 @@ The generated list is a merged compilation of these sources:
 * [IANA](http://www.iana.org/domains/root/db)
 * [Public Suffix List](https://publicsuffix.org/list/effective_tld_names.dat)
 
+
+# Usage
+
+you can use the compiler as a maven plugin `whois-server-list`:
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>de.malkusch.whois-server-list</groupId>
+            <artifactId>whois-server-list-maven-plugin</artifactId>
+            <version>0.0.1</version>
+            <configuration>
+                <schema>whois-server-list.xsd</schema>
+                <file>whois-server-list.xml</file>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+## Goals
+
+* `mvn whois-server-list:schema`: Builds the schema. The configuration parameter
+  `schema` is the schema location.
+
+* `mvn whois-server-list:xml`: Builds the whois server list. The configuration
+  parameter `file` is the list location.
+
+
 # License and author
 
 Markus Malkusch <markus@malkusch.de> is the author of this project. This project is free and under the GPL.
