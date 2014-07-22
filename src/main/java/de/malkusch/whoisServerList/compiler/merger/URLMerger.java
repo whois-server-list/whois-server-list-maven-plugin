@@ -66,6 +66,11 @@ final class URLMerger implements Merger<URL> {
             = LoggerFactory.getLogger(URLMerger.class);
 
     /**
+     * Milliseconds for one second.
+     */
+    private static final int SECOND = 1000;
+
+    /**
      * Sets the timeout in seconds for the HTTP requests.
      *
      * @param properties  the application properties
@@ -151,7 +156,7 @@ final class URLMerger implements Merger<URL> {
             HttpHead httpHead = new HttpHead(url.toURI());
             RequestConfig requestConfig =
                     RequestConfig.custom().setConnectTimeout(
-                            timeout * 1000).build();
+                            timeout * SECOND).build();
             httpHead.setConfig(requestConfig);
             CloseableHttpResponse response = httpclient.execute(httpHead);
 

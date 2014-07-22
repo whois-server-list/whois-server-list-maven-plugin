@@ -44,8 +44,8 @@ public final class DomainListFilter implements Filter<DomainList> {
      * @param timeout  the timeout in seconds
      */
     public DomainListFilter(final int timeout) {
-        domainFilter = new ConcurrentListFilter<>(
-                new DomainFilter<TopLevelDomain>(timeout));
+        domainFilter
+                = new ConcurrentListFilter<>(new TopLevelDomainFilter(timeout));
 
         comparator = new DomainComparator();
     }

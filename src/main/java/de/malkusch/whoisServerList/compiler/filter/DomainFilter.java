@@ -18,7 +18,7 @@ import de.malkusch.whoisServerList.compiler.helper.comparator.WhoisServerCompara
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
-final class DomainFilter<T extends Domain> implements Filter<T> {
+class DomainFilter<T extends Domain> implements Filter<T> {
 
     /**
      * The timeout in seconds.
@@ -58,7 +58,7 @@ final class DomainFilter<T extends Domain> implements Filter<T> {
     }
 
     @Override
-    public T filter(final T domain)
+    final public T filter(final T domain)
             throws InterruptedException {
 
         if (domain == null) {
@@ -91,7 +91,22 @@ final class DomainFilter<T extends Domain> implements Filter<T> {
         Collections.sort(filteredServers, comparator);
 
         filtered.setWhoisServers(filteredServers);
+
+        filtered = filterDomain(filtered);
+
         return filtered;
+    }
+
+    /**
+     * Filter domain.
+     *
+     * Subclasses may overwrite this method.
+     *
+     * @param domain  the domain
+     * @return the filtered domain
+     */
+    T filterDomain(final T domain) {
+        return domain;
     }
 
 }
