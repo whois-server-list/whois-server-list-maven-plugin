@@ -1,12 +1,14 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
 
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.compiler.helper.comparator.WhoisServerComparator;
 
 /**
  * Filter domains.
@@ -34,6 +36,11 @@ final class DomainFilter<T extends Domain> implements Filter<T> {
     private final WhoisServerFilter whoisServerFilter;
 
     /**
+     * The sort comparator for the whois servers.
+     */
+    private final WhoisServerComparator comparator;
+
+    /**
      * A query for an unavailable object.
      */
     private static final String UNAVAILABLE_QUERY = "hST4vcMRppEPgENMHD2";
@@ -47,6 +54,7 @@ final class DomainFilter<T extends Domain> implements Filter<T> {
         this.whoisServerFilter = new WhoisServerFilter(timeout);
         this.timeout = timeout;
         this.nameFilter = new StringFilter();
+        this.comparator = new WhoisServerComparator();
     }
 
     @Override
@@ -75,8 +83,14 @@ final class DomainFilter<T extends Domain> implements Filter<T> {
 
         ListFilter<WhoisServer> listFilter
                 = new ListFilter<>(new FilterChain<>(chain));
-        filtered.setWhoisServers(listFilter.filter(domain.getWhoisServers()));
 
+        List<WhoisServer> filteredServers
+                = listFilter.filter(domain.getWhoisServers());
+
+        // Sort the servers
+        Collections.sort(filteredServers, comparator);
+
+        filtered.setWhoisServers(filteredServers);
         return filtered;
     }
 

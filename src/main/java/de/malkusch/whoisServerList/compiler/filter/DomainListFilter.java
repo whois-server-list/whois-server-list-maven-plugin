@@ -1,5 +1,7 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PropertyKey;
@@ -7,6 +9,7 @@ import javax.annotation.concurrent.Immutable;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
+import de.malkusch.whoisServerList.compiler.helper.comparator.DomainComparator;
 
 /**
  * Filter domains.
@@ -21,6 +24,11 @@ public final class DomainListFilter implements Filter<DomainList> {
      * The top level domain list filter.
      */
     private final AbstractListFilter<TopLevelDomain> domainFilter;
+
+    /**
+     * The comparator for sorting the domains.
+     */
+    private final DomainComparator comparator;
 
     /**
      * The configuration porperty name for the whois filter timeout.
@@ -38,6 +46,8 @@ public final class DomainListFilter implements Filter<DomainList> {
     public DomainListFilter(final int timeout) {
         domainFilter = new ConcurrentListFilter<>(
                 new DomainFilter<TopLevelDomain>(timeout));
+
+        comparator = new DomainComparator();
     }
 
     /**
@@ -60,7 +70,12 @@ public final class DomainListFilter implements Filter<DomainList> {
         }
         DomainList filtered = domainList.clone();
 
-        filtered.setDomains(domainFilter.filter(domainList.getDomains()));
+        List<TopLevelDomain> domains
+                = domainFilter.filter(domainList.getDomains());
+
+        Collections.sort(domains, comparator);
+
+        filtered.setDomains(domains);
 
         return filtered;
     }
