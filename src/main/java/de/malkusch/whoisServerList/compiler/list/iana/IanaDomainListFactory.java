@@ -132,7 +132,7 @@ public final class IanaDomainListFactory implements DomainListFactory {
 
                         IANATopLevelDomainBuilder builder
                             = new IANATopLevelDomainBuilder(properties);
-                        builder.setName(name);
+                        builder.setName(name.replaceFirst("\\.", ""));
                         return builder.build();
                     }
 
