@@ -19,6 +19,7 @@ public class DomainListFilterTest {
         DomainList list = new DomainList();
 
         TopLevelDomain com = new TopLevelDomain();
+        com.setName("com");
         WhoisServer whoisCom = new WhoisServer();
         whoisCom.setHost("whois.verisign-grs.com");
         whoisCom.setAvailablePattern(Pattern.compile(
@@ -27,6 +28,7 @@ public class DomainListFilterTest {
         list.getDomains().add(com);
 
         TopLevelDomain net = new TopLevelDomain();
+        net.setName("net");
         WhoisServer whoisNet = new WhoisServer();
         whoisNet.setHost("whois.verisign-grs.com");
         whoisNet.setAvailablePattern(Pattern.compile(
@@ -35,6 +37,7 @@ public class DomainListFilterTest {
         list.getDomains().add(net);
 
         TopLevelDomain org = new TopLevelDomain();
+        org.setName("org");
         WhoisServer whoisOrg = new WhoisServer();
         whoisOrg.setHost("invalid.example.org");
         org.getWhoisServers().add(whoisOrg);
