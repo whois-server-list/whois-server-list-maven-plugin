@@ -9,10 +9,10 @@ import java.util.Properties;
 
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain.State;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class TopLevelDomainMergerTest {

@@ -1,7 +1,8 @@
 package de.malkusch.whoisServerList.compiler.helper.converter;
 
 import javax.annotation.concurrent.Immutable;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
+
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 /**
  * Converts a whois server to its host name.

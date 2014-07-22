@@ -15,15 +15,15 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.xml.XMLDomainListFactory;
-import de.malkusch.whoisServerList.compiler.model.DomainList;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 @RunWith(Parameterized.class)
 public class DomainListFactoryTest {

@@ -3,7 +3,8 @@ package de.malkusch.whoisServerList.compiler.merger;
 import java.util.regex.Pattern;
 
 import javax.annotation.concurrent.Immutable;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
+
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 /**
  * Merges Whois server.

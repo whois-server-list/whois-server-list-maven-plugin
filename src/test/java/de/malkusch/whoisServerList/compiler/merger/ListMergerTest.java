@@ -1,12 +1,11 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
-import static java.util.Arrays.*;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Pattern;
-
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +13,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.helper.converter.WhoisServerToHostConverter;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 @RunWith(Parameterized.class)
 public class ListMergerTest {

@@ -13,9 +13,9 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 @RunWith(Parameterized.class)
 public class TCPServiceFilterTest {

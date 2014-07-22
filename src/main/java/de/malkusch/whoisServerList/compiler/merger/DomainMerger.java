@@ -1,9 +1,10 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
 import javax.annotation.concurrent.Immutable;
+
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.helper.converter.WhoisServerToHostConverter;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
 
 /**
  * Abstract domain merger.

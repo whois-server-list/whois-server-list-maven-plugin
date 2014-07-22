@@ -1,6 +1,7 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,7 +14,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 @RunWith(Parameterized.class)
 public class WhoisServerPatternFilterTest {

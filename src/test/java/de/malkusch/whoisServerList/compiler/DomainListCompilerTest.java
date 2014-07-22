@@ -1,14 +1,16 @@
 package de.malkusch.whoisServerList.compiler;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Date;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.helper.VersionUtil;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.xml.XMLDomainListFactory;
-import de.malkusch.whoisServerList.compiler.model.DomainList;
 
 public class DomainListCompilerTest {
 

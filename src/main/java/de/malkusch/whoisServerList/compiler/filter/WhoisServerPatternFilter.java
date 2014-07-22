@@ -13,7 +13,7 @@ import org.apache.commons.net.whois.WhoisClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 /**
  * Removes invalid available patterns.

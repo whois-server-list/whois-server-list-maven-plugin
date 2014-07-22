@@ -6,7 +6,7 @@ import javax.annotation.concurrent.Immutable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 /**
  * Filter which doesn't accept unreachable whois server.

@@ -3,9 +3,10 @@ package de.malkusch.whoisServerList.compiler.merger;
 import java.util.Properties;
 
 import javax.annotation.concurrent.Immutable;
+
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.helper.converter.DomainToNameConverter;
-import de.malkusch.whoisServerList.compiler.model.DomainList;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Merges DomainList.

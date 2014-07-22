@@ -6,8 +6,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class DomainMergerTest {

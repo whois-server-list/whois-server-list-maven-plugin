@@ -11,13 +11,13 @@ import org.apache.commons.net.whois.WhoisClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildDomainException;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.WhoisServerBuilder;
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Builder for TopLevelDomain.

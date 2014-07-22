@@ -22,9 +22,9 @@ import javax.annotation.concurrent.NotThreadSafe;
 
 import org.apache.commons.lang3.StringUtils;
 
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain.State;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.converter.InputStreamToBufferedReaderConverter;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 
 /**
  * Whois result parser.

@@ -5,10 +5,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 
 public final class TestUtil {
 

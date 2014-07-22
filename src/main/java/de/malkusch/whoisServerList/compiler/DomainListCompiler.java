@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import javax.annotation.concurrent.Immutable;
 
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.filter.DomainListFilter;
 import de.malkusch.whoisServerList.compiler.helper.VersionUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
@@ -14,7 +15,6 @@ import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.xml.XMLDomainListFactory;
 import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
-import de.malkusch.whoisServerList.compiler.model.DomainList;
 
 /**
  * Compiles a list of top level domains and its whois server.

@@ -13,10 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain.State;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
-import de.malkusch.whoisServerList.compiler.list.iana.IANATopLevelDomainBuilder;
-import de.malkusch.whoisServerList.compiler.list.iana.Parser;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
 
 public class ParserTest {
 

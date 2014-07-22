@@ -1,9 +1,10 @@
 package de.malkusch.whoisServerList.compiler.list.listObjectBuilder;
 
 import javax.annotation.concurrent.NotThreadSafe;
+
+import de.malkusch.whoisServerList.api.v1.model.ListObject;
+import de.malkusch.whoisServerList.api.v1.model.Source;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
-import de.malkusch.whoisServerList.compiler.model.ListObject;
-import de.malkusch.whoisServerList.compiler.model.Source;
 
 /**
  * Abstract builder for ListObject.

@@ -10,13 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.malkusch.whoisServerList.api.v0.model.Domain;
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.DomainBuilder;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Converts a XML Domain.
@@ -71,7 +71,7 @@ final class XMLDomainToDomainConverter
             }
 
             DomainBuilder<?> domainBuilder = new DomainBuilder<>(Source.XML,
-                de.malkusch.whoisServerList.compiler.model.domain.Domain.class);
+                de.malkusch.whoisServerList.api.v1.model.domain.Domain.class);
             for (Domain subdomain : domain.getDomain()) {
                 domainBuilder.setName(subdomain.getName());
                 tld.getDomains().add(domainBuilder.build());

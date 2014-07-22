@@ -9,12 +9,12 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
-import de.malkusch.whoisServerList.compiler.model.DomainList;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 public class IanaDomainListFactoryTest {
 

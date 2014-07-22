@@ -9,9 +9,9 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class PublicSuffixDomainListFactoryTest {

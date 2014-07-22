@@ -3,12 +3,13 @@ package de.malkusch.whoisServerList.compiler.list.xml;
 import java.util.regex.Pattern;
 
 import javax.annotation.concurrent.Immutable;
+
 import de.malkusch.whoisServerList.api.v0.model.Server;
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.converter.Converter;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.WhoisServerBuilder;
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
 
 /**
  * Converts a XML Server.

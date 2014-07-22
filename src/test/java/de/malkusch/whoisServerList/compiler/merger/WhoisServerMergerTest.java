@@ -1,11 +1,12 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.regex.Pattern;
 
 import org.junit.Test;
 
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import static org.junit.Assert.*;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 public class WhoisServerMergerTest {
 

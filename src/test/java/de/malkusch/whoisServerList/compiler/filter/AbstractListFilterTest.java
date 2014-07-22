@@ -1,7 +1,7 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 import java.util.List;

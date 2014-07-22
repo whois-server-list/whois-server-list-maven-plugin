@@ -1,10 +1,11 @@
 package de.malkusch.whoisServerList.compiler.list.listObjectBuilder;
 
 import javax.annotation.concurrent.NotThreadSafe;
+
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Factory for TopLevelDomain.

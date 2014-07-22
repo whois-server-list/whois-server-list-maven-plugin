@@ -4,9 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.api.v1.model.Source;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 import de.malkusch.whoisServerList.compiler.list.listObjectBuilder.TopLevelDomainBuilder;
-import de.malkusch.whoisServerList.compiler.model.Source;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class TopLevelDomainBuilderTest {

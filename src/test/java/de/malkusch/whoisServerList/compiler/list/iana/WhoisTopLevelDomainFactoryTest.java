@@ -13,11 +13,11 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain.State;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 public class WhoisTopLevelDomainFactoryTest {
 

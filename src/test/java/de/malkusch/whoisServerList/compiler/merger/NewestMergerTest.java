@@ -1,10 +1,11 @@
 package de.malkusch.whoisServerList.compiler.merger;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 public class NewestMergerTest {

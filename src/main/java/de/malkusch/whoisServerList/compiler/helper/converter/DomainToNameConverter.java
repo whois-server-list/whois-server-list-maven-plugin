@@ -1,7 +1,8 @@
 package de.malkusch.whoisServerList.compiler.helper.converter;
 
 import javax.annotation.concurrent.Immutable;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
+
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 
 /**
  * Converts a domain to its name.

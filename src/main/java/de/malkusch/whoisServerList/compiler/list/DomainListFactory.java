@@ -1,8 +1,8 @@
 package de.malkusch.whoisServerList.compiler.list;
 
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
+import de.malkusch.whoisServerList.api.v1.model.Source;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
-import de.malkusch.whoisServerList.compiler.model.DomainList;
-import de.malkusch.whoisServerList.compiler.model.Source;
 
 /**
  * Domain list factory.

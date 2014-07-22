@@ -6,20 +6,20 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.annotation.concurrent.NotThreadSafe;
 import javax.xml.bind.JAXBException;
 
-import javax.annotation.concurrent.NotThreadSafe;
 import de.malkusch.whoisServerList.api.v0.ServerListFactory;
 import de.malkusch.whoisServerList.api.v0.model.Domain;
 import de.malkusch.whoisServerList.api.v0.model.Server;
 import de.malkusch.whoisServerList.api.v0.model.Serverlist;
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
+import de.malkusch.whoisServerList.api.v1.model.Source;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
-import de.malkusch.whoisServerList.compiler.model.DomainList;
-import de.malkusch.whoisServerList.compiler.model.Source;
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Builds the domain list from the existing whois server list.

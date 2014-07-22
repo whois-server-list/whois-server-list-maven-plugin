@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.annotation.concurrent.Immutable;
 
-import de.malkusch.whoisServerList.compiler.model.WhoisServer;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 
 /**
  * Filter domains.

@@ -4,10 +4,11 @@ import java.net.URL;
 import java.util.Properties;
 
 import javax.annotation.concurrent.Immutable;
+
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.api.v1.model.domain.Domain.State;
+import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.helper.converter.DomainToNameConverter;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain;
-import de.malkusch.whoisServerList.compiler.model.domain.Domain.State;
-import de.malkusch.whoisServerList.compiler.model.domain.TopLevelDomain;
 
 /**
  * Top level domain merger.
