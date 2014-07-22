@@ -1,0 +1,16 @@
+de.malkusch.whoisServerList.compiler
+de.malkusch.whoisServerList.compiler.exception
+de.malkusch.whoisServerList.compiler.filter
+de.malkusch.whoisServerList.compiler.helper
+de.malkusch.whoisServerList.compiler.helper.comparator
+de.malkusch.whoisServerList.compiler.helper.converter
+de.malkusch.whoisServerList.compiler.helper.iterator
+de.malkusch.whoisServerList.compiler.list
+de.malkusch.whoisServerList.compiler.list.exception
+de.malkusch.whoisServerList.compiler.list.iana
+de.malkusch.whoisServerList.compiler.list.listObjectBuilder
+de.malkusch.whoisServerList.compiler.list.psl
+de.malkusch.whoisServerList.compiler.list.xml
+de.malkusch.whoisServerList.compiler.merger
+de.malkusch.whoisServerList.mojo
+de.malkusch.whoisServerList.mojo.schema
