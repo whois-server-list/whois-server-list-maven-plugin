@@ -39,7 +39,7 @@ you can use the compiler as a maven plugin `whois-server-list`:
 
 # License and author
 
-Markus Malkusch <markus@malkusch.de> is the author of this project. This project is free and under the GPL.
+Markus Malkusch <markus@malkusch.de> is the author of this project. This project is free and under the WTFPL.
 
 ## Donations
 
