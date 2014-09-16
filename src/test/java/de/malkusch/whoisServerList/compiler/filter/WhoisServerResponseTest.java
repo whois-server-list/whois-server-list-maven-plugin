@@ -21,6 +21,7 @@ public class WhoisServerResponseTest {
     public static Collection<WhoisServerResponseFilter[]> getFilters() {
         return Arrays.asList(new WhoisServerResponseFilter[][] {
                 { new WhoisServerResponseInvalidPatternFilter() },
+                { new WhoisServerResponseFindPatternFilter(null) },
         });
     }
 
