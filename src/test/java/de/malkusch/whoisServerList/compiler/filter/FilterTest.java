@@ -27,7 +27,6 @@ public class FilterTest {
                 { new WhoisServerFilter(1) },
                 { new ListFilter<>(null) },
                 { new ConcurrentListFilter<>(null) },
-                { new WhoisServerPatternFilter("", 5) },
                 { new StringFilter() },
                 { new DomainFilter<Domain>(5) },
                 { new FilterChain<String>(new ArrayList<Filter<String>>()) },

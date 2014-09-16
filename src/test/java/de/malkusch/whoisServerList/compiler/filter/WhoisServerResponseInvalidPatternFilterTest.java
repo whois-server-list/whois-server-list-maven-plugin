@@ -17,43 +17,37 @@ import org.junit.runners.Parameterized.Parameters;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 @RunWith(Parameterized.class)
-@Deprecated
-public class WhoisServerPatternFilterTest {
+public class WhoisServerResponseInvalidPatternFilterTest {
 
-    private WhoisServerPatternFilter filter;
+    private WhoisServerResponseInvalidPatternFilter filter;
 
     private WhoisServer server;
 
     @Parameter(0)
-    public String host;
+    public String response;
 
     @Parameter(1)
     public String pattern;
 
     @Parameter(2)
-    public String query;
-
-    @Parameter(3)
     public String expected;
 
     @Parameters
     public static Collection<String[]> getCases() {
         return Arrays.asList(new String[][] {
-            { "whois.verisign-grs.com", "no match for", "T4vcMRpp.com",
-                    "no match for" },
-            { "invalid.example.org", "anypattern", "anyquery", "anypattern" },
-            { "whois.verisign-grs.com", "no match for", "example.com", null },
-            { "whois.verisign-grs.com", "invalid", "T4vcMRpp.com", null },
-            { "whois.verisign-grs.com", null, "T4vcMRpp.com", null },
+            { "no match for", "no match for", "no match for" },
+            { "No Match For", "no match for", "no match for" },
+            { "xyz", "anypattern", null },
+            { "xyz", null, null },
+            { "xyz \n xyz invalid  xyz \n xyz", "invalid", "invalid" },
         });
     }
 
     @Before
     public void setup() {
-        filter = new WhoisServerPatternFilter(query, 5);
-
+        filter = new WhoisServerResponseInvalidPatternFilter();
+        
         server = new WhoisServer();
-        server.setHost(host);
         if (pattern != null) {
             server.setAvailablePattern(
                     Pattern.compile(pattern, Pattern.CASE_INSENSITIVE));
@@ -63,7 +57,7 @@ public class WhoisServerPatternFilterTest {
 
     @Test
     public void testFilter() {
-        WhoisServer filtered = filter.filter(server);
+        WhoisServer filtered = filter.filter(server, response);
 
         if (expected == null) {
             assertNull(filtered.getAvailablePattern());

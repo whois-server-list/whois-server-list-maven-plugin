@@ -22,6 +22,7 @@ import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
+@Deprecated
 final class WhoisServerPatternFilter implements Filter<WhoisServer> {
 
     /**
