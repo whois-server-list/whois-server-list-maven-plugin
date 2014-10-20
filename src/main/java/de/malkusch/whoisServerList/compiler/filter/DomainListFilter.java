@@ -28,7 +28,7 @@ public final class DomainListFilter implements Filter<DomainList> {
      * The comparator for sorting the domains.
      */
     private final DomainComparator comparator;
-    
+
     /**
      * The timeout in seconds.
      */
@@ -70,15 +70,15 @@ public final class DomainListFilter implements Filter<DomainList> {
             return null;
 
         }
-        
+
         List<Pattern> patterns = getPatterns(domainList);
-        
+
         TopLevelDomainFilter domainFilter
                 = new TopLevelDomainFilter(timeout, patterns);
-        
+
         AbstractListFilter<TopLevelDomain> domainsFilter
                 = new ConcurrentListFilter<>(domainFilter);
-        
+
         DomainList filtered = domainList.clone();
 
         List<TopLevelDomain> domains
@@ -93,7 +93,7 @@ public final class DomainListFilter implements Filter<DomainList> {
 
     /**
      * Returns the known pattern list.
-     * 
+     *
      * @param domainList  The domain list.
      * @return the pattern list.
      */
@@ -103,10 +103,10 @@ public final class DomainListFilter implements Filter<DomainList> {
 
         WhoisServerListToOrderedPatternListConverter patternConverter
                 = new WhoisServerListToOrderedPatternListConverter();
-        
+
         List<WhoisServer> servers
                 = listConverter.convert(domainList.getDomains());
-        
+
         return patternConverter.convert(servers);
     }
 

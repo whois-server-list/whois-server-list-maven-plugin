@@ -18,15 +18,15 @@ import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 @Immutable
 final class WhoisServerResponseFindPatternFilter
         implements WhoisServerResponseFilter {
-    
+
     /**
-     * The list of all unavailable patterns
+     * The list of all unavailable patterns.
      */
     private List<Pattern> patterns;
-    
+
     /**
      * Sets the list of unavailable patterns.
-     * 
+     *
      * @param patterns  The list of all unavailable patterns
      */
     WhoisServerResponseFindPatternFilter(final List<Pattern> patterns) {
@@ -36,7 +36,7 @@ final class WhoisServerResponseFindPatternFilter
     @Override
     @Nullable
     public WhoisServer filter(
-            @Nullable WhoisServer server, String response) {
+            @Nullable final WhoisServer server, final String response) {
         if (server == null) {
             return null;
 
@@ -47,16 +47,16 @@ final class WhoisServerResponseFindPatternFilter
         }
 
         WhoisServer filtered = server.clone();
-        
+
         for (Pattern pattern : patterns) {
             Matcher matcher = pattern.matcher(response);
             if (matcher.find()) {
                 filtered.setAvailablePattern(pattern);
                 break;
-                
+
             }
         }
-        
+
         return filtered;
     }
 

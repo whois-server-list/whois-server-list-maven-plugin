@@ -8,8 +8,6 @@ import javax.xml.bind.SchemaOutputResolver;
 import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.maven.plugin.MojoFailureException;
-
 /**
  * Schema printer.
  *
@@ -28,7 +26,6 @@ final class StreamSchemaOutputResolver extends SchemaOutputResolver {
      * Sets the file path.
      *
      * @param file  the path to the generated schema file, not null
-     * @throws MojoFailureException if file and folder are not mutual exclusive
      */
     public StreamSchemaOutputResolver(final File file) {
         this.file = file;

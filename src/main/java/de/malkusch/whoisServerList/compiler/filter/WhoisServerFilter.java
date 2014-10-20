@@ -34,14 +34,14 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
      * The timeout in seconds.
      */
     private final int timeout;
-    
+
     /**
-     * Removes invalid patterns
+     * Removes invalid patterns.
      */
     private final WhoisServerResponseFindPatternFilter findPatternFilter;
-    
+
     /**
-     * Removes invalid patterns
+     * Removes invalid patterns.
      */
     private final WhoisServerResponseInvalidPatternFilter invalidPatternFilter;
 
@@ -49,7 +49,7 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
      * One second in milliseconds.
      */
     private static final int SECOND = 1000;
-    
+
     /**
      * The logger.
      */
@@ -69,10 +69,10 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
 
         this.unavailableQuery = unavailableQuery;
         this.timeout = timeout;
-        
+
         this.invalidPatternFilter
                 = new WhoisServerResponseInvalidPatternFilter();
-        
+
         this.findPatternFilter
                 = new WhoisServerResponseFindPatternFilter(patterns);
     }
@@ -90,10 +90,10 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
         whoisClient.setConnectTimeout(timeout * SECOND);
         try {
             whoisClient.connect(server.getHost());
-            
+
         } catch (IOException e) {
             LOGGER.warn(
-                "removing inaccessible whois server '{}'",server.getHost());
+                "removing inaccessible whois server '{}'", server.getHost());
             return null;
         }
 
@@ -108,24 +108,24 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
             // Might use a filter chain
             filtered = invalidPatternFilter.filter(filtered, response);
             filtered = findPatternFilter.filter(filtered, response);
-            
+
             return filtered;
 
         } catch (IOException e) {
             LOGGER.warn(
                 "Removing inaccessible whois server '{}'", server.getHost());
             return null;
-            
+
         } finally {
             try {
                 whoisClient.disconnect();
-                
+
             } catch (IOException e) {
                 LOGGER.warn(
                         "failed disconnecting server '{}': {}",
                         server.getHost(), e);
             }
-            
+
         }
     }
 

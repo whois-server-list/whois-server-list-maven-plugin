@@ -23,8 +23,8 @@ final class WhoisServerResponseInvalidPatternFilter
     /**
      * The logger.
      */
-    private static final Logger LOGGER
-            = LoggerFactory.getLogger(WhoisServerResponseInvalidPatternFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(
+            WhoisServerResponseInvalidPatternFilter.class);
 
     @Override
     @Nullable
@@ -40,7 +40,7 @@ final class WhoisServerResponseInvalidPatternFilter
         }
 
         WhoisServer filtered = server.clone();
-        
+
         Matcher matcher = server.getAvailablePattern().matcher(response);
         if (!matcher.find()) {
             LOGGER.warn(

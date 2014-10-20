@@ -72,7 +72,7 @@ public final class WhoisServerListToOrderedPatternListConverter
 
         }
 
-        Comparator<PatternFrequency> comparator 
+        Comparator<PatternFrequency> comparator
                 = new Comparator<PatternFrequency>() {
 
             @Override

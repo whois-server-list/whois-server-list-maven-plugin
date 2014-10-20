@@ -27,7 +27,7 @@ class DomainFilter<T extends Domain> implements Filter<T> {
     private final int timeout;
 
     /**
-     * The name filter
+     * The name filter.
      */
     private final StringFilter nameFilter;
 
@@ -40,7 +40,7 @@ class DomainFilter<T extends Domain> implements Filter<T> {
      * A query for an unavailable object.
      */
     private static final String UNAVAILABLE_QUERY = "hST4vcMRppEPgENMHD2";
-    
+
     /**
      * The known patterns.
      */
@@ -60,7 +60,7 @@ class DomainFilter<T extends Domain> implements Filter<T> {
     }
 
     @Override
-    final public T filter(final T domain)
+    public final T filter(final T domain)
             throws InterruptedException {
 
         if (domain == null) {
@@ -74,10 +74,10 @@ class DomainFilter<T extends Domain> implements Filter<T> {
 
         String query
                 = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
-        
+
         WhoisServerFilter serverFilter
                 = new WhoisServerFilter(query, timeout, patterns);
-        
+
         ListFilter<WhoisServer> listFilter = new ListFilter<>(serverFilter);
 
         List<WhoisServer> filteredServers

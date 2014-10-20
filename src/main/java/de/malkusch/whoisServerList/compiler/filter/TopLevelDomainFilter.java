@@ -39,7 +39,7 @@ final class TopLevelDomainFilter extends DomainFilter<TopLevelDomain> {
     }
 
     @Override
-    TopLevelDomain filterDomain(TopLevelDomain domain) {
+    TopLevelDomain filterDomain(final TopLevelDomain domain) {
         Collections.sort(domain.getDomains(), comparator);
 
         return domain;

@@ -24,5 +24,5 @@ interface WhoisServerResponseFilter {
      */
     @Nullable WhoisServer filter(
             @Nullable WhoisServer server, String response);
-    
+
 }
