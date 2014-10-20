@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +25,10 @@ public class FilterTest {
     public static Collection<Filter<?>[]> getFilters() {
         return Arrays.asList(new Filter<?>[][] {
                 { new TCPServiceFilter(1, 1) },
-                { new WhoisServerFilter(1) },
                 { new ListFilter<>(null) },
                 { new ConcurrentListFilter<>(null) },
                 { new StringFilter() },
-                { new DomainFilter<Domain>(5) },
+                { new DomainFilter<Domain>(5, new ArrayList<Pattern>()) },
                 { new FilterChain<String>(new ArrayList<Filter<String>>()) },
                 { new DomainListFilter(5) },
         });

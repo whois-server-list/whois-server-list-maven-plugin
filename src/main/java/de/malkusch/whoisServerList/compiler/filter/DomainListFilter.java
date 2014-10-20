@@ -3,13 +3,17 @@ package de.malkusch.whoisServerList.compiler.filter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.helper.comparator.DomainComparator;
+import de.malkusch.whoisServerList.compiler.helper.converter.DomainListToWhoisServerListConverter;
+import de.malkusch.whoisServerList.compiler.helper.converter.WhoisServerListToOrderedPatternListConverter;
 
 /**
  * Filter domains.
@@ -21,14 +25,14 @@ import de.malkusch.whoisServerList.compiler.helper.comparator.DomainComparator;
 public final class DomainListFilter implements Filter<DomainList> {
 
     /**
-     * The top level domain list filter.
-     */
-    private final AbstractListFilter<TopLevelDomain> domainFilter;
-
-    /**
      * The comparator for sorting the domains.
      */
     private final DomainComparator comparator;
+    
+    /**
+     * The timeout in seconds.
+     */
+    private int timeout;
 
     /**
      * The configuration porperty name for the whois filter timeout.
@@ -44,9 +48,7 @@ public final class DomainListFilter implements Filter<DomainList> {
      * @param timeout  the timeout in seconds
      */
     public DomainListFilter(final int timeout) {
-        domainFilter
-                = new ConcurrentListFilter<>(new TopLevelDomainFilter(timeout));
-
+        this.timeout = timeout;
         comparator = new DomainComparator();
     }
 
@@ -68,10 +70,19 @@ public final class DomainListFilter implements Filter<DomainList> {
             return null;
 
         }
+        
+        List<Pattern> patterns = getPatterns(domainList);
+        
+        TopLevelDomainFilter domainFilter
+                = new TopLevelDomainFilter(timeout, patterns);
+        
+        AbstractListFilter<TopLevelDomain> domainsFilter
+                = new ConcurrentListFilter<>(domainFilter);
+        
         DomainList filtered = domainList.clone();
 
         List<TopLevelDomain> domains
-                = domainFilter.filter(domainList.getDomains());
+                = domainsFilter.filter(domainList.getDomains());
 
         Collections.sort(domains, comparator);
 
@@ -80,5 +91,23 @@ public final class DomainListFilter implements Filter<DomainList> {
         return filtered;
     }
 
+    /**
+     * Returns the known pattern list.
+     * 
+     * @param domainList  The domain list.
+     * @return the pattern list.
+     */
+    private List<Pattern> getPatterns(final DomainList domainList) {
+        DomainListToWhoisServerListConverter listConverter
+                = new DomainListToWhoisServerListConverter();
+
+        WhoisServerListToOrderedPatternListConverter patternConverter
+                = new WhoisServerListToOrderedPatternListConverter();
+        
+        List<WhoisServer> servers
+                = listConverter.convert(domainList.getDomains());
+        
+        return patternConverter.convert(servers);
+    }
 
 }

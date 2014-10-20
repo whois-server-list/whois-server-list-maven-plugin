@@ -3,9 +3,11 @@ package de.malkusch.whoisServerList.compiler.filter;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +47,8 @@ public class WhoisServerFilterTest {
 
     @Before
     public void setup() {
-        filter = new WhoisServerFilter(5);
+        filter = new WhoisServerFilter(
+                "example.com", 5, new ArrayList<Pattern>());
         server = new WhoisServer();
         server.setHost(host);
     }

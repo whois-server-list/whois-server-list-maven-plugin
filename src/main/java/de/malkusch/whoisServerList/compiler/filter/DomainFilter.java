@@ -1,9 +1,10 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
@@ -31,11 +32,6 @@ class DomainFilter<T extends Domain> implements Filter<T> {
     private final StringFilter nameFilter;
 
     /**
-     * The whois server filter.
-     */
-    private final WhoisServerFilter whoisServerFilter;
-
-    /**
      * The sort comparator for the whois servers.
      */
     private final WhoisServerComparator comparator;
@@ -44,14 +40,20 @@ class DomainFilter<T extends Domain> implements Filter<T> {
      * A query for an unavailable object.
      */
     private static final String UNAVAILABLE_QUERY = "hST4vcMRppEPgENMHD2";
+    
+    /**
+     * The known patterns.
+     */
+    private final List<Pattern> patterns;
 
     /**
      * Sets the timeout.
      *
-     * @param timeout  the timeout in seconds
+     * @param timeout   the timeout in seconds
+     * @param patterns  the known patterns, not null
      */
-    DomainFilter(final int timeout) {
-        this.whoisServerFilter = new WhoisServerFilter(timeout);
+    DomainFilter(final int timeout, @Nonnull final List<Pattern> patterns) {
+        this.patterns = patterns;
         this.timeout = timeout;
         this.nameFilter = new StringFilter();
         this.comparator = new WhoisServerComparator();
@@ -70,19 +72,13 @@ class DomainFilter<T extends Domain> implements Filter<T> {
 
         filtered.setName(nameFilter.filter(domain.getName()));
 
-        // Whois server Filter chain
-        List<Filter<WhoisServer>> chain = new ArrayList<>();
-
-        // accessible
-        chain.add(whoisServerFilter);
-
-        // pattern
         String query
-            = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
-        chain.add(new WhoisServerPatternFilter(query, timeout));
-
-        ListFilter<WhoisServer> listFilter
-                = new ListFilter<>(new FilterChain<>(chain));
+                = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
+        
+        WhoisServerFilter serverFilter
+                = new WhoisServerFilter(query, timeout, patterns);
+        
+        ListFilter<WhoisServer> listFilter = new ListFilter<>(serverFilter);
 
         List<WhoisServer> filteredServers
                 = listFilter.filter(domain.getWhoisServers());

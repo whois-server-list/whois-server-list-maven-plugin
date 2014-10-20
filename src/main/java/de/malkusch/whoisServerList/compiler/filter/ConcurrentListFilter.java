@@ -15,8 +15,7 @@ import de.malkusch.whoisServerList.compiler.helper.ConcurrencyService;
  * Filters each item of a list concurrently.
  *
  * @author markus@malkusch.de
- * @param <T>
- *            the list item type
+ * @param <T> the list item type
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable

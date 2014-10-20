@@ -16,10 +16,10 @@ import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
  */
 @Immutable
 public final class DomainListToWhoisServerListConverter
-        implements Converter<List<Domain>, List<WhoisServer>> {
+        implements Converter<List<? extends Domain>, List<WhoisServer>> {
 
     @Override
-    public List<WhoisServer> convert(final List<Domain> domains) {
+    public List<WhoisServer> convert(final List<? extends Domain> domains) {
         if (domains == null) {
             return null;
 

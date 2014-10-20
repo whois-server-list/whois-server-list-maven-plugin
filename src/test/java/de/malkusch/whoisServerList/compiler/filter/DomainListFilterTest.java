@@ -1,7 +1,6 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.regex.Pattern;
@@ -48,8 +47,8 @@ public class DomainListFilterTest {
         DomainList filtered = filter.filter(list);
 
         assertEquals(com, filtered.getDomains().get(0));
-        assertNull(filtered.getDomains().get(1)
-                .getWhoisServers().get(0).getAvailablePattern());
+        assertEquals("no match for", filtered.getDomains().get(1)
+                .getWhoisServers().get(0).getAvailablePattern().toString());
         assertTrue(filtered.getDomains().get(2).getWhoisServers().isEmpty());
     }
 

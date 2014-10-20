@@ -16,7 +16,7 @@ public class FilterChainTest {
     @Test
     public void testFilter() throws InterruptedException {
         List<Filter<WhoisServer>> chain = new ArrayList<>();
-        chain.add(new WhoisServerFilter(5));
+        chain.add(new DeprecatedWhoisServerFilter(5));
         chain.add(new WhoisServerPatternFilter("T4vcMRpp.com", 5));
         FilterChain<WhoisServer> filter = new FilterChain<>(chain);
 

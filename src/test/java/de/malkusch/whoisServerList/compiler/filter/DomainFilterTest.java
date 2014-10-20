@@ -3,6 +3,7 @@ package de.malkusch.whoisServerList.compiler.filter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import org.junit.Test;
@@ -14,7 +15,11 @@ public class DomainFilterTest {
 
     @Test
     public void testFilter() throws InterruptedException {
-        DomainFilter<Domain> filter = new DomainFilter<>(5);
+        Pattern[] patterns = new Pattern[] {
+                Pattern.compile("not found", Pattern.CASE_INSENSITIVE)
+        };
+        DomainFilter<Domain> filter
+                = new DomainFilter<>(5, Arrays.asList(patterns));
 
         Domain com = new Domain();
         WhoisServer whoisCom = new WhoisServer();
@@ -27,6 +32,7 @@ public class DomainFilterTest {
 
 
         Domain de = new Domain();
+        de.setName("de");
         WhoisServer whoisDe = new WhoisServer();
         whoisDe.setHost("whois.nic.de");
         whoisDe.setAvailablePattern(Pattern.compile(
@@ -40,6 +46,17 @@ public class DomainFilterTest {
         Domain net = new Domain();
         net.setName(" net ");
         assertEquals("net", filter.filter(net).getName());
+        
+        
+        Domain org = new Domain();
+        org.setName("org");
+        WhoisServer whoisOrg = new WhoisServer();
+        whoisOrg.setHost("whois.pir.org");
+        org.getWhoisServers().add(whoisOrg);
+
+        assertEquals(
+            "not found",
+            filter.filter(org).getWhoisServers().get(0).getAvailablePattern().toString());
     }
 
 }

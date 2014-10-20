@@ -29,7 +29,7 @@ final class WhoisServerResponseInvalidPatternFilter
     @Override
     @Nullable
     public WhoisServer filter(
-            @Nullable WhoisServer server, String response) {
+            @Nullable final WhoisServer server, final String response) {
         if (server == null) {
             return null;
 
