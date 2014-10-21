@@ -36,6 +36,7 @@ public class WhoisServerResponseFindPatternFilterTest {
     @Parameters
     public static Collection<String[]> getCases() {
         return Arrays.asList(new String[][] {
+            { "no match for", "abc", "abc" },
             { "no match for", null, "no match for" },
             { "No Match For", null, "no match for" },
             { "invalid", null, "invalid" },
