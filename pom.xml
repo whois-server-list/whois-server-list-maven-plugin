@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>de.malkusch.whois-server-list.api.v0</groupId>
 			<artifactId>whois-server-list-api</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>de.malkusch.whois-server-list.api.v1</groupId>
