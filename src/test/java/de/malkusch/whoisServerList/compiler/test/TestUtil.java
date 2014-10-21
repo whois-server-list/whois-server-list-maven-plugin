@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import de.malkusch.whoisServerList.api.v1.model.Source;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
@@ -21,6 +22,27 @@ public final class TestUtil {
         return cal.getTime();
     }
 
+    public static Domain buildDomain(
+            final String name, final String host, final String pattern) {
+        
+        Domain domain = buildSimpleDomain(name);
+        
+        WhoisServer server = new WhoisServer();
+        server.setHost(host);
+        if (pattern != null) {
+            server.setAvailablePattern(Pattern.compile(
+                    Pattern.quote(pattern), Pattern.CASE_INSENSITIVE));
+            
+        }
+        domain.getWhoisServers().add(server);
+        
+        return domain;
+    }
+    
+    public static Domain buildSimpleDomain(final String name) {
+        return buildSimpleDomain(name, Source.IANA);
+    }
+    
     public static Domain buildSimpleDomain(
             final String name, final Source source) {
 
