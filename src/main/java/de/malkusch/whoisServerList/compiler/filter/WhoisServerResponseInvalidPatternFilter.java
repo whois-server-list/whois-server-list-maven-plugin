@@ -44,7 +44,11 @@ final class WhoisServerResponseInvalidPatternFilter
         Matcher matcher = server.getAvailablePattern().matcher(response);
         if (!matcher.find()) {
             LOGGER.warn(
-                "removing available pattern from '{}'", server.getHost());
+                "removing pattern '{}' from '{}'",
+                server.getAvailablePattern(),
+                server.getHost());
+
+            LOGGER.debug(response);
             filtered.setAvailablePattern(null);
 
         }
