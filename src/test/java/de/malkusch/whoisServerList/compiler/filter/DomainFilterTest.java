@@ -66,6 +66,37 @@ public class DomainFilterTest {
             cases.add(new Object[] { domain, expected, patterns });
         }
         
+        {
+            Domain domain = TestUtil.buildDomain(
+                    "as", "whois.nic.as", "No Object Found");
+            Domain expected = domain.clone();
+            cases.add(new Object[] { domain, expected, patterns });
+        }
+        {
+            Domain domain = TestUtil.buildDomain(
+                    "de", "whois.denic.de", "Status: free");
+            Domain expected = domain.clone();
+            cases.add(new Object[] { domain, expected, patterns });
+        }
+        {
+            Domain domain = TestUtil.buildDomain(
+                    "de", "whois.nic.de", "Status: free");
+            Domain expected = domain.clone();
+            cases.add(new Object[] { domain, expected, patterns });
+        }
+        {
+            Domain domain = TestUtil.buildDomain(
+                    "org", "whois.pir.org", "not found");
+            Domain expected = domain.clone();
+            cases.add(new Object[] { domain, expected, patterns });
+        }
+        {
+            Domain domain = TestUtil.buildDomain(
+                    "org", "whois.publicinterestregistry.net", "not found");
+            Domain expected = domain.clone();
+            cases.add(new Object[] { domain, expected, patterns });
+        }
+        
         return cases;
     }
 
