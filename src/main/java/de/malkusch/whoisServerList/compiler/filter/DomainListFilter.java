@@ -47,7 +47,8 @@ public final class DomainListFilter implements Filter<DomainList> {
      * @see #timeout
      */
     @PropertyKey
-    private static final String PROPERTY_TIMEOUT = "filter.whois.timeout";
+    private static final String PROPERTY_TIMEOUT =
+                                        "filter.whois.timeout.seconds";
 
     /**
      * Sets the whois filter timeout.
