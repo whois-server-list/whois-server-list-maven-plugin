@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
+import javax.cache.Cache;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.whois.WhoisClient;
@@ -46,6 +47,11 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
     private final WhoisServerResponseInvalidPatternFilter invalidPatternFilter;
 
     /**
+     * The query cache.
+     */
+    private final Cache<String, String> cache;
+
+    /**
      * One second in milliseconds.
      */
     private static final int SECOND = 1000;
@@ -62,10 +68,12 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
      * @param unavailableQuery  the unavailable query, not null
      * @param timeout           the timeout in seconds
      * @param patterns          the existing unavailable patterns, not null
+     * @param cache             the query cache, not null
      */
     WhoisServerFilter(
             @Nonnull final String unavailableQuery, final int timeout,
-            @Nonnull final List<Pattern> patterns) {
+            @Nonnull final List<Pattern> patterns,
+            @Nonnull final Cache<String, String> cache) {
 
         this.unavailableQuery = unavailableQuery;
         this.timeout = timeout;
@@ -75,45 +83,70 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
 
         this.findPatternFilter
                 = new WhoisServerResponseFindPatternFilter(patterns);
-    }
 
+        this.cache = cache;
+    }
+    
     @Override
     @Nullable
     public WhoisServer filter(@Nullable final WhoisServer server) {
-        if (server == null) {
+        if (server == null || server.getHost() == null) {
             return null;
 
         }
 
+        String response = getResponse(server);
+        if (response == null) {
+            LOGGER.warn(
+                "removing inaccessible whois server '{}'", server.getHost());
+            return null;
+
+        }
+
+        WhoisServer filtered = server.clone();
+
+        // Might use a filter chain
+        filtered = invalidPatternFilter.filter(filtered, response);
+        filtered = findPatternFilter.filter(filtered, response);
+
+        return filtered;
+    }
+
+    /**
+     * Queries a whois server and returns the response.
+     *
+     * The response is cached in {@link WhoisServerFilter#cache}. This cache
+     * ignores the query. I.e. different queries on the same server will return
+     * the same response as they share the cached response.
+     *
+     * @param server  the whois server
+     * @return the whois response
+     */
+    private String getResponse(final WhoisServer server) {
+        String response = cache.get(server.getHost());
+        if (response != null) {
+            return response;
+
+        }
         WhoisClient whoisClient = new WhoisClient();
         whoisClient.setDefaultTimeout(timeout * SECOND);
         whoisClient.setConnectTimeout(timeout * SECOND);
         try {
             whoisClient.connect(server.getHost());
-
-        } catch (IOException e) {
-            LOGGER.warn(
-                "removing inaccessible whois server '{}'", server.getHost());
-            return null;
-        }
-
-        try (InputStream stream
-                = whoisClient.getInputStream(unavailableQuery)) {
-
             whoisClient.setSoTimeout(timeout * SECOND);
 
-            WhoisServer filtered = server.clone();
-            String response = IOUtils.toString(stream);
+        } catch (IOException e) {
+            return null;
 
-            // Might use a filter chain
-            filtered = invalidPatternFilter.filter(filtered, response);
-            filtered = findPatternFilter.filter(filtered, response);
+        }
+        try (InputStream stream =
+                    whoisClient.getInputStream(unavailableQuery)) {
 
-            return filtered;
+            response = IOUtils.toString(stream);
+            cache.put(server.getHost(), response);
+            return response;
 
         } catch (IOException e) {
-            LOGGER.warn(
-                "Removing inaccessible whois server '{}'", server.getHost());
             return null;
 
         } finally {
@@ -125,7 +158,6 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
                         "failed disconnecting server '{}': {}",
                         server.getHost(), e);
             }
-
         }
     }
 

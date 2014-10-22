@@ -10,6 +10,7 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -19,9 +20,13 @@ import org.junit.runners.Parameterized.Parameters;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
+import de.malkusch.whoisServerList.compiler.test.CacheRule;
 
 @RunWith(Parameterized.class)
 public class WhoisServerFilterTest {
+
+    @Rule
+    public CacheRule cacheRule = new CacheRule();
 
     private WhoisServerFilter filter;
 
@@ -47,8 +52,8 @@ public class WhoisServerFilterTest {
 
     @Before
     public void setup() {
-        filter = new WhoisServerFilter(
-                "example.com", 5, new ArrayList<Pattern>());
+        filter = new WhoisServerFilter("example.com", 5,
+                new ArrayList<Pattern>(), cacheRule.getQueryCache());
         server = new WhoisServer();
         server.setHost(host);
     }

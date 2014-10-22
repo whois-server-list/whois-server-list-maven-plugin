@@ -3,6 +3,7 @@ package de.malkusch.whoisServerList.mojo;
 import java.io.File;
 
 import javax.annotation.concurrent.Immutable;
+import javax.cache.Cache;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -15,6 +16,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
+import de.malkusch.whoisServerList.compiler.helper.CacheFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 
 /**
@@ -37,8 +39,10 @@ public final class XMLMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        try {
-            DomainListCompiler compiler = new DomainListCompiler();
+        try (CacheFactory cacheFactory = new CacheFactory();
+                Cache<String, String> cache = cacheFactory.buildQueryCache()) {
+
+            DomainListCompiler compiler = new DomainListCompiler(cache);
             DomainList list = compiler.compile();
 
             JAXBContext context = JAXBContext.newInstance(DomainList.class);

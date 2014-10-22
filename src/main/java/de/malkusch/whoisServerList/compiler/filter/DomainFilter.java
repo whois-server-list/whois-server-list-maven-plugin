@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import javax.cache.Cache;
 
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
@@ -32,6 +33,11 @@ class DomainFilter<T extends Domain> implements Filter<T> {
     private final StringFilter nameFilter;
 
     /**
+     * The query cache.
+     */
+    private final Cache<String, String> cache;
+
+    /**
      * The sort comparator for the whois servers.
      */
     private final WhoisServerComparator comparator;
@@ -51,10 +57,14 @@ class DomainFilter<T extends Domain> implements Filter<T> {
      *
      * @param timeout   the timeout in seconds
      * @param patterns  the known patterns, not null
+     * @param cache     the query cache, not null
      */
-    DomainFilter(final int timeout, @Nonnull final List<Pattern> patterns) {
+    DomainFilter(final int timeout, @Nonnull final List<Pattern> patterns,
+            @Nonnull final Cache<String, String> cache) {
+
         this.patterns = patterns;
         this.timeout = timeout;
+        this.cache = cache;
         this.nameFilter = new StringFilter();
         this.comparator = new WhoisServerComparator();
     }
@@ -76,7 +86,7 @@ class DomainFilter<T extends Domain> implements Filter<T> {
                 = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
 
         WhoisServerFilter serverFilter
-                = new WhoisServerFilter(query, timeout, patterns);
+                = new WhoisServerFilter(query, timeout, patterns, cache);
 
         ListFilter<WhoisServer> listFilter = new ListFilter<>(serverFilter);
 

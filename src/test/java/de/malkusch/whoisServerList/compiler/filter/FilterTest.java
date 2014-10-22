@@ -28,9 +28,9 @@ public class FilterTest {
                 { new ListFilter<>(null) },
                 { new ConcurrentListFilter<>(null) },
                 { new StringFilter() },
-                { new DomainFilter<Domain>(5, new ArrayList<Pattern>()) },
+                { new DomainFilter<Domain>(5, new ArrayList<Pattern>(), null) },
                 { new FilterChain<String>(new ArrayList<Filter<String>>()) },
-                { new DomainListFilter(5) },
+                { new DomainListFilter(5, null) },
         });
     }
 

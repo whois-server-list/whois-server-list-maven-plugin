@@ -5,13 +5,18 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.regex.Pattern;
 
+import org.junit.Rule;
 import org.junit.Test;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
+import de.malkusch.whoisServerList.compiler.test.CacheRule;
 
 public class DomainListFilterTest {
+
+    @Rule
+    public CacheRule cacheRule = new CacheRule();
 
     @Test
     public void testFilter() throws InterruptedException {
@@ -43,7 +48,9 @@ public class DomainListFilterTest {
         list.getDomains().add(org);
 
 
-        DomainListFilter filter = new DomainListFilter(5);
+        DomainListFilter filter = new DomainListFilter(
+                5, cacheRule.getQueryCache());
+
         DomainList filtered = filter.filter(list);
 
         assertEquals(com, filtered.getDomains().get(0));

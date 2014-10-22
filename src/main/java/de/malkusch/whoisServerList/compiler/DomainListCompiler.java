@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+import javax.cache.Cache;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.filter.DomainListFilter;
@@ -77,18 +79,22 @@ public final class DomainListCompiler {
     /**
      * Constructs the compiler with the default properties.
      *
+     * @param cache  the query cache, not null
      * @see #getDefaultProperties()
      */
-    public DomainListCompiler() {
-        this(getDefaultProperties());
+    public DomainListCompiler(@Nonnull final Cache<String, String> cache) {
+        this(getDefaultProperties(), cache);
     }
 
     /**
      * Constructs the compiler.
      *
      * @param properties  the compiler properties
+     * @param cache       the query cache, not null
      */
-    public DomainListCompiler(final Properties properties) {
+    public DomainListCompiler(final Properties properties,
+            @Nonnull final Cache<String, String> cache) {
+
         this.listFactories = new DomainListFactory[] {
                 new XMLDomainListFactory(),
                 new IanaDomainListFactory(properties),
@@ -97,7 +103,7 @@ public final class DomainListCompiler {
 
         this.merger = new DomainListMerger(properties);
 
-        this.filter = new DomainListFilter(properties);
+        this.filter = new DomainListFilter(properties, cache);
     }
 
     /**

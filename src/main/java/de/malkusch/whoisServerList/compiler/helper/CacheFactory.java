@@ -46,6 +46,15 @@ public final class CacheFactory implements Closeable {
         return cacheManager.createCache("queryCache", configuration);
     }
 
+    /**
+     * Returns the cache manager.
+     *
+     * @return the cache manager.
+     */
+    public CacheManager getManager() {
+        return cacheManager;
+    }
+
     @Override
     public void close() {
         cacheManager.close();

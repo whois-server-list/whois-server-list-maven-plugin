@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
+import javax.annotation.Nonnull;
 import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
+import javax.cache.Cache;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
@@ -35,6 +37,11 @@ public final class DomainListFilter implements Filter<DomainList> {
     private int timeout;
 
     /**
+     * The query cache.
+     */
+    private final Cache<String, String> cache;
+
+    /**
      * The configuration porperty name for the whois filter timeout.
      *
      * @see #timeout
@@ -46,9 +53,13 @@ public final class DomainListFilter implements Filter<DomainList> {
      * Sets the whois filter timeout.
      *
      * @param timeout  the timeout in seconds
+     * @param cache    the query cache, not null
      */
-    public DomainListFilter(final int timeout) {
+    public DomainListFilter(final int timeout,
+            @Nonnull final Cache<String, String> cache) {
+
         this.timeout = timeout;
+        this.cache = cache;
         comparator = new DomainComparator();
     }
 
@@ -56,10 +67,14 @@ public final class DomainListFilter implements Filter<DomainList> {
      * Sets the whois filter timeout.
      *
      * @param properties  the application properties
+     * @param cache       the query cache, not null
+     *
      * @see #PROPERTY_TIMEOUT
      */
-    public DomainListFilter(final Properties properties) {
-        this(Integer.parseInt(properties.getProperty(PROPERTY_TIMEOUT)));
+    public DomainListFilter(final Properties properties,
+            @Nonnull final Cache<String, String> cache) {
+
+        this(Integer.parseInt(properties.getProperty(PROPERTY_TIMEOUT)), cache);
     }
 
     @Override
@@ -74,7 +89,7 @@ public final class DomainListFilter implements Filter<DomainList> {
         List<Pattern> patterns = getPatterns(domainList);
 
         TopLevelDomainFilter domainFilter
-                = new TopLevelDomainFilter(timeout, patterns);
+                = new TopLevelDomainFilter(timeout, patterns, cache);
 
         AbstractListFilter<TopLevelDomain> domainsFilter
                 = new ConcurrentListFilter<>(domainFilter);

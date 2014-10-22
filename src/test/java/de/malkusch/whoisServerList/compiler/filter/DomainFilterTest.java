@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,11 +15,15 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.compiler.test.CacheRule;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 
 @RunWith(Parameterized.class)
 public class DomainFilterTest {
-    
+
+    @Rule
+    public CacheRule cacheRule = new CacheRule();
+
     @Parameter(0)
     public Domain domain;
     
@@ -102,8 +107,8 @@ public class DomainFilterTest {
 
     @Test
     public void testFilter() throws InterruptedException {
-        DomainFilter<Domain> filter
-                = new DomainFilter<>(5, Arrays.asList(patterns));
+        DomainFilter<Domain> filter = new DomainFilter<>(
+                5, Arrays.asList(patterns), cacheRule.getQueryCache());
 
         assertEquals(expected, filter.filter(domain));
     }
