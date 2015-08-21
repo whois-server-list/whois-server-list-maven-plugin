@@ -36,10 +36,10 @@ public class XMLDomainListFactoryTest {
         assertNotNull(TestUtil.find(de.getWhoisServers(), "whois.denic.de"));
         WhoisServer denic = TestUtil.find(de.getWhoisServers(), "whois.nic.de");
         assertNotNull(denic);
-        assertEquals(0, de.getDomains().size());
+        assertEquals(8, de.getDomains().size());
 
         TopLevelDomain uk = TestUtil.find(toplevelDomains, "uk");
-        assertEquals(6, uk.getDomains().size());
+        assertEquals(11, uk.getDomains().size());
         assertNotNull(TestUtil.find(uk.getDomains(), "co.uk"));
         assertNotNull(TestUtil.find(uk.getDomains(), "org.uk"));
         assertNotNull(TestUtil.find(uk.getDomains(), "me.uk"));
@@ -56,14 +56,14 @@ public class XMLDomainListFactoryTest {
 
         WhoisServer comWhois1
             = TestUtil.find(com.getWhoisServers(), "whois.crsnic.net");
-        assertSame(comWhois1,
+        assertEquals(comWhois1,
                 TestUtil.find(net.getWhoisServers(), comWhois1.getHost()));
 
         String exptectedPatter
             = Pattern.quote("no match for");
         assertEquals(exptectedPatter, comWhois1.getAvailablePattern().toString());
 
-        assertEquals("0.0.2", list.getVersion());
+        assertEquals("1.0.1", list.getVersion());
 
         Pattern descriptionPattern = Pattern.compile(
                 "^This list .+1335STSwu9hST4vcMRppEPgENMHD2r1REK$",
