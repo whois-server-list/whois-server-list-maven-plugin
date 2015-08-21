@@ -73,7 +73,7 @@ public class DomainFilterTest {
         
         {
             Domain domain = TestUtil.buildDomain(
-                    "as", "whois.nic.as", "No Object Found");
+                    "as", "whois.nic.as", "not found");
             Domain expected = domain.clone();
             cases.add(new Object[] { domain, expected, patterns });
         }
@@ -95,13 +95,7 @@ public class DomainFilterTest {
             Domain expected = domain.clone();
             cases.add(new Object[] { domain, expected, patterns });
         }
-        {
-            Domain domain = TestUtil.buildDomain(
-                    "org", "whois.publicinterestregistry.net", "not found");
-            Domain expected = domain.clone();
-            cases.add(new Object[] { domain, expected, patterns });
-        }
-        
+
         return cases;
     }
 
@@ -110,7 +104,8 @@ public class DomainFilterTest {
         DomainFilter<Domain> filter = new DomainFilter<>(
                 5, Arrays.asList(patterns), cacheRule.getQueryCache());
 
-        assertEquals(expected, filter.filter(domain));
+        Domain result = filter.filter(domain);
+        assertEquals(expected, result);
     }
 
 }

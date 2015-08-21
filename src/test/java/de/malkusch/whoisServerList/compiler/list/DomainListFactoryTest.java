@@ -16,6 +16,7 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
+import de.malkusch.whoisServerList.api.v1.model.Source;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
@@ -57,20 +58,24 @@ public class DomainListFactoryTest {
             assertDomain(domain);
 
             for (WhoisServer server : domain.getWhoisServers()) {
-                assertEquals(factory.getSource(), server.getSource());
-
+                assertSource(server.getSource());
             }
 
             for (Domain subdomain : domain.getDomains()) {
                 assertDomain(subdomain);
-
             }
+        }
+    }
+    
+    private void assertSource(Source source) {
+        if (factory.getSource() != Source.XML) {
+            assertEquals(factory.getSource(), source);
         }
     }
 
     private void assertDomain(final Domain domain) {
         assertFalse(domain.getName().isEmpty());
-        assertEquals(factory.getSource(), domain.getSource());
+        assertSource(domain.getSource());
     }
 
 }
