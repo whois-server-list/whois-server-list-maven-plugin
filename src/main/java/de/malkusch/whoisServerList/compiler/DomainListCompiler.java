@@ -21,6 +21,7 @@ import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.mdwhois.MDWhoisDomainListFactory;
+import de.malkusch.whoisServerList.compiler.list.phois.PhoisDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.whoisrb.WhoisrbDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.xml.XMLDomainListFactory;
@@ -37,6 +38,7 @@ import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
  *   <li>Public Suffix List</li>
  *   <li>Ruby Whois</li>
  *   <li>Marco d'Itri's</li>
+ *   <li>php-whois</li>
  * </ul>
  *
  * @author markus@malkusch.de
@@ -47,6 +49,7 @@ import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
  * @see <a href="https://publicsuffix.org/">Public Suffix List</a>
  * @see <a href="http://whoisrb.org/">Ruby Whois</a>
  * @see <a href="https://github.com/rfc1036/whois">Marco d'Itri's Whois client</a>
+ * @see <a href="https://github.com/regru/php-whois">php-whois</a>
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
@@ -82,6 +85,12 @@ public final class DomainListCompiler {
      */
     @PropertyKey
     private static final String PROPERTY_MD_WHOIS_URI = "mdwhois.uri";
+    
+    /**
+     * The URI for php-whois' list.
+     */
+    @PropertyKey
+    private static final String PROPERTY_PHOIS_URI = "phois.uri";
 
     /**
      * Returns the default properties for the compiler.
@@ -128,6 +137,7 @@ public final class DomainListCompiler {
                 new PublicSuffixDomainListFactory(),
                 new MDWhoisDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_MD_WHOIS_URI))),
                 new WhoisrbDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_WHOIS_RB_URI))),
+                new PhoisDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_PHOIS_URI))),
             };
     
             this.merger = new DomainListMerger(properties);

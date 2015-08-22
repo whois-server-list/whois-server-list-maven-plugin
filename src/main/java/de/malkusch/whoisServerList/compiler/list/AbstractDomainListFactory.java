@@ -3,12 +3,14 @@ package de.malkusch.whoisServerList.compiler.list;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
@@ -59,10 +61,25 @@ public abstract class AbstractDomainListFactory implements DomainListFactory {
     /**
      * Adds a suffix and its whois server to the list top level domain list.
      * 
-     * @param suffix The suffix may have a leading "."
-     * @param host   The whois server.
+     * @param suffix  The suffix may have a leading "."
+     * @param host    The whois server.
      */
-    protected final void addSuffix(String suffix, @Nullable String host) throws WhoisServerListException, InterruptedException {
+    protected final void addSuffix(String suffix, @Nullable String host)
+            throws WhoisServerListException, InterruptedException {
+        
+        addSuffix(suffix, host, null);
+    }
+    
+    /**
+     * Adds a suffix and its whois server to the list top level domain list.
+     * 
+     * @param suffix  The suffix may have a leading "."
+     * @param host    The whois server.
+     * @param pattern The available pattern.
+     */
+    protected final void addSuffix(String suffix, @Nullable String host, @Nullable String pattern)
+            throws WhoisServerListException, InterruptedException {
+        
         suffix = suffix.replaceAll("^\\.", "");
         
         String[] labels = DomainUtil.splitLabels(suffix);
@@ -80,7 +97,11 @@ public abstract class AbstractDomainListFactory implements DomainListFactory {
         
         if (host != null) {
             whoisServerBuilder.setHost(host);
-            domain.getWhoisServers().add(whoisServerBuilder.build());
+            WhoisServer server = whoisServerBuilder.build();
+            if (pattern != null) {
+                server.setAvailablePattern(Pattern.compile(pattern, Pattern.CASE_INSENSITIVE));
+            }
+            domain.getWhoisServers().add(server);
         }
     }
     
