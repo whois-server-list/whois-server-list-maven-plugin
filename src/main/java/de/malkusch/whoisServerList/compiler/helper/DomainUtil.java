@@ -5,6 +5,10 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
+import de.malkusch.whoisServerList.publicSuffixList.util.PunycodeAutoDecoder;
+
 /**
  * Domain utility class.
  *
@@ -40,7 +44,8 @@ public final class DomainUtil {
      * @return the canonical domain name, or null
      */
     public static String normalize(final String name) {
-        return name != null ? name.toLowerCase() : null;
+        PunycodeAutoDecoder decoder = new PunycodeAutoDecoder();
+        return StringUtils.lowerCase(decoder.decode(name));
     }
 
     /**

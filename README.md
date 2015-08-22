@@ -6,6 +6,7 @@ The generated list is a merged compilation of these sources:
 * The existing whois-server-list
 * [IANA](http://www.iana.org/domains/root/db)
 * [Public Suffix List](https://publicsuffix.org/list/effective_tld_names.dat)
+* [Ruby Whois](https://github.com/weppos/whois/blob/master/data/tld.json)
 
 
 # Usage

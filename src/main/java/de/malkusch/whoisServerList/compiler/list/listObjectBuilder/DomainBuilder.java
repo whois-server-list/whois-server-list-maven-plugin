@@ -2,11 +2,10 @@ package de.malkusch.whoisServerList.compiler.list.listObjectBuilder;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.malkusch.whoisServerList.api.v1.model.Source;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
+import de.malkusch.whoisServerList.compiler.helper.DomainUtil;
 
 /**
  * Builder for {@code Domain} objects.
@@ -61,7 +60,7 @@ public class DomainBuilder<T extends Domain>
                     "Can't build domains without a name.");
 
         }
-        domain.setName(StringUtils.lowerCase(this.name));
+        domain.setName(DomainUtil.normalize(this.name));
         completeDomain(domain);
     }
 

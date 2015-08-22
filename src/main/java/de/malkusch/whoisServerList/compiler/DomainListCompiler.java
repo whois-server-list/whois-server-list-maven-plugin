@@ -1,12 +1,18 @@
 package de.malkusch.whoisServerList.compiler;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.Properties;
 
 import javax.annotation.Nonnull;
+import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
 import javax.cache.Cache;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.filter.DomainListFilter;
@@ -15,6 +21,7 @@ import de.malkusch.whoisServerList.compiler.list.DomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.psl.PublicSuffixDomainListFactory;
+import de.malkusch.whoisServerList.compiler.list.whoisrb.WhoisrbDomainListFactory;
 import de.malkusch.whoisServerList.compiler.list.xml.XMLDomainListFactory;
 import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
 
@@ -27,6 +34,7 @@ import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
  *   <li>Whois Server List</li>
  *   <li>Root Zone Database</li>
  *   <li>Public Suffix List</li>
+ *   <li>Ruby Whois</li>
  * </ul>
  *
  * @author markus@malkusch.de
@@ -35,6 +43,7 @@ import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
  *      Server List</a>
  * @see <a href="http://www.iana.org/domains/root/db">Root Zone Database</a>
  * @see <a href="https://publicsuffix.org/">Public Suffix List</a>
+ * @see <a href="http://whoisrb.org/">Ruby Whois</a>
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
@@ -58,6 +67,12 @@ public final class DomainListCompiler {
      * The domain list filter.
      */
     private final DomainListFilter filter;
+    
+    /**
+     * The Ruby Whois's list URI.
+     */
+    @PropertyKey
+    private static final String PROPERTY_WHOIS_RB_URI = "whoisrb.uri";
 
     /**
      * Returns the default properties for the compiler.
@@ -95,15 +110,23 @@ public final class DomainListCompiler {
     public DomainListCompiler(final Properties properties,
             @Nonnull final Cache<String, String> cache) {
 
-        this.listFactories = new DomainListFactory[] {
+        try {
+            HttpClient httpClient = HttpClients.createDefault();
+            
+            this.listFactories = new DomainListFactory[] {
                 new XMLDomainListFactory(),
                 new IanaDomainListFactory(properties),
-                new PublicSuffixDomainListFactory()
-        };
-
-        this.merger = new DomainListMerger(properties);
-
-        this.filter = new DomainListFilter(properties, cache);
+                new PublicSuffixDomainListFactory(),
+                new WhoisrbDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_WHOIS_RB_URI)))    
+            };
+    
+            this.merger = new DomainListMerger(properties);
+    
+            this.filter = new DomainListFilter(properties, cache);
+            
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     /**

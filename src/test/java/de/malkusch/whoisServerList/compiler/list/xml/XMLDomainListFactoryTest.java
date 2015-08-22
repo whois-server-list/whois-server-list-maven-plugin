@@ -63,7 +63,7 @@ public class XMLDomainListFactoryTest {
             = Pattern.quote("no match for");
         assertEquals(exptectedPatter, comWhois1.getAvailablePattern().toString());
 
-        assertEquals("1.0.1", list.getVersion());
+        assertEquals("1.0.2", list.getVersion());
 
         Pattern descriptionPattern = Pattern.compile(
                 "^This list .+1335STSwu9hST4vcMRppEPgENMHD2r1REK$",

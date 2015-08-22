@@ -116,7 +116,7 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
 
         return list;
     }
-
+    
     /**
      * Returns the top level domain.
      *
@@ -125,25 +125,19 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
      *
      * @param name  the domain name, not null
      * @return the top level domain, not null
-     * @throws InterruptedException if the thread was interrupted
      */
-    private TopLevelDomain getTopLevelDomain(final String name)
-            throws InterruptedException {
+    private TopLevelDomain getTopLevelDomain(final String name) {
 
-        try {
-            TopLevelDomain domain = this.topLevelDomains.get(name);
-            if (domain == null) {
-                this.tldBuilder.setName(name);
-                domain = this.tldBuilder.build();
-                this.topLevelDomains.put(name, domain);
+        return this.topLevelDomains.computeIfAbsent(name, key -> {
+            try {
+                this.tldBuilder.setName(key);
+                TopLevelDomain domain = this.tldBuilder.build();
+                return domain;
 
+            } catch (WhoisServerListException | InterruptedException e) {
+                throw new IllegalStateException(e);
             }
-            return domain;
-
-        } catch (WhoisServerListException e) {
-            throw new RuntimeException(e);
-
-        }
+        });
     }
 
 }
