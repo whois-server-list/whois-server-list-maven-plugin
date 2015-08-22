@@ -1,0 +1,62 @@
+# http://www.iana.org/domains/root/db/
+#
+# Domain names MUST be lowercase and MUST begin with "." or "-".
+# First match wins.
+# Elements in this list are matched against the end of the query.
+# "NIC?" means that I have not been able to find the registry.
+
+# testTLDWithComment
+.test   whois.test  # A comment
+
+# testTLDWithComment
+.sld.test   whois.sld.test  # A comment
+
+# testTLDWithNoComment
+.test2 whois.test2
+
+# testSLDWithNoComment
+.sld.test2  whois.sld.test2
+
+# testTLDWithFlag
+.test3  VERISIGN whois.test3
+
+# testSLDWithFlag
+.sld.test3  VERISIGN whois.sld.test3
+
+# testTLDWithFlagAndComment
+.test4  VERISIGN whois.test4    # A comment
+
+# testSLDWithFlagAndComment
+.sld.test4  VERISIGN whois.sld.test4    # A comment
+
+# testTLDWithFlagAndNoHost
+.test5  NONE
+
+# testTLDWithFlagAndNoHost
+.sld.test5  NONE
+
+# testTLDWithFlagAndNoHostAndComment
+.test6  NONE    # A comment
+
+# testSLDWithFlagAndNoHostAndComment
+.sld.test6  NONE    # A comment
+
+# testTLDWithWeb
+.test7 WEB http://www.nic.ar/
+
+# testSLDWithWeb
+.sld.test7 WEB http://www.nic.ar/
+
+# testBuildListForIDN
+.xn--schn-7qa.xn--mgberp4a5d4a NONE
+
+# testBuildListForSLDAfterTLD
+.test8 whois.test8
+.sld.test8 whois.sld.test8
+
+# testBuildListForSLDBeforeTLD
+.sld.test9 whois.sld.test9
+.test9 whois.test9
+
+# testBuildListForSLDwithoutTLD
+.sld.test10 whois.sld.test10
