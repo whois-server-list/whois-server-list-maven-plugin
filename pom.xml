@@ -132,6 +132,11 @@
 			<artifactId>infinispan-jcache</artifactId>
 			<version>8.0.0.Beta3</version>
 		</dependency>
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>quercus</artifactId>
+			<version>4.0.45</version>
+		</dependency>
 	</dependencies>
 
 	<build>

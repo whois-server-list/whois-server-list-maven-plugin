@@ -8,7 +8,8 @@ The generated list is a merged compilation of these sources:
 * [Public Suffix List](https://publicsuffix.org/list/effective_tld_names.dat)
 * [Ruby Whois](https://github.com/weppos/whois/blob/master/data/tld.json)
 * [Marco d'Itri's Whois list](https://raw.githubusercontent.com/rfc1036/whois/next/tld_serv_list)
-* [php-whois](https://github.com/regru/php-whois)
+* [php-whois](https://raw.githubusercontent.com/regru/php-whois/master/src/Phois/Whois/whois.servers.json)
+* [phpWhois](https://raw.githubusercontent.com/phpWhois/phpWhois/master/src/whois.servers.php)
 
 
 # Usage
