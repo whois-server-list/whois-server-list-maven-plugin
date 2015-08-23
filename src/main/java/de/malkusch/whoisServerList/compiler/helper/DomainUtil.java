@@ -1,9 +1,11 @@
 package de.malkusch.whoisServerList.compiler.helper;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -18,15 +20,27 @@ import de.malkusch.whoisServerList.publicSuffixList.util.PunycodeAutoDecoder;
 public final class DomainUtil {
 
     /**
-     * All country codes.
+     * All country codes - keys are in lower case, values are in upper case.
      */
-    private static final Set<String> COUNTRIES;
-
+    private static final Map<String, String> COUNTRIES;
+    
     /**
      * Initializes the country codes.
      */
     static {
-        COUNTRIES = new HashSet<>(Arrays.asList(Locale.getISOCountries()));
+        COUNTRIES = Arrays.stream(Locale.getISOCountries()).collect(
+                Collectors.toMap(
+                    k -> k.toLowerCase(),
+                    k -> k
+                )
+        );
+        
+        // exceptions
+        COUNTRIES.put("uk", "GB");
+        COUNTRIES.put("su", "RU");
+        COUNTRIES.put("ac", "SH");
+        COUNTRIES.put("eu", "EU");
+        COUNTRIES.put("tp", "TL");
     }
 
     /**
@@ -47,6 +61,16 @@ public final class DomainUtil {
         PunycodeAutoDecoder decoder = new PunycodeAutoDecoder();
         return StringUtils.lowerCase(decoder.decode(name));
     }
+    
+    /**
+     * Maps a domain name to a country code.
+     * 
+     * @param domain The domain
+     * @return The upper case ISO 3166 two-letter country code or null.
+     */
+    public static @Nullable String getCountryCode(String domain) {
+        return COUNTRIES.get(domain.toLowerCase());
+    }
 
     /**
      * Whether a code is a country code.
@@ -59,7 +83,7 @@ public final class DomainUtil {
             return false;
 
         }
-        return COUNTRIES.contains(code.toUpperCase());
+        return COUNTRIES.containsKey(code.toLowerCase());
     }
 
 }

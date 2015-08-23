@@ -54,6 +54,11 @@ final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
      * Factory properties.
      */
     private final Properties properties;
+    
+    /**
+     * The Whois client.
+     */
+    private final WhoisClient client;
 
     /**
      * The whois server builder.
@@ -70,11 +75,14 @@ final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
     /**
      * Constructs the factory.
      *
+     * @param client      the Whois client, not null
      * @param properties  the factory properties, not null
      */
-    IANATopLevelDomainBuilder(final Properties properties) {
+    IANATopLevelDomainBuilder(final WhoisClient client, final Properties properties) {
         super(Source.IANA);
+
         this.properties = properties;
+        this.client     = client;
     }
 
     @Override
@@ -84,11 +92,10 @@ final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
         try (Parser parser = new Parser()) {
             String whoisHost = properties.getProperty(
                     IanaDomainListFactory.PROPERTY_WHOIS_HOST);
-            WhoisClient whoisClient = new WhoisClient();
-            whoisClient.connect(whoisHost);
+            client.connect(whoisHost);
 
             InputStream inputStream
-                    = whoisClient.getInputStream(domain.getName());
+                    = client.getInputStream(domain.getName());
 
             parser.setKeys(KEY_CREATED, KEY_CHANGED, KEY_WHOIS, KEY_STATE);
 
@@ -103,7 +110,7 @@ final class IANATopLevelDomainBuilder extends TopLevelDomainBuilder {
             domain.setChanged(parser.getDate(KEY_CHANGED));
 
             if (parser.getURLs().size() == 1) {
-                domain.setRegistratonService(parser.getURLs().get(0));
+                domain.setRegistrationService(parser.getURLs().get(0));
 
             } else {
                 LOGGER.info(

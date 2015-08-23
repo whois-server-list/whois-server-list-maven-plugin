@@ -1,17 +1,22 @@
 package de.malkusch.whoisServerList.compiler.list.iana;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 
+import org.apache.commons.net.whois.WhoisClient;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import de.malkusch.whoisServerList.api.v1.model.Source;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
@@ -19,68 +24,75 @@ import de.malkusch.whoisServerList.api.v1.model.domain.Domain.State;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(WhoisClient.class)
 public class WhoisTopLevelDomainFactoryTest {
 
     private IANATopLevelDomainBuilder builder;
-
+    
+    @Mock
+    public WhoisClient client;
+    
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    
     @Before
     public void setTopLevelDomainFactory() throws IOException {
         Properties properties = new Properties();
         properties.load(getClass().getResourceAsStream("/compiler.properties"));
 
-        builder = new IANATopLevelDomainBuilder(properties);
+        builder = new IANATopLevelDomainBuilder(client, properties);
     }
-
+    
     @Test
-    public void testBuild()
-            throws WhoisServerListException, ParseException,
-            MalformedURLException, InterruptedException {
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        TopLevelDomain de = new TopLevelDomain();
-        de.setCountryCode("DE");
-        de.setName("de");
-        de.setState(State.ACTIVE);
-        de.setSource(Source.IANA);
-        de.setCreated(dateFormat.parse("1986-11-05"));
-        de.setChanged(dateFormat.parse("2012-04-19"));
-        de.setRegistratonService(new URL("http://www.denic.de/"));
+    public void testBuild() throws ParseException, WhoisServerListException, InterruptedException, IOException {
+        when(client.getInputStream("de")).thenReturn(getClass().getResourceAsStream("/iana/de.txt"));
+        
+        builder.setName("de");
+        TopLevelDomain domain = builder.build();
+        
+        TopLevelDomain expected = new TopLevelDomain();
+        expected.setCountryCode("DE");
+        expected.setName("de");
+        expected.setState(State.ACTIVE);
+        expected.setSource(Source.IANA);
+        expected.setCreated(dateFormat.parse("1986-11-05"));
+        expected.setChanged(dateFormat.parse("2012-04-19"));
+        expected.setRegistrationService(new URL("http://www.denic.de/"));
         WhoisServer deServer = new WhoisServer();
         deServer.setHost("whois.denic.de");
         deServer.setSource(Source.IANA);
-        de.getWhoisServers().add(deServer);
-
-        builder.setName("de");
-        assertEquals(de, builder.build());
-
-
-        TopLevelDomain tld = new TopLevelDomain();
-        tld.setName("网络");
-        tld.setState(State.ACTIVE);
-        tld.setSource(Source.IANA);
-        tld.setCreated(dateFormat.parse("2014-01-09"));
-        tld.setChanged(dateFormat.parse("2014-01-20"));
-        tld.setRegistratonService(new URL("http://www.cnnic.cn"));
-        WhoisServer tldServer = new WhoisServer();
-        tldServer.setHost("whois.ngtld.cn");
-        tldServer.setSource(Source.IANA);
-        tld.getWhoisServers().add(tldServer);
-
+        expected.getWhoisServers().add(deServer);
+        assertEquals(expected, domain);
+    }
+    
+    @Test
+    public void testIdn() throws ParseException, WhoisServerListException, InterruptedException, IOException {
+        when(client.getInputStream("网络")).thenReturn(getClass().getResourceAsStream("/iana/cn.txt"));
+        
         builder.setName("网络");
-        assertEquals(tld, builder.build());
-
-
-        TopLevelDomain tld2 = new TopLevelDomain();
-        tld2.setName("テスト");
-        tld2.setState(State.INACTIVE);
-        tld2.setSource(Source.IANA);
-        tld2.setCreated(dateFormat.parse("2007-10-19"));
-        tld2.setChanged(dateFormat.parse("2013-10-31"));
-        tld2.setRegistratonService(new URL("http://www.iana.org/domains/idn-test/"));
-
+        TopLevelDomain domain = builder.build();
+        
+        assertEquals("网络", domain.getName());
+    }
+    
+    @Test
+    public void testInactive() throws ParseException, WhoisServerListException, InterruptedException, IOException {
+        when(client.getInputStream("テスト")).thenReturn(getClass().getResourceAsStream("/iana/inactive.txt"));
+        
         builder.setName("テスト");
-        assertEquals(tld2, builder.build());
+        TopLevelDomain domain = builder.build();
+        
+        assertEquals(State.INACTIVE, domain.getState());
+    }
+    
+    @Test
+    public void testCountryCodeMapping() throws ParseException, WhoisServerListException, InterruptedException, IOException {
+        when(client.getInputStream("uk")).thenReturn(getClass().getResourceAsStream("/iana/uk.txt"));
+
+        builder.setName("uk");
+        TopLevelDomain domain = builder.build();
+
+        assertEquals("GB", domain.getCountryCode());
     }
 
 }

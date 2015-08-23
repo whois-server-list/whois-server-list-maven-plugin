@@ -56,9 +56,9 @@ final class TopLevelDomainMerger extends DomainMerger<TopLevelDomain> {
 
         NewestMerger<URL> newestUrlMerger = new NewestMerger<>(
                 left.getChanged(), right.getChanged(), urlMerger);
-        merged.setRegistratonService(newestUrlMerger.merge(
-                left.getRegistratonService(),
-                right.getRegistratonService()));
+        merged.setRegistrationService(newestUrlMerger.merge(
+                left.getRegistrationService(),
+                right.getRegistrationService()));
 
         merged.setDomains(subdomainMerger.merge(
                 left.getDomains(), right.getDomains()));

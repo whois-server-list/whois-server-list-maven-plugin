@@ -45,10 +45,7 @@ public class TopLevelDomainBuilder
     protected final void completeDomain(final TopLevelDomain domain)
             throws WhoisServerListException, InterruptedException {
 
-        if (DomainUtil.isCountryCode(getName())) {
-            domain.setCountryCode(domain.getName().toUpperCase());
-
-        }
+        domain.setCountryCode(DomainUtil.getCountryCode(domain.getName()));
 
         completeTopLevelDomain(domain);
     }

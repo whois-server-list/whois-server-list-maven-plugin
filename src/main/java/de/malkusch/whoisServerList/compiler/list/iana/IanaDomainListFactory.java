@@ -14,6 +14,7 @@ import java.util.concurrent.TimeoutException;
 import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
 
+import org.apache.commons.net.whois.WhoisClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -131,7 +132,7 @@ public final class IanaDomainListFactory implements DomainListFactory {
                             InterruptedException {
 
                         IANATopLevelDomainBuilder builder
-                            = new IANATopLevelDomainBuilder(properties);
+                            = new IANATopLevelDomainBuilder(new WhoisClient(), properties);
                         builder.setName(name.replaceFirst("\\.", ""));
                         return builder.build();
                     }

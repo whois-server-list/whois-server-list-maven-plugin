@@ -3,7 +3,6 @@ package de.malkusch.whoisServerList.compiler.list.xml;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
@@ -31,7 +30,7 @@ public class XMLDomainListFactoryTest {
 
         assertEquals("DE", de.getCountryCode());
         assertEquals(
-                new URL("http://www.denic.de/"), de.getRegistratonService());
+                new URL("http://www.denic.de/"), de.getRegistrationService());
         assertEquals(2, de.getWhoisServers().size());
         assertNotNull(TestUtil.find(de.getWhoisServers(), "whois.denic.de"));
         WhoisServer denic = TestUtil.find(de.getWhoisServers(), "whois.nic.de");

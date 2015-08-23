@@ -26,7 +26,7 @@ public class TopLevelDomainMergerTest {
         left.setCountryCode("DE");
         left.setChanged(TestUtil.getYesterday());
         left.setState(State.NEW);
-        left.setRegistratonService(new URL("http://www.example.net"));
+        left.setRegistrationService(new URL("http://www.example.net"));
         Domain leftSubdomain = new Domain();
         leftSubdomain.setName("left.example.net");
         left.getDomains().add(leftSubdomain);
@@ -34,7 +34,7 @@ public class TopLevelDomainMergerTest {
         TopLevelDomain right = new TopLevelDomain();
         right.setCountryCode(null);
         right.setChanged(new Date());
-        right.setRegistratonService(new URL("http://www.example.com"));
+        right.setRegistrationService(new URL("http://www.example.com"));
         right.setState(State.ACTIVE);
         Domain rightSubdomain = new Domain();
         rightSubdomain.setName("right.example.net");
@@ -43,7 +43,7 @@ public class TopLevelDomainMergerTest {
         TopLevelDomain expected = new TopLevelDomain();
         expected.setCountryCode("DE");
         expected.setChanged(right.getChanged());
-        expected.setRegistratonService(new URL("http://www.example.com"));
+        expected.setRegistrationService(new URL("http://www.example.com"));
         expected.setState(State.ACTIVE);
         expected.getDomains().add(leftSubdomain);
         expected.getDomains().add(rightSubdomain);
