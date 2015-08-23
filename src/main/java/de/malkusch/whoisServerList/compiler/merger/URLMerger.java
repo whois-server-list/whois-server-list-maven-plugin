@@ -16,14 +16,21 @@ import java.util.concurrent.TimeoutException;
 
 import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
+import javax.net.ssl.SSLContext;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpHead;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.ConnectionSocketFactory;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -156,15 +163,25 @@ final class URLMerger implements Merger<URL> {
         RedirectRecorder redirectRecorder = new RedirectRecorder();
         HttpClientBuilder clientBuilder = HttpClientBuilder.create();
         clientBuilder.setRedirectStrategy(redirectRecorder);
-
         try {
-            clientBuilder.setSSLSocketFactory(new SSLConnectionSocketFactory(new SSLContextBuilder().loadTrustMaterial((chain, authType) -> true).build()));
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial((chain, authType) -> true).build();
+            clientBuilder.setSSLSocketFactory(new SSLConnectionSocketFactory(sslContext));
+            
+            SSLConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+            Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder.<ConnectionSocketFactory>create()
+                    .register("http", PlainConnectionSocketFactory.getSocketFactory())
+                    .register("https", sslSocketFactory)
+                    .build();
+         
+            PoolingHttpClientConnectionManager connMgr = new PoolingHttpClientConnectionManager( socketFactoryRegistry);
+            clientBuilder.setConnectionManager( connMgr);
             
         } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
             LOGGER.error("Can't built SSL Socket factory for URL '{}'", url, e);
             return null;
         }
-
+        
+        
         try (CloseableHttpClient httpclient = clientBuilder.build()) {
             HttpHead httpHead = new HttpHead(url.toURI());
             RequestConfig requestConfig =
@@ -188,7 +205,7 @@ final class URLMerger implements Merger<URL> {
             }
 
         } catch (IOException | URISyntaxException e) {
-            LOGGER.warn("Removing inaccessible URL '{}'", url);
+            LOGGER.warn("Removing inaccessible URL '{}': {}", url, e.getMessage());
             return null;
 
         }
