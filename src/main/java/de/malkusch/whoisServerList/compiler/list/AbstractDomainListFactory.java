@@ -63,6 +63,9 @@ public abstract class AbstractDomainListFactory implements DomainListFactory {
      * 
      * @param suffix  The suffix may have a leading "."
      * @param host    The whois server.
+     * 
+     * @throws WhoisServerListException If building the object failed
+     * @throws InterruptedException     If the thread was interrupted
      */
     protected final void addSuffix(String suffix, @Nullable String host)
             throws WhoisServerListException, InterruptedException {
@@ -76,6 +79,9 @@ public abstract class AbstractDomainListFactory implements DomainListFactory {
      * @param suffix  The suffix may have a leading "."
      * @param host    The whois server.
      * @param pattern The available pattern.
+     * 
+     * @throws WhoisServerListException If building the object failed
+     * @throws InterruptedException     If the thread was interrupted
      */
     protected final void addSuffix(String suffix, @Nullable String host, @Nullable String pattern)
             throws WhoisServerListException, InterruptedException {
