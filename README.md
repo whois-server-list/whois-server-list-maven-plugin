@@ -22,7 +22,7 @@ you can use the compiler as a maven plugin `whois-server-list`:
         <plugin>
             <groupId>de.malkusch.whois-server-list</groupId>
             <artifactId>whois-server-list-maven-plugin</artifactId>
-            <version>0.0.1</version>
+            <version>0.1.0</version>
             <configuration>
                 <schema>whois-server-list.xsd</schema>
                 <file>whois-server-list.xml</file>
