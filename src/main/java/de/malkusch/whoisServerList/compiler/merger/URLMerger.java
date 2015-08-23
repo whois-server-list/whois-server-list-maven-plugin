@@ -3,6 +3,9 @@ package de.malkusch.whoisServerList.compiler.merger;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -18,8 +21,10 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpHead;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.ssl.SSLContextBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,11 +151,19 @@ final class URLMerger implements Merger<URL> {
     private URL getAccessibleURL(final URL url) {
         if (url == null) {
             return null;
-
         }
+
         RedirectRecorder redirectRecorder = new RedirectRecorder();
         HttpClientBuilder clientBuilder = HttpClientBuilder.create();
         clientBuilder.setRedirectStrategy(redirectRecorder);
+
+        try {
+            clientBuilder.setSSLSocketFactory(new SSLConnectionSocketFactory(new SSLContextBuilder().loadTrustMaterial((chain, authType) -> true).build()));
+            
+        } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException e) {
+            LOGGER.error("Can't built SSL Socket factory for URL '{}'", url, e);
+            return null;
+        }
 
         try (CloseableHttpClient httpclient = clientBuilder.build()) {
             HttpHead httpHead = new HttpHead(url.toURI());

@@ -28,6 +28,9 @@ public class URLMergerTest {
     @Parameters
     public static Collection<String[]> getCases() {
         return Arrays.asList(new String[][] {
+            {"https://www.registry.net.za/",
+                "http://www.registry.net.za", "http://example.com"},
+            
             {null, "http://invalid.example.org", "http://invalid.example.com"},
 
             {"http://example.com",
