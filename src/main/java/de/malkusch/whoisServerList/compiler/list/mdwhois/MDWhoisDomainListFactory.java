@@ -71,7 +71,7 @@ final public class MDWhoisDomainListFactory extends AbstractDomainListFactory {
                 
                 DocContext ctx = parser.doc();
                 ParseTreeWalker walker = new ParseTreeWalker();
-                walker.walk(new MDWhoisBaseListener(){
+                walker.walk(new MDWhoisBaseListener() {
                     
                     private String suffix;
                     

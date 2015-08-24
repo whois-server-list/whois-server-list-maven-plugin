@@ -1,7 +1,7 @@
 package de.malkusch.whoisServerList.compiler.list.iana;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +26,7 @@ import de.malkusch.whoisServerList.compiler.exception.WhoisServerListException;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(WhoisClient.class)
-public class WhoisTopLevelDomainFactoryTest {
+public class IANATopLevelDomainBuilderTest {
 
     private IANATopLevelDomainBuilder builder;
     
@@ -45,7 +45,8 @@ public class WhoisTopLevelDomainFactoryTest {
     
     @Test
     public void testBuild() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream("de")).thenReturn(getClass().getResourceAsStream("/iana/de.txt"));
+        when(client.getInputStream(eq(false), eq("de"), anyString()))
+                .thenReturn(getClass().getResourceAsStream("/iana/de.txt"));
         
         builder.setName("de");
         TopLevelDomain domain = builder.build();
@@ -67,7 +68,8 @@ public class WhoisTopLevelDomainFactoryTest {
     
     @Test
     public void testIdn() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream("网络")).thenReturn(getClass().getResourceAsStream("/iana/cn.txt"));
+        when(client.getInputStream(eq(false), eq("网络"), anyString()))
+                .thenReturn(getClass().getResourceAsStream("/iana/cn.txt"));
         
         builder.setName("网络");
         TopLevelDomain domain = builder.build();
@@ -77,7 +79,8 @@ public class WhoisTopLevelDomainFactoryTest {
     
     @Test
     public void testInactive() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream("テスト")).thenReturn(getClass().getResourceAsStream("/iana/inactive.txt"));
+        when(client.getInputStream(eq(false), eq("テスト"), anyString()))
+                .thenReturn(getClass().getResourceAsStream("/iana/inactive.txt"));
         
         builder.setName("テスト");
         TopLevelDomain domain = builder.build();
@@ -87,12 +90,22 @@ public class WhoisTopLevelDomainFactoryTest {
     
     @Test
     public void testCountryCodeMapping() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream("uk")).thenReturn(getClass().getResourceAsStream("/iana/uk.txt"));
+        when(client.getInputStream(eq(false), eq("uk"), anyString()))
+                .thenReturn(getClass().getResourceAsStream("/iana/uk.txt"));
 
         builder.setName("uk");
         TopLevelDomain domain = builder.build();
 
         assertEquals("GB", domain.getCountryCode());
+    }
+    
+    @Test
+    public void testPercentsInValue() throws ParseException, WhoisServerListException, InterruptedException, IOException {
+        when(client.getInputStream(eq(false), eq("工行"), anyString()))
+        .thenReturn(getClass().getResourceAsStream("/iana/test.txt"));
+        
+        builder.setName("工行");
+        builder.build();
     }
 
 }

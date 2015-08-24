@@ -37,10 +37,7 @@ public class IanaDomainListFactoryTest {
 
             }
 
-            if (DomainUtil.isCountryCode(domain.getName())) {
-                assertEquals(domain.getName().toUpperCase(), domain.getCountryCode());
-
-            }
+            assertEquals(DomainUtil.getCountryCode(domain.getName()), domain.getCountryCode());
         }
     }
 
