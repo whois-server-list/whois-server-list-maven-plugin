@@ -30,6 +30,9 @@ public class IANATopLevelDomainBuilderTest {
 
     private IANATopLevelDomainBuilder builder;
     
+    private static final String CHARSET = "UTF-8";
+    private static final String HOST = "whois.example.net";
+    
     @Mock
     public WhoisClient client;
     
@@ -40,12 +43,12 @@ public class IANATopLevelDomainBuilderTest {
         Properties properties = new Properties();
         properties.load(getClass().getResourceAsStream("/compiler.properties"));
 
-        builder = new IANATopLevelDomainBuilder(client, properties);
+        builder = new IANATopLevelDomainBuilder(client, HOST, CHARSET);
     }
     
     @Test
     public void testBuild() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream(eq(false), eq("de"), anyString()))
+        when(client.getInputStream(false, "de", CHARSET))
                 .thenReturn(getClass().getResourceAsStream("/iana/de.txt"));
         
         builder.setName("de");
@@ -68,7 +71,7 @@ public class IANATopLevelDomainBuilderTest {
     
     @Test
     public void testIdn() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream(eq(false), eq("网络"), anyString()))
+        when(client.getInputStream(false, "网络", CHARSET))
                 .thenReturn(getClass().getResourceAsStream("/iana/cn.txt"));
         
         builder.setName("网络");
@@ -79,7 +82,7 @@ public class IANATopLevelDomainBuilderTest {
     
     @Test
     public void testInactive() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream(eq(false), eq("テスト"), anyString()))
+        when(client.getInputStream(false, "テスト", CHARSET))
                 .thenReturn(getClass().getResourceAsStream("/iana/inactive.txt"));
         
         builder.setName("テスト");
@@ -90,7 +93,7 @@ public class IANATopLevelDomainBuilderTest {
     
     @Test
     public void testCountryCodeMapping() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream(eq(false), eq("uk"), anyString()))
+        when(client.getInputStream(false, "uk", CHARSET))
                 .thenReturn(getClass().getResourceAsStream("/iana/uk.txt"));
 
         builder.setName("uk");
@@ -101,7 +104,7 @@ public class IANATopLevelDomainBuilderTest {
     
     @Test
     public void testPercentsInValue() throws ParseException, WhoisServerListException, InterruptedException, IOException {
-        when(client.getInputStream(eq(false), eq("工行"), anyString()))
+        when(client.getInputStream(false, "工行", CHARSET))
         .thenReturn(getClass().getResourceAsStream("/iana/test.txt"));
         
         builder.setName("工行");

@@ -132,7 +132,11 @@ public final class IanaDomainListFactory implements DomainListFactory {
                             InterruptedException {
 
                         IANATopLevelDomainBuilder builder
-                            = new IANATopLevelDomainBuilder(new WhoisClient(), properties);
+                            = new IANATopLevelDomainBuilder(
+                                    new WhoisClient(),
+                                    properties.getProperty(PROPERTY_WHOIS_HOST),
+                                    properties.getProperty(PROPERTY_WHOIS_CHARSET));
+
                         builder.setName(name.replaceFirst("\\.", ""));
                         return builder.build();
                     }

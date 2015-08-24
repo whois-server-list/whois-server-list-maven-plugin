@@ -5,23 +5,39 @@ response
     ;
 
 line
-    :   (COMMENT | whois | created | changed | state | keyValuePair) EOL
+    :   (COMMENT | whois | created | changed | setState | keyValuePair) EOL
     ;
 
 whois
-    :   WHOIS COLON WS value
+    :   WHOIS COLON WS whoisHost
+    ;
+
+whoisHost
+    :   value
     ;
 
 created
-    :   CREATED COLON WS value
+    :   CREATED COLON WS createdDate
+    ;
+    
+createdDate
+    :   value
     ;
 
 changed
-    :   CHANGED COLON WS value
+    :   CHANGED COLON WS changedDate
+    ;
+
+changedDate
+    :   value
+    ;
+    
+setState
+    :   STATE COLON WS state
     ;
 
 state
-    :   STATE COLON WS value
+    :   (NEW | ACTIVE | INACTIVE)
     ;
 
 keyValuePair
@@ -33,15 +49,18 @@ key
     ;
     
 value
-    :   (ANY | WS | COLON | WHOIS | CREATED | CHANGED | STATE | COMMENT)+
+    :   ~EOL+
     ;
 
-EOL     : [\r\n]+ ;
-COMMENT : '%' ~[\r\n]+ ;
-COLON   : ':' ;
-WHOIS   : 'whois' ;
-CREATED : 'created' ;
-CHANGED : 'changed' ;
-STATE   : 'status' ;
-WS      : [ \t]+ ;
-ANY     : . ;
+EOL      : [\r\n]+ ;
+COMMENT  : '%' ~[\r\n]+ ;
+COLON    : ':' ;
+WHOIS    : 'whois' ;
+CREATED  : 'created' ;
+CHANGED  : 'changed' ;
+STATE    : 'status' ;
+ACTIVE   : 'ACTIVE' ;
+NEW      : 'NEW' ;
+INACTIVE : 'INACTIVE' ;
+WS       : [ \t]+ ;
+ANY      : . ;
