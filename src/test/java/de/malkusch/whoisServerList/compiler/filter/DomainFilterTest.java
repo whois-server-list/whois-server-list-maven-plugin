@@ -95,6 +95,12 @@ public class DomainFilterTest {
             Domain expected = domain.clone();
             cases.add(new Object[] { domain, expected, patterns });
         }
+        {
+            Domain domain = TestUtil.buildDomain(
+                    "السعودية", "whois.nic.net.sa", "No Match");
+            Domain expected = domain.clone();
+            cases.add(new Object[] { domain, expected, patterns });
+        }
 
         return cases;
     }

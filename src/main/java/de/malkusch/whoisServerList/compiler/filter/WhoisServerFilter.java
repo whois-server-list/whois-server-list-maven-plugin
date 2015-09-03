@@ -2,6 +2,7 @@ package de.malkusch.whoisServerList.compiler.filter;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.IDN;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -140,7 +141,7 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
 
         }
         try (InputStream stream =
-                    whoisClient.getInputStream(unavailableQuery)) {
+                    whoisClient.getInputStream(IDN.toASCII(unavailableQuery))) {
 
             response = IOUtils.toString(stream);
             cache.put(server.getHost(), response);
