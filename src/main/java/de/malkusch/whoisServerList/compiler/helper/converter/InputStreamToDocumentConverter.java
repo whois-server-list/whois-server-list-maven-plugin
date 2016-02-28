@@ -46,6 +46,7 @@ public final class InputStreamToDocumentConverter implements
         try {
             HtmlCleaner cleaner = new HtmlCleaner();
             CleanerProperties cleanerProperties = cleaner.getProperties();
+            cleanerProperties.setAdvancedXmlEscape(true);
             cleanerProperties.setCharset(charset);
 
             TagNode node = cleaner.clean(stream);

@@ -101,6 +101,12 @@ public class DomainFilterTest {
             Domain expected = domain.clone();
             cases.add(new Object[] { domain, expected, patterns });
         }
+        {
+            Domain domain = TestUtil.buildDomain(
+                    "abbott", "whois.afilias-srs.net", "NOT FOUND");
+            Domain expected = domain.clone();
+            cases.add(new Object[] { domain, expected, patterns });
+        }
 
         return cases;
     }

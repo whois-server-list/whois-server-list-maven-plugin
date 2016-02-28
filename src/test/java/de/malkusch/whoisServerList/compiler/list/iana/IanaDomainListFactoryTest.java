@@ -28,7 +28,7 @@ public class IanaDomainListFactoryTest {
 
             assertNotEquals('.', domain.getName().charAt(0));
 
-            assertNotNull(domain.getState());
+            assertNotNull(String.format("State of %s could not be parsed", domain), domain.getState());
 
             if (! domain.getWhoisServers().isEmpty()) {
                 assertEquals(1, domain.getWhoisServers().size());

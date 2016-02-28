@@ -81,6 +81,17 @@ public class IANATopLevelDomainBuilderTest {
     }
     
     @Test
+    public void testRTL() throws IOException, WhoisServerListException, InterruptedException {
+        when(client.getInputStream(false, "موقع", CHARSET))
+            .thenReturn(getClass().getResourceAsStream("/iana/rtl.txt"));
+        
+        builder.setName("موقع");
+        TopLevelDomain domain = builder.build();
+        
+        assertEquals("موقع", domain.getName());
+    }
+    
+    @Test
     public void testInactive() throws ParseException, WhoisServerListException, InterruptedException, IOException {
         when(client.getInputStream(false, "テスト", CHARSET))
                 .thenReturn(getClass().getResourceAsStream("/iana/inactive.txt"));

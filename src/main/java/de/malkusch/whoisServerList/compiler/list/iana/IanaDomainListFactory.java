@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
@@ -14,6 +13,8 @@ import java.util.concurrent.TimeoutException;
 import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.net.whois.WhoisClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -123,25 +124,22 @@ public final class IanaDomainListFactory implements DomainListFactory {
                     throw new InterruptedException();
 
                 }
-                FutureTask<TopLevelDomain> task
-                        = new FutureTask<>(new Callable<TopLevelDomain>() {
-
-                    @Override
-                    public TopLevelDomain call()
-                            throws WhoisServerListException,
-                            InterruptedException {
-
-                        IANATopLevelDomainBuilder builder
-                            = new IANATopLevelDomainBuilder(
-                                    new WhoisClient(),
-                                    properties.getProperty(PROPERTY_WHOIS_HOST),
-                                    properties.getProperty(PROPERTY_WHOIS_CHARSET));
-
-                        builder.setName(name.replaceFirst("\\.", ""));
-                        return builder.build();
-                    }
-
+                
+                FutureTask<TopLevelDomain> task = new FutureTask<>(() -> {
+                    IANATopLevelDomainBuilder builder
+                        = new IANATopLevelDomainBuilder(
+                                new WhoisClient(),
+                                properties.getProperty(PROPERTY_WHOIS_HOST),
+                                properties.getProperty(PROPERTY_WHOIS_CHARSET));
+    
+                    String normalizedName = name.replaceFirst("\\.", "");
+                    normalizedName = StringUtils.trim(StringEscapeUtils.unescapeHtml4(normalizedName));
+                    normalizedName = normalizedName.replaceAll("[\\p{C}\\p{Z}]", "");
+                    
+                    builder.setName(normalizedName);
+                    return builder.build();
                 });
+                                
                 tasks.add(task);
                 concurrencyService.getExecutor().execute(task);
 

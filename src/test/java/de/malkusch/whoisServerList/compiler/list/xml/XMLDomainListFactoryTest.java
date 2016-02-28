@@ -38,7 +38,6 @@ public class XMLDomainListFactoryTest {
         assertEquals(8, de.getDomains().size());
 
         TopLevelDomain uk = TestUtil.find(toplevelDomains, "uk");
-        assertEquals(11, uk.getDomains().size());
         assertNotNull(TestUtil.find(uk.getDomains(), "co.uk"));
         assertNotNull(TestUtil.find(uk.getDomains(), "org.uk"));
         assertNotNull(TestUtil.find(uk.getDomains(), "me.uk"));
@@ -62,7 +61,7 @@ public class XMLDomainListFactoryTest {
             = Pattern.quote("no match for");
         assertEquals(exptectedPatter, comWhois1.getAvailablePattern().toString());
 
-        assertEquals("1.0.2", list.getVersion());
+        assertEquals("2.0.2", list.getVersion());
 
         Pattern descriptionPattern = Pattern.compile(
                 "^This list .+1335STSwu9hST4vcMRppEPgENMHD2r1REK$",
