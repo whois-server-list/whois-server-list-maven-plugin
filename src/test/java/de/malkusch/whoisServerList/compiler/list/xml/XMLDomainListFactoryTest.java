@@ -30,7 +30,7 @@ public class XMLDomainListFactoryTest {
 
         assertEquals("DE", de.getCountryCode());
         assertEquals(
-                new URL("http://www.denic.de/"), de.getRegistrationService());
+                new URL("https://www.denic.de/"), de.getRegistrationService());
         assertEquals(2, de.getWhoisServers().size());
         assertNotNull(TestUtil.find(de.getWhoisServers(), "whois.denic.de"));
         WhoisServer denic = TestUtil.find(de.getWhoisServers(), "whois.nic.de");
@@ -61,7 +61,7 @@ public class XMLDomainListFactoryTest {
             = Pattern.quote("no match for");
         assertEquals(exptectedPatter, comWhois1.getAvailablePattern().toString());
 
-        assertEquals("2.0.2", list.getVersion());
+        assertEquals("2.0.5", list.getVersion());
 
         Pattern descriptionPattern = Pattern.compile(
                 "^This list .+1335STSwu9hST4vcMRppEPgENMHD2r1REK$",

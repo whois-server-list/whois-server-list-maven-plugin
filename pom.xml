@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>de.malkusch.parent</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>1.10</version>
+		<version>2.0.0</version>
 	</parent>
 
 	<properties>
@@ -43,25 +43,25 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.10.19</version>
+			<version>2.0.2-beta</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.6.2</version>
+			<version>1.6.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.6.2</version>
+			<version>1.6.4</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
-			<version>4.5.1-1</version>
+			<version>4.5.2-1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
-			<version>3.3.3</version>
+			<version>3.3.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven.plugin-tools</groupId>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
-			<version>3.0.0</version>
+			<version>3.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.cedarsoft.commons</groupId>
@@ -92,17 +92,17 @@
 		<dependency>
 			<groupId>de.malkusch.whois-server-list</groupId>
 			<artifactId>public-suffix-list</artifactId>
-			<version>2.0.1</version>
+			<version>2.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>de.malkusch.whois-server-list.api.v1</groupId>
 			<artifactId>whois-server-list-api</artifactId>
-			<version>2.0.3-SNAPSHOT</version>
+			<version>2.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5</version>
+			<version>4.5.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -112,12 +112,12 @@
 		<dependency>
 			<groupId>net.sourceforge.htmlcleaner</groupId>
 			<artifactId>htmlcleaner</artifactId>
-			<version>2.13</version>
+			<version>2.16</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-net</groupId>
 			<artifactId>commons-net</artifactId>
-			<version>3.3</version>
+			<version>3.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -127,12 +127,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<version>1.7.18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j.version}</version>
+			<version>1.7.18</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.cache</groupId>
@@ -142,12 +142,18 @@
 		<dependency>
 			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-jcache</artifactId>
-			<version>8.0.0.Beta3</version>
+			<version>8.2.0.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>com.caucho</groupId>
 			<artifactId>quercus</artifactId>
 			<version>4.0.45</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
