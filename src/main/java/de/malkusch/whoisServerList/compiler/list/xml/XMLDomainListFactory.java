@@ -1,6 +1,7 @@
 package de.malkusch.whoisServerList.compiler.list.xml;
 
 import javax.annotation.concurrent.NotThreadSafe;
+import javax.xml.bind.JAXBException;
 
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.Source;
@@ -26,8 +27,13 @@ public final class XMLDomainListFactory implements DomainListFactory {
 
     @Override
     public DomainList buildList() throws BuildListException {
-        de.malkusch.whoisServerList.api.v1.DomainListFactory factory
-                = new de.malkusch.whoisServerList.api.v1.DomainListFactory();
-        return factory.build();
+        try {
+            de.malkusch.whoisServerList.api.v1.DomainListFactory factory = new de.malkusch.whoisServerList.api.v1.DomainListFactory();
+
+            return factory.download();
+
+        } catch (JAXBException e) {
+            throw new BuildListException(e);
+        }
     }
 }
