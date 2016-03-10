@@ -49,7 +49,10 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
 
     /**
      * The query cache.
+     * 
+     * @deprecated The same whois server might respond differently for a different tld.
      */
+    @Deprecated
     private final Cache<String, String> cache;
 
     /**
