@@ -3,7 +3,6 @@ package de.malkusch.whoisServerList.mojo;
 import java.io.File;
 
 import javax.annotation.concurrent.Immutable;
-import javax.cache.Cache;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -14,9 +13,9 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
+import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
-import de.malkusch.whoisServerList.compiler.helper.CacheFactory;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 
 /**
@@ -32,6 +31,13 @@ import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 public final class XMLMojo extends AbstractMojo {
 
     /**
+     * Api key for the <a href="https://market.mashape.com/malkusch/whois">Whois
+     * API</a>
+     */
+    @Parameter(required = true, property = "whoisApi.apiKey")
+    private String apiKey;
+
+    /**
      * Path to the generated xml file.
      */
     @Parameter(required = true)
@@ -39,10 +45,10 @@ public final class XMLMojo extends AbstractMojo {
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        try (CacheFactory cacheFactory = new CacheFactory();
-                Cache<String, String> cache = cacheFactory.buildQueryCache()) {
+        try {
+            WhoisApi whoisApi = new WhoisApi(apiKey);
 
-            DomainListCompiler compiler = new DomainListCompiler(cache);
+            DomainListCompiler compiler = new DomainListCompiler(whoisApi);
             DomainList list = compiler.compile();
 
             JAXBContext context = JAXBContext.newInstance(DomainList.class);
@@ -52,10 +58,10 @@ public final class XMLMojo extends AbstractMojo {
 
         } catch (JAXBException | BuildListException e) {
             throw new MojoExecutionException(e.getMessage(), e);
+
         } catch (InterruptedException e) {
             throw new MojoFailureException(e.getMessage(), e);
         }
     }
-
 
 }

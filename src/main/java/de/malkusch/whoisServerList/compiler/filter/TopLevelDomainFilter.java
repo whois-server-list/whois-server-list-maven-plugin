@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import javax.cache.Cache;
 
+import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
 import de.malkusch.whoisServerList.compiler.helper.comparator.DomainComparator;
 
@@ -26,17 +26,16 @@ final class TopLevelDomainFilter extends DomainFilter<TopLevelDomain> {
     private final DomainComparator comparator;
 
     /**
-     * Sets the timeout.
+     * Sets the dependencies.
      *
-     * @param timeout   the timeout in seconds
-     * @param patterns  the known patterns, not null
-     * @param cache     the query cache, not null
+     * @param patterns
+     *            the known patterns, not null
+     * @param whoisApi
+     *            Whois API, not null
      */
-    TopLevelDomainFilter(final int timeout,
-            @Nonnull final List<Pattern> patterns,
-            @Nonnull final Cache<String, String> cache) {
+    TopLevelDomainFilter(@Nonnull final List<Pattern> patterns, @Nonnull final WhoisApi whoisApi) {
 
-        super(timeout, patterns, cache);
+        super(patterns, whoisApi);
 
         this.comparator = new DomainComparator();
     }

@@ -11,12 +11,12 @@ import org.junit.Test;
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
-import de.malkusch.whoisServerList.compiler.test.CacheRule;
+import de.malkusch.whoisServerList.compiler.test.WhoisApiRule;
 
 public class DomainListFilterTest {
 
     @Rule
-    public CacheRule cacheRule = new CacheRule();
+    public WhoisApiRule whoisApiRule = new WhoisApiRule();
 
     @Test
     public void testFilter() throws InterruptedException {
@@ -48,8 +48,7 @@ public class DomainListFilterTest {
         list.getDomains().add(org);
 
 
-        DomainListFilter filter = new DomainListFilter(
-                5, cacheRule.getQueryCache());
+        DomainListFilter filter = new DomainListFilter(whoisApiRule.whoisApi());
 
         DomainList filtered = filter.filter(list);
 

@@ -12,26 +12,24 @@ import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.helper.VersionUtil;
 import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 import de.malkusch.whoisServerList.compiler.list.xml.XMLDomainListFactory;
-import de.malkusch.whoisServerList.compiler.test.CacheRule;
+import de.malkusch.whoisServerList.compiler.test.WhoisApiRule;
 
 public class DomainListCompilerTest {
 
     @Rule
-    public CacheRule cacheRule = new CacheRule();
+    public WhoisApiRule whoisApiRule = new WhoisApiRule();
 
     @Test
     public void testCompile() throws BuildListException, InterruptedException {
-        DomainListCompiler compiler =
-                new DomainListCompiler(cacheRule.getQueryCache());
-        DomainList xmlList =  new XMLDomainListFactory().buildList();
+        DomainListCompiler compiler = new DomainListCompiler(whoisApiRule.whoisApi());
+        DomainList xmlList = new XMLDomainListFactory().buildList();
         Date now = new Date();
 
         DomainList list = compiler.compile();
 
         assertTrue(now.before(list.getDate()));
 
-        assertEquals(VersionUtil.incrementVersion(xmlList.getVersion()),
-                list.getVersion());
+        assertEquals(VersionUtil.incrementVersion(xmlList.getVersion()), list.getVersion());
     }
 
 }

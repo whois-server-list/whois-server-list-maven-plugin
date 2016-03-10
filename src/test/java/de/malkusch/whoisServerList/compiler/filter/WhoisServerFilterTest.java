@@ -20,13 +20,13 @@ import org.junit.runners.Parameterized.Parameters;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
-import de.malkusch.whoisServerList.compiler.test.CacheRule;
+import de.malkusch.whoisServerList.compiler.test.WhoisApiRule;
 
 @RunWith(Parameterized.class)
 public class WhoisServerFilterTest {
 
     @Rule
-    public CacheRule cacheRule = new CacheRule();
+    public WhoisApiRule whoisApiRule = new WhoisApiRule();
 
     private WhoisServerFilter filter;
 
@@ -52,8 +52,7 @@ public class WhoisServerFilterTest {
 
     @Before
     public void setup() {
-        filter = new WhoisServerFilter("example.com", 5,
-                new ArrayList<Pattern>(), cacheRule.getQueryCache());
+        filter = new WhoisServerFilter("example.com", new ArrayList<Pattern>(), whoisApiRule.whoisApi());
         server = new WhoisServer();
         server.setHost(host);
     }

@@ -1,6 +1,5 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.IDN;
 import java.util.List;
@@ -9,13 +8,12 @@ import java.util.regex.Pattern;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
-import javax.cache.Cache;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.net.whois.WhoisClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 
 /**
@@ -33,11 +31,6 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
     private final String unavailableQuery;
 
     /**
-     * The timeout in seconds.
-     */
-    private final int timeout;
-
-    /**
      * Removes invalid patterns.
      */
     private final WhoisServerResponseFindPatternFilter findPatternFilter;
@@ -48,49 +41,34 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
     private final WhoisServerResponseInvalidPatternFilter invalidPatternFilter;
 
     /**
-     * The query cache.
-     * 
-     * @deprecated The same whois server might respond differently for a different tld.
+     * The whois API.
      */
-    @Deprecated
-    private final Cache<String, String> cache;
-
-    /**
-     * One second in milliseconds.
-     */
-    private static final int SECOND = 1000;
+    private final WhoisApi whoisApi;
 
     /**
      * The logger.
      */
-    private static final Logger LOGGER
-            = LoggerFactory.getLogger(WhoisServerFilter.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WhoisServerFilter.class);
 
     /**
      * Sets the unavailable query and the timeout.
      *
-     * @param unavailableQuery  the unavailable query, not null
-     * @param timeout           the timeout in seconds
-     * @param patterns          the existing unavailable patterns, not null
-     * @param cache             the query cache, not null
+     * @param unavailableQuery
+     *            the unavailable query, not null
+     * @param patterns
+     *            the existing unavailable patterns, not null
+     * @param whoisApi
+     *            Whois API
      */
-    WhoisServerFilter(
-            @Nonnull final String unavailableQuery, final int timeout,
-            @Nonnull final List<Pattern> patterns,
-            @Nonnull final Cache<String, String> cache) {
+    WhoisServerFilter(@Nonnull final String unavailableQuery, @Nonnull final List<Pattern> patterns,
+            @Nonnull final WhoisApi whoisApi) {
 
         this.unavailableQuery = unavailableQuery;
-        this.timeout = timeout;
-
-        this.invalidPatternFilter
-                = new WhoisServerResponseInvalidPatternFilter();
-
-        this.findPatternFilter
-                = new WhoisServerResponseFindPatternFilter(patterns);
-
-        this.cache = cache;
+        this.invalidPatternFilter = new WhoisServerResponseInvalidPatternFilter();
+        this.findPatternFilter = new WhoisServerResponseFindPatternFilter(patterns);
+        this.whoisApi = whoisApi;
     }
-    
+
     @Override
     @Nullable
     public WhoisServer filter(@Nullable final WhoisServer server) {
@@ -101,8 +79,7 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
 
         String response = getResponse(server);
         if (response == null) {
-            LOGGER.warn(
-                "removing inaccessible whois server '{}'", server.getHost());
+            LOGGER.warn("removing inaccessible whois server '{}'", server.getHost());
             return null;
 
         }
@@ -119,49 +96,16 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
     /**
      * Queries a whois server and returns the response.
      *
-     * The response is cached in {@link WhoisServerFilter#cache}. This cache
-     * ignores the query. I.e. different queries on the same server will return
-     * the same response as they share the cached response.
-     *
-     * @param server  the whois server
+     * @param server
+     *            the whois server
      * @return the whois response
      */
     private String getResponse(final WhoisServer server) {
-        String response = cache.get(server.getHost());
-        if (response != null) {
-            return response;
+        try (InputStream stream = whoisApi.query(server.getHost(), IDN.toASCII(unavailableQuery))) {
+            return IOUtils.toString(stream);
 
-        }
-        WhoisClient whoisClient = new WhoisClient();
-        whoisClient.setDefaultTimeout(timeout * SECOND);
-        whoisClient.setConnectTimeout(timeout * SECOND);
-        try {
-            whoisClient.connect(server.getHost());
-            whoisClient.setSoTimeout(timeout * SECOND);
-
-        } catch (IOException e) {
+        } catch (Exception e) {
             return null;
-
-        }
-        try (InputStream stream =
-                    whoisClient.getInputStream(IDN.toASCII(unavailableQuery))) {
-
-            response = IOUtils.toString(stream);
-            cache.put(server.getHost(), response);
-            return response;
-
-        } catch (IOException e) {
-            return null;
-
-        } finally {
-            try {
-                whoisClient.disconnect();
-
-            } catch (IOException e) {
-                LOGGER.warn(
-                        "failed disconnecting server '{}': {}",
-                        server.getHost(), e);
-            }
         }
     }
 

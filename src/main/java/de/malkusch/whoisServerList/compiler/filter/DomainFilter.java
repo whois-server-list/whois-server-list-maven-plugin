@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
-import javax.cache.Cache;
 
+import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.helper.comparator.WhoisServerComparator;
@@ -16,26 +16,17 @@ import de.malkusch.whoisServerList.compiler.helper.comparator.WhoisServerCompara
  * Filter domains.
  *
  * @author markus@malkusch.de
- * @param <T>  the domain type
+ * @param <T>
+ *            the domain type
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
  */
 @Immutable
 class DomainFilter<T extends Domain> implements Filter<T> {
 
     /**
-     * The timeout in seconds.
-     */
-    private final int timeout;
-
-    /**
      * The name filter.
      */
     private final StringFilter nameFilter;
-
-    /**
-     * The query cache.
-     */
-    private final Cache<String, String> cache;
 
     /**
      * The sort comparator for the whois servers.
@@ -53,25 +44,28 @@ class DomainFilter<T extends Domain> implements Filter<T> {
     private final List<Pattern> patterns;
 
     /**
+     * The Whois API.
+     */
+    private final WhoisApi whoisApi;
+
+    /**
      * Sets the timeout.
      *
-     * @param timeout   the timeout in seconds
-     * @param patterns  the known patterns, not null
-     * @param cache     the query cache, not null
+     * @param patterns
+     *            the known patterns, not null
+     * @param whoisApi
+     *            Whois API
      */
-    DomainFilter(final int timeout, @Nonnull final List<Pattern> patterns,
-            @Nonnull final Cache<String, String> cache) {
+    DomainFilter(@Nonnull final List<Pattern> patterns, @Nonnull final WhoisApi whoisApi) {
 
         this.patterns = patterns;
-        this.timeout = timeout;
-        this.cache = cache;
         this.nameFilter = new StringFilter();
         this.comparator = new WhoisServerComparator();
+        this.whoisApi = whoisApi;
     }
 
     @Override
-    public final T filter(final T domain)
-            throws InterruptedException {
+    public final T filter(final T domain) throws InterruptedException {
 
         if (domain == null) {
             return null;
@@ -82,16 +76,13 @@ class DomainFilter<T extends Domain> implements Filter<T> {
 
         filtered.setName(nameFilter.filter(domain.getName()));
 
-        String query
-                = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
+        String query = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
 
-        WhoisServerFilter serverFilter
-                = new WhoisServerFilter(query, timeout, patterns, cache);
+        WhoisServerFilter serverFilter = new WhoisServerFilter(query, patterns, whoisApi);
 
         ListFilter<WhoisServer> listFilter = new ListFilter<>(serverFilter);
 
-        List<WhoisServer> filteredServers
-                = listFilter.filter(domain.getWhoisServers());
+        List<WhoisServer> filteredServers = listFilter.filter(domain.getWhoisServers());
 
         // Sort the servers
         Collections.sort(filteredServers, comparator);
@@ -108,7 +99,8 @@ class DomainFilter<T extends Domain> implements Filter<T> {
      *
      * Subclasses may overwrite this method.
      *
-     * @param domain  the domain
+     * @param domain
+     *            the domain
      * @return the filtered domain
      */
     T filterDomain(final T domain) {

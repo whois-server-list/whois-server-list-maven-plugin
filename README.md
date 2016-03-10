@@ -34,14 +34,17 @@ you can use the compiler as a maven plugin `whois-server-list`:
 
 ## Goals
 
+Some goals require an api key for the [Whois API](https://market.mashape.com/malkusch/whois). You can get it 
+there.
+
 * `mvn whois-server-list:schema`: Builds the schema. The configuration parameter
   `schema` is the schema location.
 
 * `mvn whois-server-list:xml`: Builds the whois server list. The configuration
-  parameter `file` is the list location.
+  parameter `file` is the list location. Please provide the api key with `-DwhoisApi.apiKey`.
   
-* `mvn whois-server-list:verify`: Verifies the whois server list. Please provide the api key from the
-    [Whois API](https://market.mashape.com/malkusch/whois) with `-DwhoisApi.apiKey`.
+* `mvn whois-server-list:verify`: Verifies the whois server list.
+  Please provide the api key with `-DwhoisApi.apiKey`.
 
 
 # License and author

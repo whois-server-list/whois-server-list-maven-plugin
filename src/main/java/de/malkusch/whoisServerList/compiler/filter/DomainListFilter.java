@@ -2,14 +2,12 @@ package de.malkusch.whoisServerList.compiler.filter;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
-import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
-import javax.cache.Cache;
 
+import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
@@ -32,55 +30,23 @@ public final class DomainListFilter implements Filter<DomainList> {
     private final DomainComparator comparator;
 
     /**
-     * The timeout in seconds.
+     * The Whois API.
      */
-    private int timeout;
-
-    /**
-     * The query cache.
-     */
-    private final Cache<String, String> cache;
-
-    /**
-     * The configuration porperty name for the whois filter timeout.
-     *
-     * @see #timeout
-     */
-    @PropertyKey
-    private static final String PROPERTY_TIMEOUT =
-                                        "filter.whois.timeout.seconds";
+    private final WhoisApi whoisApi;
 
     /**
      * Sets the whois filter timeout.
      *
-     * @param timeout  the timeout in seconds
-     * @param cache    the query cache, not null
+     * @param whoisApi
+     *            the Whois API
      */
-    public DomainListFilter(final int timeout,
-            @Nonnull final Cache<String, String> cache) {
-
-        this.timeout = timeout;
-        this.cache = cache;
+    public DomainListFilter(@Nonnull final WhoisApi whoisApi) {
+        this.whoisApi = whoisApi;
         comparator = new DomainComparator();
     }
 
-    /**
-     * Sets the whois filter timeout.
-     *
-     * @param properties  the application properties
-     * @param cache       the query cache, not null
-     *
-     * @see #PROPERTY_TIMEOUT
-     */
-    public DomainListFilter(final Properties properties,
-            @Nonnull final Cache<String, String> cache) {
-
-        this(Integer.parseInt(properties.getProperty(PROPERTY_TIMEOUT)), cache);
-    }
-
     @Override
-    public DomainList filter(final DomainList domainList)
-            throws InterruptedException {
+    public DomainList filter(final DomainList domainList) throws InterruptedException {
 
         if (domainList == null) {
             return null;
@@ -89,16 +55,13 @@ public final class DomainListFilter implements Filter<DomainList> {
 
         List<Pattern> patterns = getPatterns(domainList);
 
-        TopLevelDomainFilter domainFilter
-                = new TopLevelDomainFilter(timeout, patterns, cache);
+        TopLevelDomainFilter domainFilter = new TopLevelDomainFilter(patterns, whoisApi);
 
-        AbstractListFilter<TopLevelDomain> domainsFilter
-                = new ConcurrentListFilter<>(domainFilter);
+        AbstractListFilter<TopLevelDomain> domainsFilter = new ConcurrentListFilter<>(domainFilter);
 
         DomainList filtered = domainList.clone();
 
-        List<TopLevelDomain> domains
-                = domainsFilter.filter(domainList.getDomains());
+        List<TopLevelDomain> domains = domainsFilter.filter(domainList.getDomains());
 
         Collections.sort(domains, comparator);
 
@@ -110,18 +73,16 @@ public final class DomainListFilter implements Filter<DomainList> {
     /**
      * Returns the known pattern list.
      *
-     * @param domainList  The domain list.
+     * @param domainList
+     *            The domain list.
      * @return the pattern list.
      */
     private List<Pattern> getPatterns(final DomainList domainList) {
-        DomainListToWhoisServerListConverter listConverter
-                = new DomainListToWhoisServerListConverter();
+        DomainListToWhoisServerListConverter listConverter = new DomainListToWhoisServerListConverter();
 
-        WhoisServerListToOrderedPatternListConverter patternConverter
-                = new WhoisServerListToOrderedPatternListConverter();
+        WhoisServerListToOrderedPatternListConverter patternConverter = new WhoisServerListToOrderedPatternListConverter();
 
-        List<WhoisServer> servers
-                = listConverter.convert(domainList.getDomains());
+        List<WhoisServer> servers = listConverter.convert(domainList.getDomains());
 
         return patternConverter.convert(servers);
     }

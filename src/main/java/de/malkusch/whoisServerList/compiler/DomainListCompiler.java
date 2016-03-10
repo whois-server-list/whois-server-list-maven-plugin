@@ -9,11 +9,11 @@ import java.util.Properties;
 import javax.annotation.Nonnull;
 import javax.annotation.PropertyKey;
 import javax.annotation.concurrent.Immutable;
-import javax.cache.Cache;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 
+import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.compiler.filter.DomainListFilter;
 import de.malkusch.whoisServerList.compiler.helper.VersionUtil;
@@ -34,13 +34,13 @@ import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
  * The sources for the compiled list are:
  *
  * <ul>
- *   <li>Whois Server List</li>
- *   <li>Root Zone Database</li>
- *   <li>Public Suffix List</li>
- *   <li>Ruby Whois</li>
- *   <li>Marco d'Itri's</li>
- *   <li>php-whois</li>
- *   <li>phpWhois</li>
+ * <li>Whois Server List</li>
+ * <li>Root Zone Database</li>
+ * <li>Public Suffix List</li>
+ * <li>Ruby Whois</li>
+ * <li>Marco d'Itri's</li>
+ * <li>php-whois</li>
+ * <li>phpWhois</li>
  * </ul>
  *
  * @author markus@malkusch.de
@@ -50,7 +50,8 @@ import de.malkusch.whoisServerList.compiler.merger.DomainListMerger;
  * @see <a href="http://www.iana.org/domains/root/db">Root Zone Database</a>
  * @see <a href="https://publicsuffix.org/">Public Suffix List</a>
  * @see <a href="http://whoisrb.org/">Ruby Whois</a>
- * @see <a href="https://github.com/rfc1036/whois">Marco d'Itri's Whois client</a>
+ * @see <a href="https://github.com/rfc1036/whois">Marco d'Itri's Whois
+ *      client</a>
  * @see <a href="https://github.com/regru/php-whois">php-whois</a>
  * @see <a href="https://github.com/phpWhois/phpWhois">phpWhois</a>
  * @see <a href="bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK">Donations</a>
@@ -61,9 +62,8 @@ public final class DomainListCompiler {
     /**
      * The domain list factories for different sources.
      *
-     * The list is ordered after the list dominance. The first
-     * list is the most dominant list. The next lists can't overwrite
-     * existing values.
+     * The list is ordered after the list dominance. The first list is the most
+     * dominant list. The next lists can't overwrite existing values.
      */
     private final DomainListFactory[] listFactories;
 
@@ -76,31 +76,31 @@ public final class DomainListCompiler {
      * The domain list filter.
      */
     private final DomainListFilter filter;
-    
+
     /**
      * The Ruby Whois's list URI.
      */
     @PropertyKey
     private static final String PROPERTY_WHOIS_RB_URI = "whoisrb.uri";
-    
+
     /**
      * The URI for Marco d'Itri's list.
      */
     @PropertyKey
     private static final String PROPERTY_MD_WHOIS_URI = "mdwhois.uri";
-    
+
     /**
      * The URI for php-whois' list.
      */
     @PropertyKey
     private static final String PROPERTY_PHOIS_URI = "phois.uri";
-    
+
     /**
      * The URI for phpWhois' list.
      */
     @PropertyKey
     private static final String PROPERTY_PHPWHOIS_URI = "phpwhois.uri";
-    
+
     /**
      * The delay in seconds before script execution starts.
      */
@@ -115,8 +115,7 @@ public final class DomainListCompiler {
     public static Properties getDefaultProperties() {
         try {
             Properties properties = new Properties();
-            properties.load(DomainListCompiler.class.getResourceAsStream(
-                    "/compiler.properties"));
+            properties.load(DomainListCompiler.class.getResourceAsStream("/compiler.properties"));
 
             return properties;
         } catch (IOException e) {
@@ -127,42 +126,39 @@ public final class DomainListCompiler {
     /**
      * Constructs the compiler with the default properties.
      *
-     * @param cache  the query cache, not null
+     * @param whoisApi
+     *            Whois API
      * @see #getDefaultProperties()
      */
-    public DomainListCompiler(@Nonnull final Cache<String, String> cache) {
-        this(getDefaultProperties(), cache);
+    public DomainListCompiler(@Nonnull final WhoisApi whoisApi) {
+        this(getDefaultProperties(), whoisApi);
     }
 
     /**
      * Constructs the compiler.
      *
-     * @param properties  the compiler properties
-     * @param cache       the query cache, not null
+     * @param properties
+     *            the compiler properties
+     * @param whoisApi
+     *            Whois API
      */
-    public DomainListCompiler(final Properties properties,
-            @Nonnull final Cache<String, String> cache) {
+    public DomainListCompiler(final Properties properties, @Nonnull final WhoisApi whoisApi) {
 
         try {
             HttpClient httpClient = HttpClients.createDefault();
-            
-            this.listFactories = new DomainListFactory[] {
-                new XMLDomainListFactory(),
-                new IanaDomainListFactory(properties),
-                new PublicSuffixDomainListFactory(),
-                new MDWhoisDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_MD_WHOIS_URI))),
-                new WhoisrbDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_WHOIS_RB_URI))),
-                new PhoisDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_PHOIS_URI))),
-                new PhpWhoisDomainListFactory(
-                        httpClient,
-                        new URI(properties.getProperty(PROPERTY_PHPWHOIS_URI)),
-                        Integer.parseInt(properties.getProperty(PROPERTY_PHPWHOIS_DELAY))),
-            };
-    
+
+            this.listFactories = new DomainListFactory[] { new XMLDomainListFactory(),
+                    new IanaDomainListFactory(properties), new PublicSuffixDomainListFactory(),
+                    new MDWhoisDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_MD_WHOIS_URI))),
+                    new WhoisrbDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_WHOIS_RB_URI))),
+                    new PhoisDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_PHOIS_URI))),
+                    new PhpWhoisDomainListFactory(httpClient, new URI(properties.getProperty(PROPERTY_PHPWHOIS_URI)),
+                            Integer.parseInt(properties.getProperty(PROPERTY_PHPWHOIS_DELAY))), };
+
             this.merger = new DomainListMerger(properties);
-    
-            this.filter = new DomainListFilter(properties, cache);
-            
+
+            this.filter = new DomainListFilter(whoisApi);
+
         } catch (URISyntaxException e) {
             throw new IllegalStateException(e);
         }
@@ -171,16 +167,17 @@ public final class DomainListCompiler {
     /**
      * Compiles and returns the merged list from all list sources.
      *
-     * The date of the compiled list is set to now. The patch part of
-     * the version is incremented by 1. E.g. version 1.0.0 will be 1.0.1.
+     * The date of the compiled list is set to now. The patch part of the
+     * version is incremented by 1. E.g. version 1.0.0 will be 1.0.1.
      *
      * @return the compiled list
      *
-     * @throws BuildListException   If building a list failed
-     * @throws InterruptedException If the thread was interrupted
+     * @throws BuildListException
+     *             If building a list failed
+     * @throws InterruptedException
+     *             If the thread was interrupted
      */
-    public DomainList compile()
-            throws BuildListException, InterruptedException {
+    public DomainList compile() throws BuildListException, InterruptedException {
 
         DomainList compiledList = new DomainList();
 
@@ -191,8 +188,7 @@ public final class DomainListCompiler {
 
         compiledList.setDate(new Date());
 
-        compiledList.setVersion(
-                VersionUtil.incrementVersion(compiledList.getVersion()));
+        compiledList.setVersion(VersionUtil.incrementVersion(compiledList.getVersion()));
 
         compiledList = filter.filter(compiledList);
 
