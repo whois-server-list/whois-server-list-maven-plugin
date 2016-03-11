@@ -31,7 +31,7 @@ import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 public final class VerifyMojo extends AbstractMojo {
 
     /**
-     * Api key for the <a href="https://market.mashape.com/malkusch/whois">Whois
+     * Api key for the <a href="http://whois-api.domaininformation.de/">Whois
      * API</a>
      */
     @Parameter(required = true, property = "whoisApi.apiKey")

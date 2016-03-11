@@ -31,7 +31,7 @@ import de.malkusch.whoisServerList.compiler.list.exception.BuildListException;
 public final class XMLMojo extends AbstractMojo {
 
     /**
-     * Api key for the <a href="https://market.mashape.com/malkusch/whois">Whois
+     * Api key for the <a href="http://whois-api.domaininformation.de/">Whois
      * API</a>
      */
     @Parameter(required = true, property = "whoisApi.apiKey")

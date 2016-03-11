@@ -34,7 +34,7 @@ you can use the compiler as a maven plugin `whois-server-list`:
 
 ## Goals
 
-Some goals require an api key for the [Whois API](https://market.mashape.com/malkusch/whois). You can get it 
+Some goals require an api key for the [Whois API](http://whois-api.domaininformation.de/). You can get it 
 there.
 
 * `mvn whois-server-list:schema`: Builds the schema. The configuration parameter
