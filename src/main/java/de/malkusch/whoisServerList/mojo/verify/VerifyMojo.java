@@ -4,11 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.IDN;
 import java.net.MalformedURLException;
-import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.bind.JAXBException;
@@ -28,6 +25,7 @@ import de.malkusch.whoisServerList.api.v1.DomainListFactory;
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 
 @Mojo(name = "verify", defaultPhase = LifecyclePhase.VERIFY)
 public final class VerifyMojo extends AbstractMojo {
@@ -47,7 +45,7 @@ public final class VerifyMojo extends AbstractMojo {
 
     private WhoisApi whoisApi;
 
-    private Collection<Pattern> errorPatterns;
+    private WhoisErrorResponseDetector errorDetector;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
@@ -59,13 +57,7 @@ public final class VerifyMojo extends AbstractMojo {
         try {
             DomainListFactory factory = new DomainListFactory();
             DomainList list = factory.build(file.toURI().toURL());
-
-            errorPatterns = Stream
-                    .concat(list.getDomains().stream().flatMap(domain -> domain.getWhoisServers().stream()),
-                            list.getDomains().stream()
-                                    .flatMap(tld -> tld.getDomains().stream()
-                                            .flatMap(domain -> domain.getWhoisServers().stream())))
-                    .flatMap(server -> server.getErrorPatterns().stream()).distinct().collect(Collectors.toList());
+            errorDetector = new WhoisErrorResponseDetector(list);
 
             ForkJoinPool executor = new ForkJoinPool(1000);
             boolean valid = executor.submit(() -> Stream.concat(list.getDomains().parallelStream(),
@@ -100,8 +92,7 @@ public final class VerifyMojo extends AbstractMojo {
 
             String response = IOUtils.toString(whoisApi.query(host, availableDomain));
 
-            boolean error = errorPatterns.stream().anyMatch(pattern -> pattern.matcher(response).find());
-            if (error) {
+            if (errorDetector.isError(response)) {
                 if (iteration > 5) {
                     getLog().warn(String.format("Could not verify host %s for domain %s: Proxy banned.", host, domain));
                     return true;

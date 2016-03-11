@@ -14,7 +14,9 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 import de.malkusch.whoisServerList.compiler.test.TestUtil;
 import de.malkusch.whoisServerList.compiler.test.WhoisApiRule;
 
@@ -99,7 +101,7 @@ public class DomainFilterTest {
 
     @Test
     public void testFilter() throws InterruptedException {
-        DomainFilter<Domain> filter = new DomainFilter<>(Arrays.asList(patterns), whoisApiRule.whoisApi());
+        DomainFilter<Domain> filter = new DomainFilter<>(Arrays.asList(patterns), new WhoisErrorResponseDetector(new DomainList()), whoisApiRule.whoisApi());
 
         Domain result = filter.filter(domain);
         assertEquals(expected, result);

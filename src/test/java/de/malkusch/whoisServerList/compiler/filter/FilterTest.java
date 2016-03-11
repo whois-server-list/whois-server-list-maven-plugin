@@ -13,7 +13,9 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 
 @RunWith(Parameterized.class)
 public class FilterTest {
@@ -28,7 +30,7 @@ public class FilterTest {
                 { new ListFilter<>(null) },
                 { new ConcurrentListFilter<>(null) },
                 { new StringFilter() },
-                { new DomainFilter<Domain>(new ArrayList<Pattern>(), null) },
+                { new DomainFilter<Domain>(new ArrayList<Pattern>(), new WhoisErrorResponseDetector(new DomainList()), null) },
                 { new FilterChain<String>(new ArrayList<Filter<String>>()) },
                 { new DomainListFilter(null) },
         });

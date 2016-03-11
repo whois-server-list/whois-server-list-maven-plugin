@@ -11,6 +11,7 @@ import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
+import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 import de.malkusch.whoisServerList.compiler.helper.comparator.DomainComparator;
 import de.malkusch.whoisServerList.compiler.helper.converter.DomainListToWhoisServerListConverter;
 import de.malkusch.whoisServerList.compiler.helper.converter.WhoisServerListToOrderedPatternListConverter;
@@ -55,7 +56,7 @@ public final class DomainListFilter implements Filter<DomainList> {
 
         List<Pattern> patterns = getPatterns(domainList);
 
-        TopLevelDomainFilter domainFilter = new TopLevelDomainFilter(patterns, whoisApi);
+        TopLevelDomainFilter domainFilter = new TopLevelDomainFilter(patterns, new WhoisErrorResponseDetector(domainList), whoisApi);
 
         AbstractListFilter<TopLevelDomain> domainsFilter = new ConcurrentListFilter<>(domainFilter);
 

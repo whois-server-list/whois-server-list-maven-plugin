@@ -9,6 +9,7 @@ import javax.annotation.concurrent.Immutable;
 
 import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.domain.TopLevelDomain;
+import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 import de.malkusch.whoisServerList.compiler.helper.comparator.DomainComparator;
 
 /**
@@ -30,12 +31,15 @@ final class TopLevelDomainFilter extends DomainFilter<TopLevelDomain> {
      *
      * @param patterns
      *            the known patterns, not null
+     * @param errorDetector
+     *            error detector
      * @param whoisApi
      *            Whois API, not null
      */
-    TopLevelDomainFilter(@Nonnull final List<Pattern> patterns, @Nonnull final WhoisApi whoisApi) {
+    TopLevelDomainFilter(@Nonnull final List<Pattern> patterns, @Nonnull final WhoisErrorResponseDetector errorDetector,
+            @Nonnull final WhoisApi whoisApi) {
 
-        super(patterns, whoisApi);
+        super(patterns, errorDetector, whoisApi);
 
         this.comparator = new DomainComparator();
     }

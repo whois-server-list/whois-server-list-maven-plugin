@@ -10,6 +10,7 @@ import javax.annotation.concurrent.Immutable;
 import de.malkusch.whoisApi.WhoisApi;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
+import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 import de.malkusch.whoisServerList.compiler.helper.comparator.WhoisServerComparator;
 
 /**
@@ -49,6 +50,11 @@ class DomainFilter<T extends Domain> implements Filter<T> {
     private final WhoisApi whoisApi;
 
     /**
+     * Error detector.
+     */
+    private final WhoisErrorResponseDetector errorDetector;
+    
+    /**
      * Sets the timeout.
      *
      * @param patterns
@@ -56,11 +62,12 @@ class DomainFilter<T extends Domain> implements Filter<T> {
      * @param whoisApi
      *            Whois API
      */
-    DomainFilter(@Nonnull final List<Pattern> patterns, @Nonnull final WhoisApi whoisApi) {
+    DomainFilter(@Nonnull final List<Pattern> patterns, @Nonnull final WhoisErrorResponseDetector errorDetector, @Nonnull final WhoisApi whoisApi) {
 
         this.patterns = patterns;
         this.nameFilter = new StringFilter();
         this.comparator = new WhoisServerComparator();
+        this.errorDetector = errorDetector;
         this.whoisApi = whoisApi;
     }
 
@@ -78,7 +85,7 @@ class DomainFilter<T extends Domain> implements Filter<T> {
 
         String query = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
 
-        WhoisServerFilter serverFilter = new WhoisServerFilter(query, patterns, whoisApi);
+        WhoisServerFilter serverFilter = new WhoisServerFilter(query, patterns, errorDetector, whoisApi);
 
         ListFilter<WhoisServer> listFilter = new ListFilter<>(serverFilter);
 

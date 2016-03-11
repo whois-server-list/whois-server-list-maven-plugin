@@ -17,8 +17,10 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
+import de.malkusch.whoisServerList.api.v1.model.DomainList;
 import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.compiler.DomainListCompiler;
+import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 import de.malkusch.whoisServerList.compiler.list.iana.IanaDomainListFactory;
 import de.malkusch.whoisServerList.compiler.test.WhoisApiRule;
 
@@ -52,7 +54,7 @@ public class WhoisServerFilterTest {
 
     @Before
     public void setup() {
-        filter = new WhoisServerFilter("example.com", new ArrayList<Pattern>(), whoisApiRule.whoisApi());
+        filter = new WhoisServerFilter("example.com", new ArrayList<Pattern>(), new WhoisErrorResponseDetector(new DomainList()), whoisApiRule.whoisApi());
         server = new WhoisServer();
         server.setHost(host);
     }
