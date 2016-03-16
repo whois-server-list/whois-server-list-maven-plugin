@@ -1,6 +1,7 @@
 package de.malkusch.whoisServerList.mojo;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.annotation.concurrent.Immutable;
 import javax.xml.bind.JAXBContext;
@@ -56,7 +57,7 @@ public final class XMLMojo extends AbstractMojo {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(list, file);
 
-        } catch (JAXBException | BuildListException e) {
+        } catch (JAXBException | BuildListException | IOException e) {
             throw new MojoExecutionException(e.getMessage(), e);
 
         } catch (InterruptedException e) {

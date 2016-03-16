@@ -130,7 +130,7 @@ public final class DomainListCompiler {
      *            Whois API
      * @see #getDefaultProperties()
      */
-    public DomainListCompiler(@Nonnull final WhoisApi whoisApi) {
+    public DomainListCompiler(@Nonnull final WhoisApi whoisApi) throws IOException {
         this(getDefaultProperties(), whoisApi);
     }
 
@@ -142,7 +142,7 @@ public final class DomainListCompiler {
      * @param whoisApi
      *            Whois API
      */
-    public DomainListCompiler(final Properties properties, @Nonnull final WhoisApi whoisApi) {
+    public DomainListCompiler(final Properties properties, @Nonnull final WhoisApi whoisApi) throws IOException {
 
         try {
             HttpClient httpClient = HttpClients.createDefault();

@@ -1,5 +1,6 @@
 package de.malkusch.whoisServerList.compiler.list.psl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,9 +61,10 @@ public final class PublicSuffixDomainListFactory implements DomainListFactory {
 
     /**
      * Initializes with the bundled suffix list.
+     * @throws IOException 
      */
-    public PublicSuffixDomainListFactory() {
-        this(new PublicSuffixListFactory().build());
+    public PublicSuffixDomainListFactory() throws IOException {
+        this(new PublicSuffixListFactory().download());
     }
 
     @Override

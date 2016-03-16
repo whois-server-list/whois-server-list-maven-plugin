@@ -3,6 +3,7 @@ package de.malkusch.whoisServerList.compiler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Date;
 
 import org.junit.Rule;
@@ -20,7 +21,7 @@ public class DomainListCompilerTest {
     public WhoisApiRule whoisApiRule = new WhoisApiRule();
 
     @Test
-    public void testCompile() throws BuildListException, InterruptedException {
+    public void testCompile() throws BuildListException, InterruptedException, IOException {
         DomainListCompiler compiler = new DomainListCompiler(whoisApiRule.whoisApi());
         DomainList xmlList = new XMLDomainListFactory().buildList();
         Date now = new Date();
