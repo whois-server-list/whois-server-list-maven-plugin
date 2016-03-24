@@ -2,6 +2,7 @@ package de.malkusch.whoisServerList.compiler.filter;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
@@ -12,6 +13,8 @@ import de.malkusch.whoisServerList.api.v1.model.WhoisServer;
 import de.malkusch.whoisServerList.api.v1.model.domain.Domain;
 import de.malkusch.whoisServerList.compiler.helper.WhoisErrorResponseDetector;
 import de.malkusch.whoisServerList.compiler.helper.comparator.WhoisServerComparator;
+import de.malkusch.whoisServerList.compiler.helper.existingDomain.FindExistingDomainService;
+import de.malkusch.whoisServerList.compiler.helper.existingDomain.FindExistingDomainServiceFactory;
 
 /**
  * Filter domains.
@@ -37,7 +40,7 @@ class DomainFilter<T extends Domain> implements Filter<T> {
     /**
      * A query for an unavailable object.
      */
-    private static final String UNAVAILABLE_QUERY = "hST4vcMRppEPgENMHD2";
+    private static final String AVAILABLE_QUERY = "hST4vcMRppEPgENMHD2";
 
     /**
      * The known patterns.
@@ -54,6 +57,8 @@ class DomainFilter<T extends Domain> implements Filter<T> {
      */
     private final WhoisErrorResponseDetector errorDetector;
     
+    private final FindExistingDomainService findExistingDomainService;
+    
     /**
      * Sets the timeout.
      *
@@ -69,6 +74,9 @@ class DomainFilter<T extends Domain> implements Filter<T> {
         this.comparator = new WhoisServerComparator();
         this.errorDetector = errorDetector;
         this.whoisApi = whoisApi;
+        
+        FindExistingDomainServiceFactory finderFactory = new FindExistingDomainServiceFactory();
+        findExistingDomainService = finderFactory.build();
     }
 
     @Override
@@ -83,9 +91,10 @@ class DomainFilter<T extends Domain> implements Filter<T> {
 
         filtered.setName(nameFilter.filter(domain.getName()));
 
-        String query = String.format("%s.%s", UNAVAILABLE_QUERY, domain.getName());
+        String availableQuery = String.format("%s.%s", AVAILABLE_QUERY, domain.getName());
+        Optional<String> unavailableQuery = findExistingDomainService.findExistingDomainName(domain);
 
-        WhoisServerFilter serverFilter = new WhoisServerFilter(query, patterns, errorDetector, whoisApi);
+        WhoisServerFilter serverFilter = new WhoisServerFilter(availableQuery, unavailableQuery, patterns, errorDetector, whoisApi);
 
         ListFilter<WhoisServer> listFilter = new ListFilter<>(serverFilter);
 

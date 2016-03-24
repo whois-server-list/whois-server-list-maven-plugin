@@ -32,19 +32,25 @@ you can use the compiler as a maven plugin `whois-server-list`:
 </build>
 ```
 
-## Goals
 
-Some goals require an api key for the [Whois API](http://whois-api.domaininformation.de/). You can get it 
-there.
+## System properties
+
+Please provide these system properties:
+
+* `-Dbing.apiKey` Bing API key to access Bing's web search API
+* `-Dgoogle.apiKey` and `-Dgoogle.engine` to use Google's CSE.
+* `-DwhoisApi.apiKey` [Whois API](http://whois-api.domaininformation.de/) api key
+
+
+## Goals
 
 * `mvn whois-server-list:schema`: Builds the schema. The configuration parameter
   `schema` is the schema location.
 
 * `mvn whois-server-list:xml`: Builds the whois server list. The configuration
-  parameter `file` is the list location. Please provide the api key with `-DwhoisApi.apiKey`.
+  parameter `file` is the list location.
   
 * `mvn whois-server-list:verify`: Verifies the whois server list.
-  Please provide the api key with `-DwhoisApi.apiKey`.
 
 
 # License and author

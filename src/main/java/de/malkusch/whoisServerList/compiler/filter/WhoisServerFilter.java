@@ -3,7 +3,10 @@ package de.malkusch.whoisServerList.compiler.filter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.IDN;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import javax.annotation.Nonnull;
@@ -31,7 +34,12 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
     /**
      * A whois query for an unavailable object.
      */
-    private final String unavailableQuery;
+    private final Optional<String> unavailableQuery;
+
+    /**
+     * A whois query for an available object.
+     */
+    private final String availableQuery;
 
     /**
      * Removes invalid patterns.
@@ -59,10 +67,10 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
     private static final Logger LOGGER = LoggerFactory.getLogger(WhoisServerFilter.class);
 
     /**
-     * Sets the unavailable query and the timeout.
+     * Sets the available query and the timeout.
      *
-     * @param unavailableQuery
-     *            the unavailable query, not null
+     * @param availableQuery
+     *            the available query, not null
      * @param patterns
      *            the existing unavailable patterns, not null
      * @param errorDetector
@@ -70,14 +78,26 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
      * @param whoisApi
      *            Whois API
      */
-    WhoisServerFilter(@Nonnull final String unavailableQuery, @Nonnull final List<Pattern> patterns,
-            @Nonnull final WhoisErrorResponseDetector errorDetector, @Nonnull final WhoisApi whoisApi) {
+    WhoisServerFilter(@Nonnull final String availableQuery, @Nonnull Optional<String> unavailableQuery,
+            @Nonnull final List<Pattern> patterns, @Nonnull final WhoisErrorResponseDetector errorDetector,
+            @Nonnull final WhoisApi whoisApi) {
 
-        this.unavailableQuery = unavailableQuery;
         this.invalidPatternFilter = new WhoisServerResponseInvalidPatternFilter();
         this.findPatternFilter = new WhoisServerResponseFindPatternFilter(patterns);
         this.errorDetector = errorDetector;
         this.whoisApi = whoisApi;
+        this.availableQuery = availableQuery;
+
+        try {
+            InetAddress.getByName(availableQuery);
+            LOGGER.warn("{} could be resolved. I didn't expect that.", availableQuery);
+            // DNS is probably spoiled:
+            unavailableQuery = Optional.empty();
+
+        } catch (UnknownHostException e) {
+            // Expected
+        }
+        this.unavailableQuery = unavailableQuery;
     }
 
     @Override
@@ -88,18 +108,21 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
 
         }
 
-        String response = getResponse(server, 5);
-        if (response == null) {
+        String availableResponse = getResponse(server, availableQuery, 5);
+        if (availableResponse == null) {
             LOGGER.warn("removing inaccessible whois server '{}'", server.getHost());
             return null;
 
         }
 
+        Optional<String> unavailableResponse = unavailableQuery
+                .map(query -> getResponse(server, unavailableQuery.get(), 5));
+
         WhoisServer filtered = server.clone();
 
         // Might use a filter chain
-        filtered = invalidPatternFilter.filter(filtered, response);
-        filtered = findPatternFilter.filter(filtered, response);
+        filtered = invalidPatternFilter.filter(filtered, availableResponse, unavailableResponse);
+        filtered = findPatternFilter.filter(filtered, availableResponse, unavailableResponse);
 
         return filtered;
     }
@@ -114,23 +137,23 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
      *
      * @return the whois response
      */
-    private String getResponse(final WhoisServer server, int retries) {
+    private String getResponse(final WhoisServer server, final String query, final int retries) {
 
         if (retries < 0) {
-            return getDirectResponse(server);
+            return getDirectResponse(server, query);
         }
 
-        try (InputStream stream = whoisApi.query(server.getHost(), IDN.toASCII(unavailableQuery))) {
+        try (InputStream stream = whoisApi.query(server.getHost(), IDN.toASCII(query))) {
             String response = IOUtils.toString(stream);
 
             if (errorDetector.isError(response)) {
-                return getResponse(server, retries - 1);
+                return getResponse(server, query, retries - 1);
             }
 
             return response;
 
         } catch (Exception e) {
-            return getResponse(server, retries - 1);
+            return getResponse(server, query, retries - 1);
         }
     }
 
@@ -142,7 +165,7 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
      *
      * @return the whois response
      */
-    private String getDirectResponse(final WhoisServer server) {
+    private String getDirectResponse(final WhoisServer server, final String query) {
 
         WhoisClient whoisClient = new WhoisClient();
         whoisClient.setDefaultTimeout(5000);
@@ -156,15 +179,16 @@ final class WhoisServerFilter implements Filter<WhoisServer> {
             return null;
         }
 
-        try (InputStream stream = whoisClient.getInputStream(IDN.toASCII(unavailableQuery))) {
+        try (InputStream stream = whoisClient.getInputStream(IDN.toASCII(query))) {
             String response = IOUtils.toString(stream);
-            
+
             if (errorDetector.isError(response)) {
-                LOGGER.warn("Server '{}' is blocking this IP address. Please check the result manually.", server.getHost());
+                LOGGER.warn("Server '{}' is blocking this IP address. Please check the result manually.",
+                        server.getHost());
             }
-            
+
             return response;
-            
+
         } catch (IOException e) {
             return null;
         }

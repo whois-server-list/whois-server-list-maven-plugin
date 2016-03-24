@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
@@ -43,18 +44,14 @@ public class WhoisServerFilterTest {
     @Parameters
     public static Collection<Object[]> getFilters() {
         Properties properties = DomainListCompiler.getDefaultProperties();
-        String ianaWhois
-            = properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS_HOST);
-        return Arrays.asList(new Object[][] {
-                { ianaWhois, true },
-                { "example.org", false },
-                { null, false },
-        });
+        String ianaWhois = properties.getProperty(IanaDomainListFactory.PROPERTY_WHOIS_HOST);
+        return Arrays.asList(new Object[][] { { ianaWhois, true }, { "example.org", false }, { null, false }, });
     }
 
     @Before
     public void setup() {
-        filter = new WhoisServerFilter("example.com", new ArrayList<Pattern>(), new WhoisErrorResponseDetector(new DomainList()), whoisApiRule.whoisApi());
+        filter = new WhoisServerFilter("example.com", Optional.of("example.net"), new ArrayList<Pattern>(),
+                new WhoisErrorResponseDetector(new DomainList()), whoisApiRule.whoisApi());
         server = new WhoisServer();
         server.setHost(host);
     }

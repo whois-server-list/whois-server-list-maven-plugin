@@ -1,5 +1,6 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 
 import javax.annotation.Nullable;
@@ -29,7 +30,7 @@ final class WhoisServerResponseInvalidPatternFilter
     @Override
     @Nullable
     public WhoisServer filter(
-            @Nullable final WhoisServer server, final String response) {
+            @Nullable final WhoisServer server, final String availableResponse, final Optional<String> unavailableResponse) {
         if (server == null) {
             return null;
 
@@ -41,14 +42,14 @@ final class WhoisServerResponseInvalidPatternFilter
 
         WhoisServer filtered = server.clone();
 
-        Matcher matcher = server.getAvailablePattern().matcher(response);
+        Matcher matcher = server.getAvailablePattern().matcher(availableResponse);
         if (!matcher.find()) {
             LOGGER.warn(
                 "removing pattern '{}' from '{}'",
                 server.getAvailablePattern(),
                 server.getHost());
 
-            LOGGER.debug(response);
+            LOGGER.debug(availableResponse);
             filtered.setAvailablePattern(null);
 
         }

@@ -1,6 +1,7 @@
 package de.malkusch.whoisServerList.compiler.filter;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,7 +37,7 @@ final class WhoisServerResponseFindPatternFilter
     @Override
     @Nullable
     public WhoisServer filter(
-            @Nullable final WhoisServer server, final String response) {
+            @Nullable final WhoisServer server, final String availableResponse, final Optional<String> unavailableResponse) {
         if (server == null) {
             return null;
 
@@ -49,8 +50,16 @@ final class WhoisServerResponseFindPatternFilter
         WhoisServer filtered = server.clone();
 
         for (Pattern pattern : patterns) {
-            Matcher matcher = pattern.matcher(response);
+            Matcher matcher = pattern.matcher(availableResponse);
             if (matcher.find()) {
+                
+                if (unavailableResponse.isPresent()) {
+                    Matcher unavailableMatcher = pattern.matcher(unavailableResponse.get());
+                    if (unavailableMatcher.find()) {
+                        continue;
+                    }
+                }
+                
                 filtered.setAvailablePattern(pattern);
                 break;
 

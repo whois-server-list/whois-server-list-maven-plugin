@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,15 +20,13 @@ public class WhoisServerResponseTest {
 
     @Parameters
     public static Collection<WhoisServerResponseFilter[]> getFilters() {
-        return Arrays.asList(new WhoisServerResponseFilter[][] {
-                { new WhoisServerResponseInvalidPatternFilter() },
-                { new WhoisServerResponseFindPatternFilter(null) },
-        });
+        return Arrays.asList(new WhoisServerResponseFilter[][] { { new WhoisServerResponseInvalidPatternFilter() },
+                { new WhoisServerResponseFindPatternFilter(null) }, });
     }
 
     @Test
     public void testFilterNull() throws InterruptedException {
-        assertNull(filter.filter(null, "response"));
+        assertNull(filter.filter(null, "response", Optional.empty()));
     }
 
 }

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.junit.Before;
@@ -24,22 +25,25 @@ public class WhoisServerResponseInvalidPatternFilterTest {
     private WhoisServer server;
 
     @Parameter(0)
-    public String response;
-
+    public String availableResponse;
+    
     @Parameter(1)
-    public String pattern;
+    public Optional<String> unavailableResponse;
 
     @Parameter(2)
+    public String pattern;
+
+    @Parameter(3)
     public String expected;
 
     @Parameters
-    public static Collection<String[]> getCases() {
-        return Arrays.asList(new String[][] {
-            { "no match for", "no match for", "no match for" },
-            { "No Match For", "no match for", "no match for" },
-            { "xyz", "anypattern", null },
-            { "xyz", null, null },
-            { "xyz \n xyz invalid  xyz \n xyz", "invalid", "invalid" },
+    public static Collection<Object[]> getCases() {
+        return Arrays.asList(new Object[][] {
+            { "no match for", Optional.empty(), "no match for", "no match for" },
+            { "No Match For", Optional.empty(), "no match for", "no match for" },
+            { "xyz", Optional.empty(), "anypattern", null },
+            { "xyz", Optional.empty(), null, null },
+            { "xyz \n xyz invalid  xyz \n xyz", Optional.empty(), "invalid", "invalid" },
         });
     }
 
@@ -57,7 +61,7 @@ public class WhoisServerResponseInvalidPatternFilterTest {
 
     @Test
     public void testFilter() {
-        WhoisServer filtered = filter.filter(server, response);
+        WhoisServer filtered = filter.filter(server, availableResponse, unavailableResponse);
 
         if (expected == null) {
             assertNull(filtered.getAvailablePattern());
